@@ -1,0 +1,66 @@
+.container {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  &._white {
+    .close {
+      color: #b8b8b8;
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  z-index: 5;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 10px;
+  font-size: 0;
+  cursor: pointer;
+  color: white;
+  transition: color 0.25s $ease;
+  :global .svg-icon {
+    font-size: 1.4rem;
+    &.svg-icon--arrow-left {
+      display: none;
+    }
+  }
+  &:hover {
+    color: $colorPrimary;
+  }
+}
+
+.content {
+  display: block;
+  padding: 3.5rem 4.5rem 3rem;
+  &._full {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+._narrow {
+  padding: 24px;
+}
+
+@include r($lg) {
+  .content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@include r($md) {
+  .head {
+    flex-wrap: wrap;
+  }
+
+  .close {
+    top: 0;
+    right: 0;
+  }
+}

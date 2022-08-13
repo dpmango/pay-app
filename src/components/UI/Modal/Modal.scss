@@ -1,0 +1,66 @@
+.ReactModal__Overlay {
+  background: rgba($fontColor, 0) !important;
+  will-change: background;
+  backface-visibility: hidden;
+  transition: background 300ms ease-in-out;
+  &--after-open {
+    background: rgba($fontColor, 0.5) !important;
+  }
+  &--before-close {
+    background: rgba($fontColor, 0) !important;
+  }
+}
+
+.ReactModal__Content {
+  opacity: 0;
+  will-change: background;
+  backface-visibility: hidden;
+  transition: opacity 200ms ease-in-out;
+  &--after-open {
+    opacity: 1;
+  }
+  &--before-close {
+    opacity: 0;
+  }
+  &.modifier-white {
+    background: white !important;
+  }
+}
+
+body {
+  &.scroll-locked {
+    overflow: hidden;
+  }
+  &.ReactModal__Body--open {
+    overflow: hidden;
+  }
+}
+
+@include r($md) {
+  .ReactModal__Overlay {
+    background: rgba($fontColor, 0) !important;
+  }
+  .ReactModalPortal {
+    .ReactModal__Content {
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      margin: 0 !important;
+      transform: none !important;
+      max-height: calc(100% - 0px) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      border-radius: 0 !important;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+  body {
+    &.catalogOpened,
+    &.filtersActive,
+    &.ReactModal__Body--open {
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+.checkbox {
+  position: relative;
+  display: inline-block;
+  &._withError {
+    border-color: $colorRed;
+    color: $colorRed;
+    &::placeholder {
+      color: rgba($colorRed, 0.5);
+    }
+  }
+  &_wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    z-index: 1;
+    cursor: pointer;
+    &:hover {
+      .checkbox_label {
+        color: $colorPrimary;
+      }
+    }
+  }
+  &_input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.1px;
+    height: 0.1px;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &_box {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    font-size: 8px;
+    border: 2px solid #e3e3e3;
+    background: white;
+    cursor: pointer;
+    color: white;
+    transition: background 0.25s $ease, border 0.25s $ease;
+    &._isChecked {
+      background: white;
+      border-color: white;
+      :global .svg-icon {
+        opacity: 1;
+      }
+    }
+  }
+  :global .svg-icon {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    font-size: 0.5rem;
+    color: $colorPrimary;
+  }
+
+  &_label {
+    font-size: inherit;
+    line-height: inherit;
+    padding-left: 10px;
+    margin-top: -0.1rem;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.25s $ease;
+    a {
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.radio {
+    .checkbox_box {
+      border-radius: 50%;
+    }
+  }
+}

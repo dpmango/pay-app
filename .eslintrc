@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "babelOptions": {
+      "plugins": ["@babel/plugin-proposal-class-properties"]
+    }
+  },
+  "extends": ["plugin:react/recommended", "plugin:prettier/recommended"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "quotes": ["error", "single"],
+    "prettier/prettier": "error",
+    "react/prop-types": "off",
+    "react/state-in-constructor": ["error", "never"],
+    "react/display-name": ["off"]
+  }
+}

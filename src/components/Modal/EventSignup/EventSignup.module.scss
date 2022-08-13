@@ -1,0 +1,137 @@
+.header {
+  position: relative;
+  font-weight: 500;
+  max-width: 570px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2rem;
+  line-height: 140%;
+  text-align: center;
+  letter-spacing: -0.025em;
+  color: #e7e7e8;
+}
+
+.formMain {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  grid-gap: 1rem;
+}
+
+.units {
+  margin-top: 3rem;
+}
+
+.unitsLabel {
+  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: #d8d8da;
+}
+
+.unitsRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  :global .checkbox:last-child {
+    .checkbox_wrapper {
+      margin-right: 0;
+    }
+  }
+
+  :global .checkbox .checkbox_wrapper {
+    background: #fff;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  :global .checkbox .checkbox_label {
+    font-size: 16px;
+    color: $colorGray;
+  }
+
+  :global .checkbox.active .checkbox_wrapper {
+    background-color: $colorPrimary;
+  }
+  :global .checkbox.active .checkbox_label {
+    color: white;
+  }
+}
+
+.unitsHint {
+  margin-top: 1.2rem;
+  font-size: 0.7rem;
+  line-height: 120%;
+  color: rgba(216, 216, 218, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #1f1f23;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.unitsHintLeft {
+  font-size: 0.9rem;
+  padding-right: 1.8rem;
+}
+
+.unitsNote {
+  margin-top: 1rem;
+  font-size: 14px;
+  line-height: 120%;
+  letter-spacing: -0.025em;
+  color: rgba(216, 216, 218, 0.9);
+}
+
+.checkbox {
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+  color: #d8d8da;
+}
+
+.cta {
+  margin-top: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: -0.025em;
+    color: #a4a4a4;
+  }
+}
+
+.thanksText {
+  font-size: 1.6rem;
+  line-height: 140%;
+  text-align: center;
+  letter-spacing: -0.025em;
+  color: #e7e7e8;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@include r($md) {
+  .formMain {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .unitsRow {
+    :global .checkbox .checkbox_wrapper {
+      padding: 0.5rem 1.2rem 0.5rem 0.8rem;
+    }
+    :global .checkbox .checkbox_label {
+      font-size: 14px;
+      margin-top: -1px;
+    }
+  }
+}
