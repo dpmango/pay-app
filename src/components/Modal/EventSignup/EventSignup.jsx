@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { Modal, Input, Button, Checkbox } from '@ui';
 import { UiStoreContext } from '@store';
-import styles from './EventSignup.module.scss';
+import st from './EventSignup.module.scss';
 
 const formInitial = {
   name: '',
@@ -64,7 +64,7 @@ const EventSignup = ({ className }) => {
   return (
     <>
       <Modal name="eventSignup" className={className}>
-        <div className={styles.header}>
+        <div className={st.header}>
           Please provide your details and submit them before the event date, and we will send you an invitation link.
         </div>
 
@@ -75,7 +75,7 @@ const EventSignup = ({ className }) => {
           onSubmit={handleSubmit}>
           {({ isSubmitting, setFieldError }) => (
             <Form>
-              <div className={styles.formMain}>
+              <div className={st.formMain}>
                 <Field type="text" name="name">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
@@ -121,8 +121,8 @@ const EventSignup = ({ className }) => {
                 </Field>
               </div>
 
-              <div className={styles.units}>
-                <div className={styles.unitsRow}>
+              <div className={st.units}>
+                <div className={st.unitsRow}>
                   <Checkbox isChecked={units === '0'} onChange={() => setUnits('0')} type="radio" name="investUnits">
                     Just curious
                   </Checkbox>
@@ -147,13 +147,13 @@ const EventSignup = ({ className }) => {
                 </div>
               </div>
 
-              <div className={styles.checkbox}>
+              <div className={st.checkbox}>
                 <Checkbox isChecked={checkedSubscribe} onChange={() => setCheckedSubscribe(!checkedSubscribe)}>
                   Would you like to receive future emails with updates on Cayman based investment opportunities?
                 </Checkbox>
               </div>
 
-              <div className={styles.cta}>
+              <div className={st.cta}>
                 <Button type="submit">Submit</Button>
                 <p>All fields are mandatory.</p>
               </div>
@@ -163,7 +163,7 @@ const EventSignup = ({ className }) => {
       </Modal>
 
       <Modal name="eventSignupThanks" variant="narrow" className={className}>
-        <div className={styles.thanksText}>
+        <div className={st.thanksText}>
           Thank you for you submission. Should you wish to participate, a PPM will be sent to you 24 hours before the
           event.
         </div>

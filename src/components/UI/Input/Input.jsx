@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import InputMask from 'react-input-mask';
 
 import { SvgIcon } from '@ui';
-import styles from './Input.module.scss';
+import st from './Input.module.scss';
 
 const Variants = {
   DEFAULT: 'default',
@@ -14,7 +14,7 @@ const Variants = {
 
 const VariantClasses = {
   [Variants.DEFAULT]: null,
-  [Variants.SMALL]: styles._small,
+  [Variants.SMALL]: st._small,
 };
 
 const Input = ({
@@ -53,7 +53,7 @@ const Input = ({
   const clearIcon = useMemo(() => {
     if (allowClear && value) {
       return (
-        <button type="button" onClick={onCLearInput} className={styles.input_clear} title="Очистить">
+        <button type="button" onClick={onCLearInput} className={st.input_clear} title="Очистить">
           <SvgIcon name="close" />
         </button>
       );
@@ -65,7 +65,7 @@ const Input = ({
   const inputProps = {
     id,
     ref: inputRef,
-    className: cns(styles.input_input, allowClear && styles._withClear, error && styles._withError),
+    className: cns(st.input_input, allowClear && st._withClear, error && st._withError),
     value,
     onChange: onInputChange,
     ...props,
@@ -74,14 +74,14 @@ const Input = ({
   return (
     <div
       style={props.style}
-      className={cns(styles.input, variant && VariantClasses[variant], modifier && styles[`_${modifier}`], className)}>
+      className={cns(st.input, variant && VariantClasses[variant], modifier && styles[`_${modifier}`], className)}>
       {label && (
-        <label className={styles.label} htmlFor={id}>
+        <label className={st.label} htmlFor={id}>
           {label}
         </label>
       )}
 
-      <div className={styles.input_wrapper}>
+      <div className={st.input_wrapper}>
         {props.type === 'textarea' ? (
           <textarea {...inputProps} />
         ) : mask ? (
@@ -96,7 +96,7 @@ const Input = ({
 
         {clearIcon}
 
-        {error && showError && <div className={styles.error}>{error}</div>}
+        {error && showError && <div className={st.error}>{error}</div>}
       </div>
     </div>
   );

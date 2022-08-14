@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getEnv } from '@helpers';
 
 const api = axios.create({
-  baseURL: getEnv('REACT_APP_GATEWAY_URL'),
+  baseURL: getEnv('GATEWAY_URL'),
   headers: {
     'Content-Type': 'application/json',
     // Accept: 'application/json',

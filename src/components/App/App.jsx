@@ -7,15 +7,15 @@ import React, { useCallback, useContext } from 'react';
 import { LOCAL_STORAGE_SESSION } from '@config/localStorage';
 
 const App = observer(() => {
-  const sessionContext = useContext(SessionStoreContext);
+  // const sessionContext = useContext(SessionStoreContext);
 
-  const persistTabsStore = useCallback((e) => {
-    if (e.key === LOCAL_STORAGE_SESSION) {
-      sessionContext.hydrateStore();
-    }
-  }, []);
+  // const persistTabsStore = useCallback((e) => {
+  //   if (e.key === LOCAL_STORAGE_SESSION) {
+  //     sessionContext.hydrateStore();
+  //   }
+  // }, []);
 
-  useEventListener('storage', persistTabsStore);
+  // useEventListener('storage', persistTabsStore);
 
   return (
     <>

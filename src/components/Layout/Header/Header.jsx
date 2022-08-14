@@ -1,13 +1,12 @@
-import React, { useContext, useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 
-import { SvgIcon, Button } from '@ui';
+import { SvgIcon, Avatar } from '@ui';
 import { UiStoreContext } from '@store';
 
-import styles from './Header.module.scss';
-// import { ReactComponent as Logo } from '@assets/logo.svg';
+import st from './Header.module.scss';
 
 const Header = observer(({ className }) => {
   const [menuOpened, setMenuOpened] = useState(false);
@@ -16,20 +15,30 @@ const Header = observer(({ className }) => {
 
   return (
     <>
-      <header className={cns(styles.header, className)}>
+      <header className={cns(st.header, className)}>
         <div className="container">
-          <div className={styles.wrapper}>
-            <Link to="/" className={styles.logo}>
-              {/* <Logo /> */}
+          <div className={st.wrapper}>
+            <div className={st.pagename}>Покупки</div>
+
+            <Link to="/profile" className={st.user}>
+              <Avatar name="АС" />
+              <span className={st.userName}>Александр</span>
             </Link>
 
-            <div className={styles.hamburger}>
+            <div className={st.chat}>
+              <SvgIcon name="chat" />
+              <div className={st.chatCounter}>
+                <span>2</span>
+              </div>
+            </div>
+
+            {/* <div className={st.hamburger}>
               <div className={cns('hamburger', menuOpened && 'is-active')} onClick={() => setMenuOpened(!menuOpened)}>
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>

@@ -1,0 +1,77 @@
+.card {
+  background: #fff;
+  box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+  border-radius: 11px;
+  display: flex;
+  padding: 12px 14px;
+
+  &Left {
+    flex: 0 0 auto;
+  }
+
+  &Radial {
+    position: relative;
+    width: 61px;
+    height: 61px;
+
+    svg {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  &Logo {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    text-align: center;
+    font-size: 0;
+    transform: translateY(-50%);
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &Content {
+    flex: 1 1 auto;
+    min-width: 1px;
+    padding-left: 16px;
+  }
+
+  &Title {
+    font-weight: 600;
+    font-size: 27px;
+    line-height: calc(35 / 27);
+    @include text-overflow;
+  }
+
+  &Description {
+    font-size: 16px;
+    line-height: calc(21 / 16);
+    color: $colorGray;
+  }
+
+  &Meta {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding-left: 10px;
+    text-align: right;
+
+    &Primary {
+      font-weight: 600;
+      font-size: 28px;
+      line-height: calc(36 / 28);
+    }
+
+    &Secondary {
+      font-size: 16px;
+      line-height: calc(21 / 16);
+      color: $colorGray;
+    }
+  }
+}

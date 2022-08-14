@@ -5,7 +5,7 @@ import cns from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 
 import { SvgIcon } from '@ui';
-import styles from './Select.module.scss';
+import st from './Select.module.scss';
 import stylesGlobal from './Select.scss';
 
 const Variants = {
@@ -15,7 +15,7 @@ const Variants = {
 
 const VariantClasses = {
   [Variants.DEFAULT]: null,
-  [Variants.SMALL]: styles._small,
+  [Variants.SMALL]: st._small,
 };
 
 const SelectComponent = ({ label, value, className, options, onChange, variant, ...props }) => {
@@ -30,13 +30,13 @@ const SelectComponent = ({ label, value, className, options, onChange, variant, 
   }, []);
 
   return (
-    <div className={cns(styles.select, className, variant && VariantClasses[variant])}>
+    <div className={cns(st.select, className, variant && VariantClasses[variant])}>
       {label && (
-        <label className={styles.label} htmlFor={id}>
+        <label className={st.label} htmlFor={id}>
           {label}
         </label>
       )}
-      <div className={cns(styles.select_wrapper, 'select-container')}>
+      <div className={cns(st.select_wrapper, 'select-container')}>
         <Select
           className="react-select-container"
           classNamePrefix="react-select"

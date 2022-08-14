@@ -5,6 +5,7 @@
     "prettier/prettier": true,
     "declaration-empty-line-before": null,
     "no-descending-specificity": null,
-    "selector-pseudo-class-no-unknown": null
+    "selector-pseudo-class-no-unknown": null,
+    "selector-class-pattern": null
   }
 }

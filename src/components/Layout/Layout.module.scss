@@ -6,7 +6,7 @@
 }
 
 .header {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   min-width: 320px;
@@ -14,29 +14,7 @@
 
 .main {
   flex: 1 0 auto;
-  padding-top: 170px;
-}
-
-@include r($xl) {
-  .main {
-    padding-top: 102px;
-  }
-}
-
-@include r($lg) {
-  .main {
-    padding-top: 72px;
-  }
-}
-
-@include r($md) {
-  .main {
-    padding-top: 65px;
-  }
-}
-
-@include r(414) {
-  .main {
-    padding-top: 62px;
-  }
+  display: flex;
+  flex-direction: column;
+  padding-top: 102px;
 }

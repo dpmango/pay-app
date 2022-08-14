@@ -1,5 +1,5 @@
 const path = require('path');
-const { ESLINT_MODES, loaderByName, addBeforeLoader } = require('@craco/craco');
+const { removeLoaders, loaderByName, addBeforeLoader } = require('@craco/craco');
 
 const alias = require('./src/config/aliases');
 
@@ -19,16 +19,10 @@ module.exports = {
         oneOf: [
           {
             resourceQuery: /raw/,
-            use: {
-              loader: 'raw-loader',
-              options: { esModule: false },
-            },
+            type: 'asset/source',
           },
           {
-            use: {
-              loader: 'file-loader',
-              options: { esModule: false },
-            },
+            type: 'asset/resource',
           },
         ],
       };

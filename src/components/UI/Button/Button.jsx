@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import cns from 'classnames';
 
 import { SvgIcon, Spinner } from '@ui';
-import styles from './Button.module.scss';
+import st from './Button.module.scss';
 
 const Themes = {
   PRIMARY: 'primary',
@@ -19,15 +19,15 @@ const Variants = {
 };
 
 const ThemeClasses = {
-  [Themes.PRIMARY]: styles._primary,
-  [Themes.ACCENT]: styles._accent,
-  [Themes.BLACK]: styles._black,
+  [Themes.PRIMARY]: st._primary,
+  [Themes.ACCENT]: st._accent,
+  [Themes.BLACK]: st._black,
 };
 
 const VariantClasses = {
   [Variants.DEFAULT]: null,
-  [Variants.SMALL]: styles._small,
-  [Variants.BIG]: styles._big,
+  [Variants.SMALL]: st._small,
+  [Variants.BIG]: st._big,
 };
 
 const Button = ({
@@ -44,15 +44,15 @@ const Button = ({
   ...props
 }) => {
   const classStyle = cns(
-    styles.btn,
+    st.btn,
     theme && ThemeClasses[theme],
     variant && VariantClasses[variant],
-    outline && styles._outline,
-    block && styles._block,
-    (iconLeft || iconRight) && styles._iconed,
-    loading && styles._loading,
-    iconLeft && styles._iconLeft,
-    iconRight && styles._iconRight,
+    outline && st._outline,
+    block && st._block,
+    (iconLeft || iconRight) && st._iconed,
+    loading && st._loading,
+    iconLeft && st._iconLeft,
+    iconRight && st._iconRight,
     className,
     'btn'
   );

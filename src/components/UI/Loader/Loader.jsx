@@ -5,7 +5,7 @@ import BounceLoader from 'react-spinners/BounceLoader';
 
 import { SvgIcon } from '@ui';
 import { AxiosInterceptors } from '@src/services';
-import styles from './Loader.module.scss';
+import st from './Loader.module.scss';
 
 const LoaderContext = createContext();
 
@@ -20,7 +20,7 @@ const Loader = ({ className, ...props }) => {
   }, [isLoading, setActive]);
 
   return (
-    <div className={cns(styles.loader, active && styles._active, className)}>
+    <div className={cns(st.loader, active && st._active, className)}>
       <BounceLoader color="#3F51B5" loading={true} size={100} />
     </div>
   );

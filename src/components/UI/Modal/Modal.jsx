@@ -7,7 +7,7 @@ import cns from 'classnames';
 import { UiStoreContext } from '@store/UiStore';
 import { SvgIcon } from '@ui';
 
-import styles from './Modal.module.scss';
+import st from './Modal.module.scss';
 import styles2 from './Modal.scss';
 
 const sharedStyles = {
@@ -66,7 +66,7 @@ const VariantStyles = {
 
 const VariantClasses = {
   [Variants.MAIN]: '',
-  [Variants.NARROW]: styles._narrow,
+  [Variants.NARROW]: st._narrow,
 };
 
 const Modifiers = {
@@ -77,8 +77,8 @@ const Modifiers = {
 
 const ModifierClasses = {
   [Modifiers.DEFAULT]: null,
-  [Modifiers.FULL]: styles._full,
-  [Modifiers.WHITE]: styles._white,
+  [Modifiers.FULL]: st._full,
+  [Modifiers.WHITE]: st._white,
 };
 
 const ModalComponent = observer(({ variant, modifier, name, className, mobTitle, children }) => {
@@ -93,8 +93,8 @@ const ModalComponent = observer(({ variant, modifier, name, className, mobTitle,
   let CSSinJSstyles = sharedStyles;
   if (variant && VariantStyles[variant]) {
     CSSinJSstyles = {
-      content: { ...CSSinJSstyles.content, ...VariantStyles[variant].content },
-      overlay: { ...CSSinJSstyles.overlay, ...VariantStyles[variant].overlay },
+      content: { ...CSSinJSst.content, ...VariantStyles[variant].content },
+      overlay: { ...CSSinJSst.overlay, ...VariantStyles[variant].overlay },
     };
   }
 
@@ -116,16 +116,16 @@ const ModalComponent = observer(({ variant, modifier, name, className, mobTitle,
       contentLabel="Modal">
       <div
         className={cns(
-          styles.container,
+          st.container,
           variant && VariantClasses[variant],
           modifier && ModifierClasses[modifier],
           className
         )}>
-        <div className={cns('close', styles.close)} onClick={closeModal}>
+        <div className={cns('close', st.close)} onClick={closeModal}>
           <SvgIcon name="close" />
         </div>
 
-        <div className={cns(styles.content, modifier && ModifierClasses[modifier])}>{children}</div>
+        <div className={cns(st.content, modifier && ModifierClasses[modifier])}>{children}</div>
       </div>
     </Modal>
   );

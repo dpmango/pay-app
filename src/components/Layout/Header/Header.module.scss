@@ -1,40 +1,67 @@
 .header {
   display: block;
   z-index: 9;
-  background: white;
+  background: transparent;
   transition: transform 0.25s $ease;
   will-change: transform;
   backface-visibility: hidden;
-  &._scrolled {
-    transform: translate3d(0, -50px, 0);
-    border-bottom: 1px solid $borderColor;
-    .wrapper {
-      padding-bottom: 10px;
-    }
-    .cta {
-      :global .btn {
-        font-size: 0.7rem;
-      }
-    }
-  }
 }
 
 .wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 60px 0 42px;
+  padding: 28px 0 26px;
   transition: 0.25s $ease;
 }
 
-.logo {
-  flex: 0 0 auto;
-  margin-top: 10px;
-  margin-right: 20px;
+.pagename {
+  font-weight: 600;
+  font-size: 28px;
+}
+
+.user {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  padding-right: 22px;
+  border-radius: 30px;
+
+  &Name {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+}
+
+.chat {
+  position: relative;
+  margin-left: 16px;
   font-size: 0;
-  img,
+  padding: 10px;
+  color: $colorMuted;
+
+  &Counter {
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 2;
+    min-width: 19px;
+    min-height: 19px;
+    background: $colorRed;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-weight: 900;
+      font-size: 14px;
+    }
+  }
+
   svg {
-    max-width: 100%;
+    font-size: 29px;
   }
 }
 
@@ -42,256 +69,4 @@
   flex: 0 0 36px;
   display: none;
   align-items: center;
-}
-
-.cta {
-  flex: 0 0 auto;
-  :global .btn {
-    margin-right: 15px;
-    transition: 0.25s $ease;
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-}
-
-@include r($xl) {
-  .header {
-    &._scrolled {
-      transform: translate3d(0, -0.5rem, 0);
-      .wrapper {
-        padding-bottom: 1rem;
-      }
-    }
-  }
-
-  .wrapper {
-    padding: 1.5rem 0 1.5rem;
-  }
-  .cta {
-    :global .btn {
-      font-size: 0.7rem;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-  }
-}
-
-@include r($lg) {
-  .header {
-    &._scrolled {
-      .wrapper {
-        padding-bottom: 0.8rem;
-      }
-    }
-  }
-
-  .wrapper {
-    padding: 1rem 0 1rem;
-  }
-  .logo {
-    margin-top: 0.2rem;
-    img,
-    svg {
-      max-width: 220px;
-    }
-  }
-  .cta {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-}
-
-@include r(414) {
-  .logo {
-    margin-top: 0.2rem;
-    img,
-    svg {
-      max-width: 180px;
-    }
-  }
-}
-
-.menu {
-  position: fixed;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(black, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s $ease;
-  &._active {
-    opacity: 1;
-    pointer-events: all;
-    .menuWrapper {
-      transform: none;
-    }
-  }
-}
-
-.menuWrapper {
-  flex: 1 0 auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-  max-width: 460px;
-  background: white;
-  padding: 42px 52px 24px 45px;
-  overflow-y: auto;
-  transform: translate3d(-100%, 0, 0);
-  transition: transform 0.25s $ease;
-  :global .hamburger {
-    position: absolute;
-    z-index: 3;
-    top: 42px;
-    right: 44px;
-  }
-}
-
-.menuList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  li {
-    display: block;
-    border-top: 1px solid $borderColor;
-    &:first-child {
-      border-top: 0;
-    }
-  }
-  a {
-    display: inline-block;
-    font-size: 24px;
-    line-height: calc(28 / 24);
-    letter-spacing: 1.5px;
-    padding: 32px 0;
-    color: $fontColor;
-    transition: color 0.25s $ease;
-    &:hover {
-      color: $colorPrimary;
-    }
-  }
-}
-
-.menuCta {
-  padding-top: 12px;
-  border-top: 1px solid $borderColor;
-  margin-top: auto;
-  :global .btn {
-    margin-bottom: 1rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.menuNested {
-  position: relative;
-  cursor: pointer;
-  &::after,
-  &::before {
-    display: inline-block;
-    content: ' ';
-    position: absolute;
-    width: 15px;
-    height: 3px;
-    top: 42px;
-    right: 14px;
-    background: $colorPrimary;
-    transition: transform 0.25s $ease;
-  }
-  &::before {
-    transform: rotate(90deg);
-  }
-  ul {
-    display: none;
-    margin: 0;
-    padding: 0;
-    cursor: default;
-    li {
-      position: relative;
-      border-top: 0;
-      padding-left: 40px;
-      margin-bottom: 20px;
-      &::before {
-        display: inline-block;
-        content: ' ';
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: $fontColor;
-      }
-    }
-    a {
-      padding: 8px 0;
-    }
-  }
-  &._active {
-    &::before {
-      transform: rotate(-180deg);
-    }
-    &::after {
-      transform: rotate(-180deg);
-    }
-    ul {
-      display: block;
-    }
-  }
-}
-
-@include r($md) {
-  .menuWrapper {
-    padding: 36px 42px 24px 36px;
-    :global .hamburger {
-      top: 34px;
-      right: 34px;
-    }
-  }
-
-  .menuList {
-    a {
-      font-size: 22px;
-      padding: 24px 0;
-    }
-  }
-
-  .menuNested {
-    &::after,
-    &::before {
-      top: 34px;
-      right: 8px;
-    }
-    &::before {
-      transform: rotate(90deg);
-    }
-    ul {
-      li {
-        position: relative;
-        border-top: 0;
-        padding-left: 40px;
-        margin-bottom: 20px;
-        &::before {
-          left: 20px;
-          top: 50%;
-          width: 5px;
-          height: 5px;
-        }
-      }
-      a {
-        padding: 6px 0;
-      }
-    }
-  }
 }

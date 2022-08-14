@@ -3,10 +3,13 @@ import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 import { UiStoreContext } from '@store';
 
-import { EventSignupModal } from '@c/Modal';
+import Stories from '@c/Stories';
+import Shop from '@c/Shop';
+
+import st from './Home.module.scss';
 
 const HomePage = observer(() => {
-  const uiContext = useContext(UiStoreContext);
+  // const uiContext = useContext(UiStoreContext);
 
   return (
     <>
@@ -14,7 +17,8 @@ const HomePage = observer(() => {
         <title>APP</title>
       </Helmet>
 
-      <EventSignupModal />
+      <Stories className={st.stories} />
+      <Shop className={st.shop} tab="purchases" />
     </>
   );
 });
