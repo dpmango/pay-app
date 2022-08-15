@@ -25,12 +25,12 @@ const Header = observer(({ className }) => {
               <span className={st.userName}>Александр</span>
             </Link>
 
-            <div className={st.chat}>
+            <Link to="/contacts" className={st.chat}>
               <SvgIcon name="chat" />
               <div className={st.chatCounter}>
                 <span>2</span>
               </div>
-            </div>
+            </Link>
 
             {/* <div className={st.hamburger}>
               <div className={cns('hamburger', menuOpened && 'is-active')} onClick={() => setMenuOpened(!menuOpened)}>

@@ -8,3 +8,4 @@ export { ScrollTo, fillGapTarget, unfillGapTarget, getScrollBarWidth } from './S
 export { formatBytes, bytesToMegaBytes } from './Bytes';
 export { ProfilerLog, PerformanceLog } from './Log';
 export { isMobile, isIosDevice, msieversion } from './Browser';
+export { checkImageExists } from './Image';

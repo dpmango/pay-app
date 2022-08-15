@@ -1,0 +1,61 @@
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+  border-radius: 11px;
+  padding: 15px 14px;
+  min-height: 80px;
+
+  &Media {
+    flex: 0 0 50px;
+    min-width: 1px;
+    color: $colorPrimary;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+    }
+
+    svg {
+      font-size: 24px;
+    }
+  }
+
+  &Content {
+    flex: 1 1 auto;
+    padding-left: 18px;
+  }
+
+  &Title {
+    font-weight: 450;
+    font-size: 22px;
+    line-height: calc(28 / 22);
+  }
+
+  &Description {
+    font-size: 16px;
+    line-height: calc(21 / 16);
+  }
+
+  &._social {
+    .tile {
+      &Title {
+        text-decoration: underline;
+      }
+
+      &Media svg {
+        font-size: 36px;
+      }
+    }
+  }
+
+  &._clickable {
+    transition: box-shadow 0.25s $ease;
+
+    &:hover {
+      box-shadow: 0 6px 12px rgb(32 94 129 / 20%);
+    }
+  }
+}

@@ -7,3 +7,5 @@ export { Loader, LoaderContext, LoaderContextProvider } from './Loader';
 export { default as Modal } from './Modal';
 export { default as Spinner } from './Spinner';
 export { default as Avatar } from './Avatar';
+export { default as Tile } from './Tile';
+export { default as Image } from './Image';

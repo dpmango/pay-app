@@ -1,16 +1,30 @@
 .avatar {
   flex: 0 0 auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   background: #e87676;
   color: white;
   border-radius: 50%;
   font-size: 0;
+  overflow: hidden;
 
   &._default {
     width: 48px;
     height: 48px;
+
+    .name {
+      font-size: 22px;
+    }
+  }
+
+  &._big {
+    width: 87px;
+    height: 87px;
+
+    .name {
+      font-size: 42px;
+    }
   }
 }
 
@@ -22,5 +36,4 @@
 
 .name {
   font-weight: 600;
-  font-size: 22px;
 }

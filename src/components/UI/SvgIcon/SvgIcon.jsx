@@ -1,7 +1,7 @@
 import React, { useState, memo, useEffect } from 'react';
 import cns from 'classnames';
 
-const SvgIcon = ({ name }) => {
+const SvgIcon = ({ name, clearColors = true }) => {
   const [viewBox, setViewBox] = useState('0 0 0 0');
   const [width, setWidth] = useState('1em');
   const [icon, setIcon] = useState(undefined);
@@ -13,10 +13,11 @@ const SvgIcon = ({ name }) => {
       const parser = new DOMParser();
       const svg = parser.parseFromString(iconRaw, 'image/svg+xml');
       const viewBox = svg.querySelector('svg').getAttribute('viewBox');
-      const body = svg
-        .querySelector('svg')
-        .innerHTML.replace(/fill="([^"]+)"/g, '')
-        .replace(/stroke="([^"]+)"/g, '');
+      let body = svg.querySelector('svg').innerHTML;
+
+      if (clearColors) {
+        body = body.replace(/fill="([^"]+)"/g, '').replace(/stroke="([^"]+)"/g, '');
+      }
 
       // calculate
       // const body = iconRaw.replace(/<svg[^>]+>/g, '').replace('</svg>', '');

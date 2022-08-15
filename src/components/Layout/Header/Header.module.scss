@@ -39,6 +39,7 @@
   font-size: 0;
   padding: 10px;
   color: $colorMuted;
+  transition: color 0.25s $ease;
 
   &Counter {
     top: 0;
@@ -62,6 +63,10 @@
 
   svg {
     font-size: 29px;
+  }
+
+  &:hover {
+    color: $colorPrimary;
   }
 }
 
