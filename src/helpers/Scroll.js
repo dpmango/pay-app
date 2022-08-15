@@ -18,7 +18,10 @@ export const ScrollTo = (to, duration = 800, $target) => {
     const currentDate = +new Date();
     const currentTime = currentDate - startDate;
 
-    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration).toString(), 10);
+    element.scrollTop = parseInt(
+      easeInOutQuad(currentTime, start, change, duration).toString(),
+      10
+    );
     if (currentTime < duration) {
       requestAnimationFrame(animateScroll);
     } else {

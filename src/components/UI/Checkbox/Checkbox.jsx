@@ -22,10 +22,20 @@ const Checkbox = ({ className, isChecked, type, error, onChange, children, ...pr
 
   return (
     <div
-      className={cns('checkbox', st.checkbox, className, styles[type], isChecked && 'active', error && st._withError)}>
+      className={cns(
+        'checkbox',
+        st.checkbox,
+        className,
+        styles[type],
+        isChecked && 'active',
+        error && st._withError
+      )}>
       <input id={id} type={type} className={cns(st.checkbox_input)} value={isChecked} {...props} />
 
-      <label htmlFor={id} className={cns(st.checkbox_wrapper, 'checkbox_wrapper')} onClick={handleChange}>
+      <label
+        htmlFor={id}
+        className={cns(st.checkbox_wrapper, 'checkbox_wrapper')}
+        onClick={handleChange}>
         <div className={cns(st.checkbox_box, isChecked && st._isChecked)}>
           <SvgIcon name="checkmark" />
         </div>

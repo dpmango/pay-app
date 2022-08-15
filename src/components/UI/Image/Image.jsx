@@ -20,7 +20,8 @@ const Image = ({ src, have2x = false, shouldGet2x = true, className, ...props })
 
   useEffect(() => {
     const tryGet2x = async () => {
-      const shouldReguest = src && shouldGet2x && window.devicePixelRatio > 1 && source2xData.ext !== 'svg';
+      const shouldReguest =
+        src && shouldGet2x && window.devicePixelRatio > 1 && source2xData.ext !== 'svg';
 
       const setSource = () => {
         setSource2x(`${source2xData.path} 2x`);

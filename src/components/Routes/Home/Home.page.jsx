@@ -8,7 +8,7 @@ import Shop from '@c/Shop';
 
 import st from './Home.module.scss';
 
-const HomePage = observer(() => {
+const HomePage = observer(({ tab }) => {
   // const uiContext = useContext(UiStoreContext);
 
   return (
@@ -18,7 +18,7 @@ const HomePage = observer(() => {
       </Helmet>
 
       <Stories className={st.stories} />
-      <Shop className={st.shop} tab="purchases" />
+      <Shop className={st.shop} tab={tab} />
     </>
   );
 });

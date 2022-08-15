@@ -74,7 +74,12 @@ const Input = ({
   return (
     <div
       style={props.style}
-      className={cns(st.input, variant && VariantClasses[variant], modifier && styles[`_${modifier}`], className)}>
+      className={cns(
+        st.input,
+        variant && VariantClasses[variant],
+        modifier && styles[`_${modifier}`],
+        className
+      )}>
       {label && (
         <label className={st.label} htmlFor={id}>
           {label}
@@ -106,7 +111,10 @@ Input.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string,
-  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]),
+  inputRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
   allowClear: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   modifier: PropTypes.string,

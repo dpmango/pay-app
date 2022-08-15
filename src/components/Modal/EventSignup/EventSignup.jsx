@@ -51,7 +51,11 @@ const EventSignup = ({ className }) => {
       data.units = units;
       data.subscribe = 'yes';
 
-      const body = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) };
+      const body = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      };
       fetch(url, body).then((data) => {
         setUnits('');
         uiContext.setModal('eventSignupThanks');
@@ -65,7 +69,8 @@ const EventSignup = ({ className }) => {
     <>
       <Modal name="eventSignup" className={className}>
         <div className={st.header}>
-          Please provide your details and submit them before the event date, and we will send you an invitation link.
+          Please provide your details and submit them before the event date, and we will send you an
+          invitation link.
         </div>
 
         <Formik
@@ -123,33 +128,64 @@ const EventSignup = ({ className }) => {
 
               <div className={st.units}>
                 <div className={st.unitsRow}>
-                  <Checkbox isChecked={units === '0'} onChange={() => setUnits('0')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '0'}
+                    onChange={() => setUnits('0')}
+                    type="radio"
+                    name="investUnits">
                     Just curious
                   </Checkbox>
-                  <Checkbox isChecked={units === '1'} onChange={() => setUnits('1')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '1'}
+                    onChange={() => setUnits('1')}
+                    type="radio"
+                    name="investUnits">
                     1 Unit
                   </Checkbox>
-                  <Checkbox isChecked={units === '2'} onChange={() => setUnits('2')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '2'}
+                    onChange={() => setUnits('2')}
+                    type="radio"
+                    name="investUnits">
                     2 Units
                   </Checkbox>
-                  <Checkbox isChecked={units === '3'} onChange={() => setUnits('3')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '3'}
+                    onChange={() => setUnits('3')}
+                    type="radio"
+                    name="investUnits">
                     3 Units
                   </Checkbox>
-                  <Checkbox isChecked={units === '4'} onChange={() => setUnits('4')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '4'}
+                    onChange={() => setUnits('4')}
+                    type="radio"
+                    name="investUnits">
                     4 Units
                   </Checkbox>
-                  <Checkbox isChecked={units === '5'} onChange={() => setUnits('5')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '5'}
+                    onChange={() => setUnits('5')}
+                    type="radio"
+                    name="investUnits">
                     5 Units
                   </Checkbox>
-                  <Checkbox isChecked={units === '6'} onChange={() => setUnits('6')} type="radio" name="investUnits">
+                  <Checkbox
+                    isChecked={units === '6'}
+                    onChange={() => setUnits('6')}
+                    type="radio"
+                    name="investUnits">
                     More than 6 Units
                   </Checkbox>
                 </div>
               </div>
 
               <div className={st.checkbox}>
-                <Checkbox isChecked={checkedSubscribe} onChange={() => setCheckedSubscribe(!checkedSubscribe)}>
-                  Would you like to receive future emails with updates on Cayman based investment opportunities?
+                <Checkbox
+                  isChecked={checkedSubscribe}
+                  onChange={() => setCheckedSubscribe(!checkedSubscribe)}>
+                  Would you like to receive future emails with updates on Cayman based investment
+                  opportunities?
                 </Checkbox>
               </div>
 
@@ -164,8 +200,8 @@ const EventSignup = ({ className }) => {
 
       <Modal name="eventSignupThanks" variant="narrow" className={className}>
         <div className={st.thanksText}>
-          Thank you for you submission. Should you wish to participate, a PPM will be sent to you 24 hours before the
-          event.
+          Thank you for you submission. Should you wish to participate, a PPM will be sent to you 24
+          hours before the event.
         </div>
       </Modal>
     </>

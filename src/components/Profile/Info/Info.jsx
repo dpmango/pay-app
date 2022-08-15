@@ -24,8 +24,18 @@ const Info = observer(({ className }) => {
           </div>
 
           <div className={st.grid}>
-            <Tile title="+7 (954) 450-45-34" description="Мобильный телефон" icon="phone" className={st.gridCard} />
-            <Tile title="alex@mail.ru" description="Эл. почта" icon="email" className={st.gridCard} />
+            <Tile
+              title="+7 (954) 450-45-34"
+              description="Мобильный телефон"
+              icon="phone"
+              className={st.gridCard}
+            />
+            <Tile
+              title="alex@mail.ru"
+              description="Эл. почта"
+              icon="email"
+              className={st.gridCard}
+            />
             <Tile
               title="Карта Visa *8644"
               description="Способ оплаты"

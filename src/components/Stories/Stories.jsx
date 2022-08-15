@@ -24,7 +24,9 @@ const Stories = observer(({ className }) => {
   return (
     <>
       <section className={cns(st.container, className)}>
-        <div className="container">{stories && stories.map((story) => <Story {...story} key={story.id} />)}</div>
+        <div className="container">
+          {stories && stories.map((story) => <Story {...story} key={story.id} />)}
+        </div>
       </section>
     </>
   );

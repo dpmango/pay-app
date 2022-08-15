@@ -8,7 +8,9 @@ import st from './Tile.module.scss';
 const Tile = ({ title, description, icon, image, clickable, isSocial, className, ...props }) => {
   return (
     <>
-      <div className={cns(st.tile, clickable && st._clickable, isSocial && st._social, className)} {...props}>
+      <div
+        className={cns(st.tile, clickable && st._clickable, isSocial && st._social, className)}
+        {...props}>
         <div className={st.tileMedia}>
           {icon && <SvgIcon name={icon} clearColors={!isSocial} />}
           {image && <Image src={image} have2x={true} />}

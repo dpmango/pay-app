@@ -3,7 +3,7 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding-bottom: calc(60px + 26px);
+  padding-bottom: calc(60px + 26px + 18px);
 }
 
 .tabs {
@@ -45,6 +45,7 @@
 
 .fixedNav {
   position: fixed;
+  z-index: 3;
   bottom: 0;
   left: 0;
   right: 0;

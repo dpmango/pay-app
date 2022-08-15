@@ -1,13 +1,12 @@
 .btn {
   display: inline-flex;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
   font-family: $baseFont;
-  font-size: 0.9rem;
-  line-height: 1;
-  text-transform: uppercase;
-  padding: 21px 30px;
-  border-radius: 4px;
+  font-size: 20px;
+  line-height: calc(26 / 20);
+  padding: 23px 30px;
+  border-radius: 11px;
   transition: background 0.25s $ease, color 0.25s $ease;
 
   &._primary {
@@ -140,11 +139,5 @@
     &:hover {
       background: $colorBg;
     }
-  }
-}
-
-@include r($md) {
-  .btn {
-    padding: 1.2rem 25px;
   }
 }

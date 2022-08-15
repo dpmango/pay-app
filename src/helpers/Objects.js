@@ -20,7 +20,12 @@ export const findNodeById = (nodes, id) => {
 };
 
 export const findObjectInHierarchy = (hierarchicalObject, childName, propName, value) => {
-  if (propName === undefined || value === undefined || childName === undefined || hierarchicalObject === undefined)
+  if (
+    propName === undefined ||
+    value === undefined ||
+    childName === undefined ||
+    hierarchicalObject === undefined
+  )
     return null;
   let result = null;
   if (hierarchicalObject instanceof Array) {
