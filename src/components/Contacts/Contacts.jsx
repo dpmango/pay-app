@@ -44,7 +44,7 @@ const Contacts = observer(({ className }) => {
                 className={st.gridCard}
               />
             </a>
-            <a href="https://t.me/" target="_blank" rel="noreferrer">
+            <a href="https://t.me/+QgJau0Vde6s0YTli" target="_blank" rel="noreferrer">
               <Tile
                 title="Написать в Telegram"
                 icon="social-telegram"

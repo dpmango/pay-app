@@ -13,12 +13,12 @@ import styles2 from './Modal.scss';
 const sharedStyles = {
   content: {
     position: 'absolute',
-    background: '#3D3D46',
-    borderRadius: '10px',
+    background: 'transparent',
+    borderRadius: '0px',
     padding: 0,
     overflowY: 'auto',
-    maxHeight: 'calc(100% - 16px)',
-    boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.25)',
+    maxHeight: '100%',
+    boxShadow: 'none',
   },
   overlay: {
     zIndex: 99,
@@ -28,26 +28,12 @@ const sharedStyles = {
 
 const mainStyles = {
   content: {
-    width: 'calc(100% - 16px)',
-    maxWidth: '1170px',
-    top: '50%',
-    left: '50%',
+    width: '100%',
+    maxWidth: '100%',
+    top: 'auto',
+    left: 'auto',
     right: 'auto',
-    bottom: 'auto',
-    transform: 'translate(-50%, -50%)',
-    margin: '0px auto',
-  },
-};
-
-const narrowStyles = {
-  content: {
-    width: 'calc(100% - 16px)',
-    maxWidth: '868px',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    transform: 'translate(-50%, -50%)',
+    bottom: '0',
     margin: '0px auto',
   },
 };
@@ -56,29 +42,27 @@ Modal.setAppElement('#root');
 
 const Variants = {
   MAIN: 'main',
-  NARROW: 'narrow',
+  // NARROW: 'narrow',
 };
 
 const VariantStyles = {
   [Variants.MAIN]: mainStyles,
-  [Variants.NARROW]: narrowStyles,
+  // [Variants.NARROW]: narrowStyles,
 };
 
 const VariantClasses = {
   [Variants.MAIN]: '',
-  [Variants.NARROW]: st._narrow,
+  // [Variants.NARROW]: st._narrow,
 };
 
 const Modifiers = {
   DEFAULT: 'default',
   FULL: 'fullheight',
-  WHITE: 'white',
 };
 
 const ModifierClasses = {
   [Modifiers.DEFAULT]: null,
   [Modifiers.FULL]: st._full,
-  [Modifiers.WHITE]: st._white,
 };
 
 const ModalComponent = observer(({ variant, modifier, name, className, mobTitle, children }) => {
@@ -122,7 +106,8 @@ const ModalComponent = observer(({ variant, modifier, name, className, mobTitle,
           className
         )}>
         <div className={cns('close', st.close)} onClick={closeModal}>
-          <SvgIcon name="close" />
+          {/* <SvgIcon name="close" /> */}
+          <div className={st.closeLine}></div>
         </div>
 
         <div className={cns(st.content, modifier && ModifierClasses[modifier])}>{children}</div>

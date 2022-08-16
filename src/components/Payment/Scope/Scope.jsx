@@ -45,7 +45,9 @@ const Scope = observer(({ className }) => {
           </div>
 
           <div className={st.cta}>
-            <Button block>Оплатить сейчас</Button>
+            <Button block onClick={() => uiContext.setModal('pay')}>
+              Оплатить сейчас
+            </Button>
           </div>
         </div>
       </section>

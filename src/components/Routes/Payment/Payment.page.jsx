@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 
 import { PaymentScope, PaymentSchedule, PaymentOrder } from '@c/Payment';
-import { ModalPay } from '@c/Modal';
+import { ModalPay, ModalPaymentSelect, ModalAddCard } from '@c/Modal';
 
 import st from './Payment.module.scss';
 
@@ -21,6 +21,8 @@ const PaymentPage = observer(() => {
       <PaymentOrder className={st.order} />
 
       <ModalPay />
+      <ModalPaymentSelect />
+      <ModalAddCard />
     </>
   );
 });

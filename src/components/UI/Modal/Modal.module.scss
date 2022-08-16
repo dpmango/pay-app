@@ -2,65 +2,47 @@
   position: relative;
   z-index: 1;
   overflow: hidden;
-  &._white {
-    .close {
-      color: #b8b8b8;
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
-  }
+  background: #fff;
+  box-shadow: 0 4px 17px rgb(0 0 0 / 12%);
+  border-radius: 25px 25px 0 0;
 }
 
 .close {
+  display: flex;
+  justify-content: center;
   position: absolute;
   z-index: 5;
-  top: 1.5rem;
-  right: 1.5rem;
-  padding: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 10px;
   font-size: 0;
   cursor: pointer;
   color: white;
   transition: color 0.25s $ease;
-  :global .svg-icon {
-    font-size: 1.4rem;
-    &.svg-icon--arrow-left {
-      display: none;
-    }
+
+  &Line {
+    display: inline-block;
+    width: 92px;
+    height: 3px;
+    background: #ebeaea;
+    transition: background 0.25s $ease;
   }
+
   &:hover {
-    color: $colorPrimary;
+    .closeLine {
+      background: $colorPrimary;
+    }
   }
 }
 
 .content {
   display: block;
-  padding: 3.5rem 4.5rem 3rem;
+  padding: 56px 20px 25px;
+
   &._full {
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-  }
-}
-
-._narrow {
-  padding: 24px;
-}
-
-@include r($lg) {
-  .content {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-@include r($md) {
-  .head {
-    flex-wrap: wrap;
-  }
-
-  .close {
-    top: 0;
-    right: 0;
   }
 }

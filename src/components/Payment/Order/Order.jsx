@@ -76,7 +76,7 @@ const Order = observer(({ className }) => {
                   </div>
 
                   <div className={st.contentDownload}>
-                    <a href="#" target="_blank" className={st.contentDownloadLink}>
+                    <a href="/uploads/order.pdf" target="_blank" className={st.contentDownloadLink}>
                       <SvgIcon name="file-pdf" />
                       <span>Скачать pdf</span>
                     </a>

@@ -5,49 +5,6 @@
   text-align: center;
 }
 
-.method {
-  margin-top: 28px;
-  display: flex;
-  align-items: center;
-  background: $colorBg;
-  border-radius: 11px;
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: background 0.25s $ease;
-
-  &Label {
-    font-size: 16px;
-    line-height: calc(21 / 16);
-    color: $colorGray;
-  }
-
-  &Value {
-    font-weight: 500;
-    font-size: 22px;
-    line-height: calc(28 / 22);
-  }
-
-  &Image {
-    margin-left: auto;
-
-    img {
-      max-width: 100%;
-    }
-  }
-
-  &Caret {
-    flex: 0 0 auto;
-    margin-left: 30px;
-    font-size: 0;
-    color: #565656;
-    transition: transform 0.25s $ease;
-
-    svg {
-      font-size: 10px;
-    }
-  }
-}
-
 .payments {
   margin-top: 11px;
 }
@@ -63,20 +20,27 @@
     border-bottom: 0;
   }
 
-  &Content {
-    padding-left: 25px;
+  &Image {
+    flex: 0 0 65px;
+    text-align: center;
+    font-size: 0;
+    color: $colorPrimary;
+
+    img {
+      max-width: 100%;
+    }
+
+    svg {
+      font-size: 32px;
+    }
   }
 
-  &Value {
-    font-weight: 600;
-    font-size: 26px;
-    line-height: calc(33 / 26);
-  }
-
-  &Description {
-    font-size: 16px;
-    line-height: calc(21 / 16);
-    color: $colorGray;
+  &Title {
+    padding-left: 15px;
+    padding-right: 25px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: calc(23 / 18);
   }
 
   &Checkbox {
