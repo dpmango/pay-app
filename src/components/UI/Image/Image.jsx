@@ -5,7 +5,7 @@ import { checkImageExists } from '@helpers';
 
 const Image = ({ src, have2x = false, shouldGet2x = true, className, ...props }) => {
   const [source2x, setSource2x] = useState();
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState(have2x);
 
   const source2xData = useMemo(() => {
     const lastDot = src.lastIndexOf('.');

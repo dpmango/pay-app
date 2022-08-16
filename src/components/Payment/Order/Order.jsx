@@ -24,7 +24,36 @@ const Order = observer(({ className }) => {
             {opened && (
               <div className={st.boxContent}>
                 <div className={st.content}>
-                  <div className={st.contentSection}></div>
+                  <div className={st.contentSection}>
+                    <div className={st.contentHead}>
+                      <div className={st.contentLogo}>
+                        <Image src="/img/logo-1.png" have2x="" />
+                      </div>
+                      <div className={st.contentHeadTitle}>АВТОDOM</div>
+                    </div>
+                    <div className={st.table}>
+                      <div className={st.tableRow}>
+                        <div className={st.tableLabel}>Дилерский центр: </div>
+                        <div className={st.tableValue}>Автодом Зорге</div>
+                      </div>
+                      <div className={st.tableRow}>
+                        <div className={st.tableLabel}>Мастер-приемщик: </div>
+                        <div className={st.tableValue}>Иванов В.В.</div>
+                      </div>
+                      <div className={st.tableRow}>
+                        <div className={st.tableLabel}>Автомобиль: </div>
+                        <div className={st.tableValue}>BMW X5 г.н. O111OO777</div>
+                      </div>
+                      <div className={st.tableRow}>
+                        <div className={st.tableLabel}>VIN: </div>
+                        <div className={st.tableValue}>ABCDE12345678</div>
+                      </div>
+                      <div className={st.tableRow}>
+                        <div className={st.tableLabel}>Цель обращения: </div>
+                        <div className={st.tableValue}>ТО №1 (10000км)</div>
+                      </div>
+                    </div>
+                  </div>
                   <div className={st.contentSection}>
                     <div className={st.contentRow}>
                       <div className={st.contentLabel}>

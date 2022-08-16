@@ -93,8 +93,8 @@ const ModalComponent = observer(({ variant, modifier, name, className, mobTitle,
   let CSSinJSstyles = sharedStyles;
   if (variant && VariantStyles[variant]) {
     CSSinJSstyles = {
-      content: { ...CSSinJSst.content, ...VariantStyles[variant].content },
-      overlay: { ...CSSinJSst.overlay, ...VariantStyles[variant].overlay },
+      content: { ...CSSinJSstyles.content, ...VariantStyles[variant].content },
+      overlay: { ...CSSinJSstyles.overlay, ...VariantStyles[variant].overlay },
     };
   }
 

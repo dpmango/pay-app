@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 
 import { PaymentScope, PaymentSchedule, PaymentOrder } from '@c/Payment';
+import { ModalPay } from '@c/Modal';
 
 import st from './Payment.module.scss';
 
@@ -18,6 +19,8 @@ const PaymentPage = observer(() => {
       <PaymentScope className={st.scope} />
       <PaymentSchedule className={st.schedule} />
       <PaymentOrder className={st.order} />
+
+      <ModalPay />
     </>
   );
 });

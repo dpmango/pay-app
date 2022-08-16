@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 
@@ -12,13 +12,45 @@ const Header = observer(({ className }) => {
   const [menuOpened, setMenuOpened] = useState(false);
 
   const uiContext = useContext(UiStoreContext);
+  const { pathname } = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const showBack = useMemo(() => {
+    return pathname !== '/';
+  }, [pathname]);
+
+  const pageName = useMemo(() => {
+    if (pathname === '/') {
+      return 'Покупки';
+    } else if (pathname.includes('shops')) {
+      return 'Магазины';
+    } else if (pathname.includes('pay')) {
+      return 'Покупки';
+    } else if (pathname.includes('profile')) {
+      return 'Профиль';
+    } else if (pathname.includes('contacts')) {
+      return 'Контакты';
+    } else {
+      return 'Назад';
+    }
+  }, [pathname]);
+
+  const handleBackClick = () => {
+    navigate('/', { replace: true });
+  };
 
   return (
     <>
       <header className={cns(st.header, className)}>
         <div className="container">
           <div className={st.wrapper}>
-            <div className={st.pagename}>Покупки</div>
+            <div
+              className={cns(st.pagename, showBack && st._navigatable)}
+              onClick={handleBackClick}>
+              <SvgIcon name="arrow-left" />
+              <span>{pageName}</span>
+            </div>
 
             <Link to="/profile" className={st.user}>
               <Avatar name="АС" />

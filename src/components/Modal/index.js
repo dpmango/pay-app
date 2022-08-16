@@ -1,1 +1,1 @@
-export { default as EventSignupModal } from './EventSignup';
+export { default as ModalPay } from './Pay';
