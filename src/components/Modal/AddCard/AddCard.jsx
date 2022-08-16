@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-import { Modal, Input, Button, Checkbox } from '@ui';
+import { Modal, Input, Button, Image } from '@ui';
 import { UiStoreContext } from '@store';
 import st from './AddCard.module.scss';
 
@@ -16,18 +16,17 @@ const formInitial = {
 
 const AddCard = observer(({ className }) => {
   const [loading, setLoading] = useState(false);
-
   const uiContext = useContext(UiStoreContext);
 
   const handleValidation = (values) => {
     const errors = {};
-    if (!values.card) {
+    if (!values.card || values.card.length !== 19) {
       errors.card = 'Введите номер карты';
     } else if (!values.name) {
       errors.name = 'Введите имя на карте';
-    } else if (!values.date) {
+    } else if (!values.date || values.date.length !== 5) {
       errors.date = 'Введите дату окончания';
-    } else if (!values.date) {
+    } else if (!values.date || values.date.length !== 3) {
       errors.cvc = 'Введите CVC код';
     }
     return errors;
@@ -38,7 +37,8 @@ const AddCard = observer(({ className }) => {
       return;
     }
 
-    setLoading(true);
+    uiContext.setModal('pay');
+    // setLoading(true);
 
     let data = {};
   }, []);
@@ -61,8 +61,10 @@ const AddCard = observer(({ className }) => {
                     <Input
                       label="Номер карты"
                       placeholder="0000 0000 0000 0000"
-                      autocomplete="cc-number"
+                      mask="9999 9999 9999 9999"
+                      autoComplete="cc-number"
                       value={field.value}
+                      cardNumber={true}
                       error={meta.touched && meta.error}
                       onChange={(v) => {
                         setFieldValue(field.name, v);
@@ -78,7 +80,7 @@ const AddCard = observer(({ className }) => {
                     <Input
                       label="Имя владельца"
                       placeholder="Ivan Petrov"
-                      autocomplete="cc-name"
+                      autoComplete="cc-name"
                       value={field.value}
                       error={meta.touched && meta.error}
                       onChange={(v) => {
@@ -95,7 +97,8 @@ const AddCard = observer(({ className }) => {
                     <Input
                       label="Дата"
                       placeholder="01/24"
-                      autocomplete="cc-exp"
+                      mask="99/99"
+                      autoComplete="cc-exp"
                       value={field.value}
                       error={meta.touched && meta.error}
                       onChange={(v) => {
@@ -117,7 +120,8 @@ const AddCard = observer(({ className }) => {
                       {({ field, form: { setFieldValue }, meta }) => (
                         <Input
                           placeholder=""
-                          autocomplete="cc-cvc"
+                          autoComplete="cc-cvc"
+                          mask="999"
                           value={field.value}
                           error={meta.touched && meta.error}
                           onChange={(v) => {

@@ -125,7 +125,8 @@
     }
   }
 
-  &._current {
+  &._current,
+  &._failed {
     .card {
       &Radial {
         width: 62px;

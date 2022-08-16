@@ -4,7 +4,7 @@ import cns from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import InputMask from 'react-input-mask';
 
-import { SvgIcon } from '@ui';
+import { SvgIcon, Image } from '@ui';
 import st from './Input.module.scss';
 
 const Variants = {
@@ -29,6 +29,7 @@ const Input = ({
   mask,
   error,
   showError,
+  cardNumber,
   ...props
 }) => {
   const id = useMemo(() => {
@@ -61,6 +62,18 @@ const Input = ({
 
     return null;
   }, [value, allowClear]);
+
+  const cardImage = useMemo(() => {
+    if (!value) return null;
+
+    if (Number(value.slice(0, 1)) === 4) {
+      return '/img/payment/visa.png';
+    } else if ([50, 56, 57, 58, 51, 52, 53, 54, 55].includes(Number(value.slice(0, 2)))) {
+      return '/img/payment/mastercard.svg';
+    }
+
+    return null;
+  }, [value]);
 
   const inputProps = {
     id,
@@ -101,6 +114,12 @@ const Input = ({
 
         {clearIcon}
 
+        {cardNumber && cardImage && (
+          <div className={st.cardImage}>
+            <Image src={cardImage} />
+          </div>
+        )}
+
         {error && showError && <div className={st.error}>{error}</div>}
       </div>
     </div>
@@ -123,6 +142,7 @@ Input.propTypes = {
   showError: PropTypes.bool,
   onChange: PropTypes.func,
   mask: PropTypes.string,
+  cardNumber: PropTypes.bool,
   style: PropTypes.object,
 };
 

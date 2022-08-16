@@ -120,6 +120,20 @@
   font-weight: 500;
 }
 
+.cardImage {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 33px;
+  font-size: 0;
+  pointer-events: none;
+
+  img {
+    max-width: 100%;
+  }
+}
+
 input:disabled,
 textarea:disabled,
 input:disabled::placeholder,

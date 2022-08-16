@@ -47,8 +47,11 @@
   position: fixed;
   z-index: 3;
   bottom: 0;
-  left: 0;
+  left: 50%;
   right: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 640px;
   background: #f5f8fa;
   padding: 18px 20px 26px;
 }

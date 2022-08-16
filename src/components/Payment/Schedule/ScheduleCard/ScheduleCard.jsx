@@ -1,14 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
+import { UiStoreContext } from '@store';
 import { SvgIcon } from '@ui';
 import { formatPrice } from '@helpers';
 
 import st from './ScheduleCard.module.scss';
 
 const ScheduleCard = ({ id, number, status, price, total, deadline, className }) => {
+  const uiContext = useContext(UiStoreContext);
+
   const progress = useMemo(() => {
     const percent = price / 12000;
 
@@ -22,15 +25,22 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
   }, [price]);
 
   const isCurrentPayment = status === 5;
+  const isFailedPayment = status === 9;
 
   const deadlinyByStatus = useMemo(() => {
     let topic = '';
+    let showDate = true;
+
     switch (status) {
       case 1:
         topic = 'Спишется';
         break;
       case 5:
         topic = 'Спишется';
+        break;
+      case 9:
+        topic = 'Ошибка оплаты';
+        showDate = false;
         break;
       case 10:
         topic = 'Оплачен';
@@ -39,17 +49,22 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
         break;
     }
 
-    return `${topic} ${deadline}`;
+    return `${topic} ${showDate ? deadline : ''}`;
   }, [status, deadline]);
 
   const radialStyle = useMemo(() => {
     let color = '';
+    let colorTrail = '#EBEAEA';
     switch (status) {
       case 1:
         color = '#EBEAEA';
         break;
       case 5:
         color = '#34A8FF';
+        break;
+      case 9:
+        color = '#E77676';
+        colorTrail = '#E77676';
         break;
       case 10:
         color = '#A7C97C';
@@ -61,12 +76,18 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
     return buildStyles({
       pathTransitionDuration: 0.5,
       pathColor: color,
-      trailColor: '#EBEAEA',
+      trailColor: colorTrail,
     });
   }, [status]);
 
   return (
-    <div className={cns(st.card, isCurrentPayment && st._current, className)}>
+    <div
+      className={cns(
+        st.card,
+        isCurrentPayment && st._current,
+        isFailedPayment && st._failed,
+        className
+      )}>
       <div className={st.cardLeft}>
         <div className={st.cardRadial}>
           <CircularProgressbar
@@ -84,7 +105,9 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
         <div className={st.cardDescription}>{deadlinyByStatus}</div>
       </div>
 
-      <div className={cns(st.cardAction, isCurrentPayment && st._active)}>
+      <div
+        className={cns(st.cardAction, (isCurrentPayment || isFailedPayment) && st._active)}
+        onClick={() => uiContext.setModal('pay')}>
         <div className={st.cardActionIcon}>
           <SvgIcon name="card" />
         </div>

@@ -23,7 +23,7 @@ export const payments = [
   {
     id: 4,
     number: 4,
-    status: 1,
+    status: 9,
     price: 2100,
     deadline: '12 мая 2022',
   },
