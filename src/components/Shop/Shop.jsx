@@ -6,7 +6,6 @@ import cns from 'classnames';
 import { SvgIcon, Avatar } from '@ui';
 import { UiStoreContext } from '@store';
 
-import { Story } from '@c/Stories';
 import ShopCard from '@c/Shop/ShopCard';
 import st from './Shop.module.scss';
 import { purchases, shops } from './mockData';

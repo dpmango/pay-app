@@ -38,6 +38,10 @@
 .grid {
   margin-top: 26px;
 
+  &:first-child {
+    margin-top: 0;
+  }
+
   &Card {
     margin-bottom: 9px;
   }

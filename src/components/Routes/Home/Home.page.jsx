@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { UiStoreContext } from '@store';
 
 import Stories from '@c/Stories';
-import Shop from '@c/Shop';
+import Shop, { ShopFilters } from '@c/Shop';
 
 import st from './Home.module.scss';
 
@@ -16,6 +16,8 @@ const HomePage = observer(({ tab }) => {
       <Helmet>
         <title>APP</title>
       </Helmet>
+
+      {tab === 'shops' && <ShopFilters className={st.filters} />}
 
       <Stories className={st.stories} />
       <Shop className={st.shop} tab={tab} />

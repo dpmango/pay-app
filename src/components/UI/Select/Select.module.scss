@@ -1,28 +1,37 @@
 .select {
   display: block;
+
   &._mw-160 {
     max-width: 160px;
   }
+
   &_wrapper {
     position: relative;
   }
-  &_input {
-    -webkit-appearance: none;
-    display: block;
-    width: 100%;
-    background: white;
-    font-family: $baseFont;
-    font-size: 16px;
-    color: $fontColor;
-    border: 1px solid $borderColor;
-    border-radius: 5px;
-    padding: 14px 15px;
-    transition: border 0.25s $ease, color 0.25s $ease, background 0.25s $ease;
-    &::placeholder {
-      color: rgba($fontColor, 0.5);
+
+  &._stacked {
+    position: relative;
+
+    .label {
+      position: absolute;
+      top: 6px;
+      left: 19px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: calc(18 / 16);
+      color: $colorGray;
     }
-    &:focus {
-      border-color: $fontColor;
+
+    :global .react-select {
+      &__control {
+        background: transparent;
+        font-size: 16px;
+      }
+
+      &__value-container {
+        font-size: 16px;
+        padding: 22px 16px 2px;
+      }
     }
   }
 
@@ -32,10 +41,12 @@
         min-height: 35px;
         border-radius: 5px;
       }
+
       .react-select__single-value {
         font-size: 14px;
         font-weight: 600;
       }
+
       .react-select__value-container {
         padding-top: 6px;
         padding-bottom: 6px;

@@ -11,11 +11,13 @@ import stylesGlobal from './Select.scss';
 const Variants = {
   DEFAULT: 'default',
   SMALL: 'small',
+  STACKED: 'stacked',
 };
 
 const VariantClasses = {
   [Variants.DEFAULT]: null,
   [Variants.SMALL]: st._small,
+  [Variants.STACKED]: st._stacked,
 };
 
 const SelectComponent = ({ label, value, className, options, onChange, variant, ...props }) => {
