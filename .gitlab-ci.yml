@@ -16,4 +16,4 @@ deploy:
   stage: deploy
   image: cr.yandex/crprd8fjvm5h9q7qgndk/s3cmd-yandex
   script:
-    - s3cmd put --recursive build/* s3://mozhno-pay-test/${TARGET_BACKET}
+    - s3cmd put --recursive build/* s3://mozhno-pay-test/${TARGET_BACKET}/
