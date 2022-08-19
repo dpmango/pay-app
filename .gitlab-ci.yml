@@ -4,7 +4,9 @@ stages:
 
 build:
   stage: build
-  image: node
+  image: cr.yandex/crprd8fjvm5h9q7qgndk/node-with-tools
   script:
+      - envsubst </root/.s3cfg >/root/.s3cfg.tmp && mv -f /root/.s3cfg.tmp /root/.s3cfg
+      - cat /root/.s3cfg
       - npm install
       - npm run build
