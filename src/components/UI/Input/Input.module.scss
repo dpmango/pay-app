@@ -1,0 +1,143 @@
+.input {
+  display: block;
+
+  &._mw-160 {
+    max-width: 160px;
+  }
+
+  &_wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  &_input {
+    appearance: none;
+    display: block;
+    width: 100%;
+    background: white;
+    font-family: $baseFont;
+    font-weight: 500;
+    font-size: 23px;
+    line-height: calc(29 / 23);
+    color: $fontColor;
+    border: 1px solid $borderColor;
+    border-radius: 11px;
+    padding: 26px 24px 23px;
+
+    backface-visibility: hidden;
+    transition: border 0.25s $ease, color 0.25s $ease, background 0.25s $ease;
+
+    &::placeholder {
+      color: $colorGray;
+    }
+
+    &:focus {
+      border-color: $colorPrimary;
+    }
+
+    &._withClear,
+    &._withIcon {
+      padding-right: 40px;
+    }
+
+    &._withIcon {
+      &._posleft {
+        padding-right: 15px;
+        padding-left: 48px;
+      }
+    }
+
+    &._withError {
+      border-color: $colorRed;
+      color: $colorRed;
+
+      &::placeholder {
+        color: rgba($colorRed, 0.5);
+      }
+    }
+  }
+
+  &_icon,
+  &_clear {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &_icon {
+    opacity: 0.5;
+
+    &._posleft {
+      right: auto;
+      left: 15px;
+    }
+  }
+
+  &_clear {
+    right: 0;
+    color: $colorPrimary;
+    padding: 11px 12px;
+    cursor: pointer;
+    transition: color 0.25s $ease;
+
+    :global .svg-icon {
+      font-size: 12px;
+    }
+
+    &:hover {
+      color: $colorAccent;
+    }
+  }
+
+  &._small {
+    .input_input {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 16px;
+  line-height: calc(21 / 16);
+  color: $colorGray;
+}
+
+.error {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  display: inline-block;
+  font-size: 12px;
+  color: $colorRed;
+  font-weight: 500;
+}
+
+.cardImage {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 33px;
+  font-size: 0;
+  pointer-events: none;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+input:disabled,
+textarea:disabled,
+input:disabled::placeholder,
+textarea:disabled::placeholder {
+  -webkit-text-fill-color: currentcolor; /* 1. sets text fill to current `color` for safari */
+  opacity: 1; /* 2. correct opacity on iOS */
+}

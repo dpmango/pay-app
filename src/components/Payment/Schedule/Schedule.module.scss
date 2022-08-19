@@ -1,0 +1,47 @@
+// .container{}
+
+.box {
+  background: #fff;
+  box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+  border-radius: 11px;
+}
+
+.head {
+  padding: 16px 26px 0;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+}
+
+.list {
+  margin-top: 26px;
+
+  // &Card {
+  // }
+}
+
+.tiles {
+  margin-top: 8px;
+  padding: 22px 26px;
+}
+
+.tile {
+  padding: 19px 0;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+  border-top: 1px solid #ebeaea;
+
+  &Label {
+    padding-right: 16px;
+  }
+
+  &Value {
+    margin-left: auto;
+
+    img {
+      max-width: 100%;
+    }
+  }
+}

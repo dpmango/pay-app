@@ -1,0 +1,97 @@
+.container {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(60px + 26px + 18px);
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  background: $colorBg;
+  border-radius: 30px;
+  overflow: hidden;
+
+  &Link {
+    flex: 1 1 auto;
+    font-size: 20px;
+    color: $colorMuted;
+    text-align: center;
+    padding: 11px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: color 0.25s $ease, background 0.25s $ease;
+
+    &:hover {
+      color: #3e3e3e;
+    }
+
+    &._active {
+      font-weight: 500;
+      color: #3e3e3e;
+      background: white;
+    }
+  }
+}
+
+.grid {
+  margin-top: 26px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &Card {
+    margin-bottom: 9px;
+  }
+}
+
+.fixedNav {
+  position: fixed;
+  z-index: 3;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 640px;
+  background: #f5f8fa;
+  padding: 18px 20px 26px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  background: $colorBg;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &Link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 auto;
+    font-size: 20px;
+    color: $colorMuted;
+    padding: 18px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.25s $ease, background 0.25s $ease;
+
+    svg {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+
+    &:hover {
+      color: #3e3e3e;
+    }
+  }
+
+  :global .active {
+    font-weight: 500;
+    color: #3e3e3e;
+    background: white;
+  }
+}

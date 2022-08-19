@@ -1,0 +1,87 @@
+.title {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+  text-align: center;
+}
+
+.payments {
+  margin-top: 11px;
+}
+
+.payment {
+  display: flex;
+  align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid #ebeaea;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &Image {
+    flex: 0 0 65px;
+    text-align: center;
+    font-size: 0;
+    color: $colorPrimary;
+
+    img {
+      max-width: 100%;
+    }
+
+    svg {
+      font-size: 32px;
+    }
+  }
+
+  &Title {
+    padding-left: 15px;
+    padding-right: 25px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: calc(23 / 18);
+  }
+
+  &Checkbox {
+    position: relative;
+    margin-left: auto;
+    min-width: 49px;
+    min-height: 49px;
+    flex: 0 0 auto;
+    background: #eaf1f6;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    transition: background 0.25s $ease;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.25s $ease;
+    }
+  }
+
+  &._active {
+    .paymentCheckbox {
+      background: $colorPrimary;
+
+      svg {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover {
+    .paymentCheckbox {
+      background: $colorPrimary;
+    }
+  }
+}
+
+.cta {
+  margin-top: 14px;
+}

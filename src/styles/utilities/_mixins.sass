@@ -1,0 +1,147 @@
+@use "sass:selector"
+
+// width
+=r($width)
+  @media only screen and (max-width: $width+ "px")
+    @content
+
+=rmin($width)
+  @media only screen and (min-width: $width+ "px")
+    @content
+
+// height
+=rh($height)
+  @media only screen and (max-height: $height + "px")
+    @content
+
+=rhmin($height)
+  @media only screen and (min-height: $height + "px")
+    @content
+
+=text-overflow
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+@function url-friendly-colour($colour)
+  @return '%23' + str-slice('#{$colour}', 2, -1)
+
+=text-decor($size: 5px, $color: $colorPrimary, $alt: 'default')
+  position: relative
+  &::after
+    display: inline-block
+    content: ' '
+    position: absolute
+    bottom: -0.35rem
+    left: 0
+    right: 0
+    min-width: 1px
+    max-width: 420px
+    background-color: transparent
+    background-repeat: no-repeat 
+    background-position: left top
+    pointer-events: none
+    user-select: none
+
+    @if $alt == 'short'
+      height: $size
+      background-size: contain
+      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 133 4" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.101079 1.36189C0.461681 0.341741 1.71353 0.0772968 2.70109 0.0710305C40.2221 -0.128235 77.7237 0.155024 115.243 0.155026C117.782 0.279099 120.073 0.0447306 122.401 0.050997C124.601 0.0572634 126.719 0.166302 128.92 0.401914C128.92 0.401914 133.209 0.845557 132.992 2.42842C132.82 3.67917 133.437 2.94628 132.166 3.43733C126.66 4.41942 131.319 1.33663 129.625 3.43733C129.576 3.43614 129.506 3.43441 129.625 3.43733C129.38 3.42812 130.93 1.08998 129.625 3.43733C129.663 3.30828 130.389 2.48986 129.625 3.43733C102.882 2.77937 74.5582 3.8308 47.8142 3.8308C32.8708 3.8308 17.9283 3.99248 2.98588 4C1.65104 4 -0.184747 3.34579 0.0150177 1.73159C0.0314087 1.59875 0.060102 1.47594 0.101079 1.36189Z" fill="#{url-friendly-colour($color)}"/></svg>')
+      +r($md)
+        height: 3px
+    @else
+      height: 5px
+      background-size: contain
+      background-image: url('data:image/svg+xml;utf8,<svg version="1.1" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 345 5"><path d="M0.262199 1.53281C1.19759 0.384629 4.44487 0.0869976 7.00658 0.0799449C104.336 -0.144329 201.614 0.17448 298.938 0.174482C305.525 0.314126 311.467 0.0503443 317.507 0.0573972C323.213 0.06445 328.708 0.187173 334.416 0.452355C334.416 0.452355 345.543 0.951675 344.979 2.73319C344.533 4.14091 343.979 4.31533 340.683 4.86801C326.398 5.97335 343.887 -0.362946 334.724 4.32569C334.599 4.32435 334.416 4.32241 334.724 4.32569C334.09 4.31533 338.11 1.68375 334.724 4.32569C334.825 4.18045 336.707 3.25932 334.724 4.32569C265.354 3.58516 193.403 4.31157 124.029 4.31157C85.2663 4.31157 46.5058 4.49354 7.74534 4.502C4.28278 4.502 -0.479232 3.76569 0.0389558 1.94891C0.0814738 1.79939 0.155904 1.66117 0.262199 1.53281Z" fill="#{url-friendly-colour($color)}" /></svg>')
+      +r($md)
+        height: 4px
+  
+    +r($md)
+      bottom: -0.15rem
+
+  &[data-multiline="true"] 
+    text-decoration: underline
+    text-decoration-color: $color
+    text-decoration-thickness: $size
+    &::after 
+      display: none
+    
+
+
+// retina
+=retina
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)
+    @content
+
+// vertical-align at center
+=vcenters
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%,-50%)
+
+// photoshop to em
+=letter-spacing($letter-spacing, $fontSize: 16)
+  letter-spacing: ($letter-spacing / 1000) + em
+
+// sketch to em
+@function em($pixels, $fontSize: 16)
+  @return #{$pixels / $fontSize}em
+
+=prevent-text
+  word-break: break-all
+  word-break: break-word
+  hyphens: auto
+
+=scrollbar
+  &::-webkit-scrollbar
+    @content
+
+=scrollbar-track
+  &::-webkit-scrollbar-track
+    @content
+
+=scrollbar-thumb
+  &::-webkit-scrollbar-thumb
+    @content
+
+=scrollbar-track-piece
+  &::-webkit-scrollbar-track-piece
+    @content
+
+//triangle
+=arr($width, $height, $bg, $direction)
+  width: 0px
+  height: 0px
+  border-style: solid
+  @if $direction == t
+    border-width: 0 $width / 2 + px $height + px $width / 2 + px
+    border-color: transparent transparent $bg transparent
+  @if $direction == r
+    border-width: $height / 2 + px 0 $height / 2 + px $width + px
+    border-color: transparent transparent transparent $bg
+  @if $direction == b
+    border-width: $height + px $width / 2 + px 0 $width / 2 + px
+    border-color: $bg transparent transparent transparent
+  @if $direction == l
+    border-width: $height / 2 + px $width + px $height / 2 + px 0
+    border-color: transparent $bg transparent transparent
+  @if $direction == tl
+    border-width: $height + px $width + px 0 0
+    border-color: $bg transparent transparent transparent
+  @if $direction == tr
+    border-width: 0 $width + px $height + px 0
+    border-color: transparent $bg transparent transparent
+  @if $direction == br
+    border-width: 0 0 $height + px $width + px
+    border-color: transparent transparent $bg transparent
+  @if $direction == bl
+    border-width: $width + px 0 0 $height + px
+    border-color: transparent transparent transparent $bg
+// example
+// +arr(500,50, #000, l)
+// +arr(500,50, #000, bl)
+
+=better-blur($radius)
+  -webkit-filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='#{$radius}' result='b'/%3E%3CfeMorphology operator='dilate' radius='#{$radius}'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E %3C/svg%3E#a")
+  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='#{$radius}' result='b'/%3E%3CfeMorphology operator='dilate' radius='#{$radius}'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E %3C/svg%3E#a")

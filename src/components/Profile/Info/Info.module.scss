@@ -1,0 +1,25 @@
+// .container {
+// }
+
+.head {
+  text-align: center;
+}
+
+.title {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: calc(41 / 32);
+}
+
+.grid {
+  margin-top: 33px;
+
+  &Card {
+    margin-bottom: 11px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

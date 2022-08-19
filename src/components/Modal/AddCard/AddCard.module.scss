@@ -1,0 +1,60 @@
+.title {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+  text-align: center;
+}
+
+.form {
+  margin-top: 30px;
+
+  &Rows {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -11px;
+    margin-right: -11px;
+  }
+
+  &Col {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 1px;
+    min-height: 0;
+    margin-bottom: 16px;
+    padding-left: 11px;
+    padding-right: 11px;
+
+    &._name {
+      flex-basis: calc(100% - 140px);
+    }
+
+    &._date {
+      flex-basis: 140px;
+    }
+  }
+
+  &Cvv {
+    display: flex;
+    align-items: center;
+    background: #f5f8fa;
+    border-radius: 11px;
+    padding: 12px 20px;
+
+    &Label {
+      font-size: 16px;
+      line-height: 18px;
+      color: $colorGray;
+    }
+
+    &Input {
+      margin-left: auto;
+      flex: 0 0 120px;
+
+      :global input {
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+    }
+  }
+}

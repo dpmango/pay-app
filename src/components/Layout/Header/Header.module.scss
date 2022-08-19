@@ -1,0 +1,99 @@
+.header {
+  display: block;
+  z-index: 9;
+  background: transparent;
+  transition: transform 0.25s $ease;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding: 28px 0 26px;
+  transition: 0.25s $ease;
+}
+
+.pagename {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 28px;
+
+  svg {
+    display: none;
+    font-size: 25px;
+    flex: 0 0 auto;
+    margin-right: 24px;
+  }
+
+  &._navigatable {
+    font-size: 20px;
+    cursor: pointer;
+
+    svg {
+      display: block;
+    }
+
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.user {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  padding-right: 22px;
+  border-radius: 30px;
+
+  &Name {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+}
+
+.chat {
+  position: relative;
+  margin-left: 16px;
+  font-size: 0;
+  padding: 10px;
+  color: $colorMuted;
+  transition: color 0.25s $ease;
+
+  &Counter {
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 2;
+    min-width: 19px;
+    min-height: 19px;
+    background: $colorRed;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-weight: 900;
+      font-size: 14px;
+    }
+  }
+
+  svg {
+    font-size: 29px;
+  }
+
+  &:hover {
+    color: $colorPrimary;
+  }
+}
+
+.hamburger {
+  flex: 0 0 36px;
+  display: none;
+  align-items: center;
+}

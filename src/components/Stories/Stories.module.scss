@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+  z-index: 1;
+  // margin-top: 26px;
+
+  :global .swiper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  :global .swiper-slide {
+    width: 90%;
+    max-width: 345px;
+  }
+}

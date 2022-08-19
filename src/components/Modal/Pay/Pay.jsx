@@ -1,0 +1,72 @@
+import React, { useContext, useState, useCallback, useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
+import cns from 'classnames';
+
+import { Modal, SvgIcon, Button, Image } from '@ui';
+import { UiStoreContext } from '@store';
+import { formatPrice } from '@helpers';
+import st from './Pay.module.scss';
+
+const ModalPay = observer(({ className }) => {
+  const [paymentMode, setPaymentMode] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const uiContext = useContext(UiStoreContext);
+
+  const paymentAmount = useMemo(() => {
+    if (paymentMode === 1) {
+      return 2100;
+    } else {
+      return 4200;
+    }
+  }, [paymentMode]);
+
+  return (
+    <Modal name="pay" className={className}>
+      <div className={st.title}>Оплатить рассрочку</div>
+      <div className={st.method} onClick={() => uiContext.setModal('paymentSelect')}>
+        <div className={st.methodContent}>
+          <div className={st.methodlabel}>Способ оплаты</div>
+          <div className={st.methodValue}>Карта Visa *8644</div>
+        </div>
+        <div className={st.methodImage}>
+          <Image src="/img/payment/visa.png" have2x={true} />
+        </div>
+        <div className={st.methodCaret}>
+          <SvgIcon name="caret" />
+        </div>
+      </div>
+
+      <div className={st.payments}>
+        <div
+          className={cns(st.payment, paymentMode === 1 && st._active)}
+          onClick={() => setPaymentMode(1)}>
+          <div className={st.paymentContent}>
+            <div className={st.paymentValue}>{formatPrice(2100)} ₽</div>
+            <div className={st.paymentDescription}>Ближайший платеж</div>
+          </div>
+          <div className={st.paymentCheckbox}>
+            <SvgIcon name="checkmark" />
+          </div>
+        </div>
+        <div
+          className={cns(st.payment, paymentMode === 2 && st._active)}
+          onClick={() => setPaymentMode(2)}>
+          <div className={st.paymentContent}>
+            <div className={st.paymentValue}>{formatPrice(4200)} ₽</div>
+            <div className={st.paymentDescription}>Оплатить полностью</div>
+          </div>
+          <div className={st.paymentCheckbox}>
+            <SvgIcon name="checkmark" />
+          </div>
+        </div>
+      </div>
+
+      <div className={st.cta}>
+        <Button block>Оплатить {formatPrice(paymentAmount)} ₽</Button>
+      </div>
+    </Modal>
+  );
+});
+
+export default ModalPay;
