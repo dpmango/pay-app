@@ -16,4 +16,5 @@ deploy:
   stage: deploy
   image: cr.yandex/crprd8fjvm5h9q7qgndk/s3cmd-yandex
   script:
-    - cat /root/.s3cfg
+      - envsubst </root/.s3cfg >/root/.s3cfg.tmp && mv -f /root/.s3cfg.tmp /root/.s3cfg
+      - s3cmd put --recursive build/ s3://${TARGET_BACKET}/
