@@ -4,9 +4,16 @@ stages:
 
 build:
   stage: build
-  image: cr.yandex/crprd8fjvm5h9q7qgndk/node-with-tools
+  image: node
   script:
       - npm install
       - npm run build
-      - ls build
-      - envsubst </root/.s3cfg >/root/.s3cfg.tmp && mv -f /root/.s3cfg.tmp /root/.s3cfg
+  artifacts:
+    paths:
+      - build/
+
+deploy:
+  stage: deploy
+  image: cr.yandex/crprd8fjvm5h9q7qgndk/s3cmd-yandex
+  script:
+    - s3cmd put --recursive build/* s3://mozhno-pay-test/${TARGET_BACKET}
