@@ -44,6 +44,7 @@ metadata:
   name: customer-web-frontend
   namespace: mozhno-pay
 spec:
+  type: NodePort
   selector:
     app: customer-web-frontend
   ports:
@@ -51,6 +52,7 @@ spec:
     protocol: TCP
     port: 80
     targetPort: http
+    nodePort: 30001
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
