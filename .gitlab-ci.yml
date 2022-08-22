@@ -8,7 +8,7 @@ variables:
   CONTAINER_TAG: $CI_COMMIT_SHORT_SHA
 
 build-code:
-  stage: build
+  stage: build-code
   image: node
   script:
       - npm install
@@ -31,7 +31,7 @@ build-container:
       --dockerfile Dockerfile
       --destination "$CI_REGISTRY_IMAGE/$CONTAINER_NAME:$CONTAINER_TAG"
 
-deploy-k8s:
+deploy:
   stage: deploy
   image: cr.yandex/crprd8fjvm5h9q7qgndk/kubectl-with-tools
   dependencies: []
