@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mozhno-pay
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/dockerconfigjson
+metadata:
+  name: creg-creds-customer-web-frontend
+  namespace: mozhno-pay
+data:
+  .dockerconfigjson: ${REGISTRY_CREDENTIALS}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-web-frontend
+  namespace: mozhno-pay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-web-frontend
+  template:
+    metadata:
+      namespace: mozhno-pay
+      labels:
+        app: customer-web-frontend
+    spec:
+      containers:
+        - name: customer-web-frontend
+          image: ${CI_REGISTRY_IMAGE}/${CONTAINER_NAME}:${CONTAINER_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+      imagePullSecrets:
+        - name: creg-creds-customer-web-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-web-frontend
+  namespace: mozhno-pay
+spec:
+  selector:
+    app: customer-web-frontend
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: customer-web-frontend
+  namespace: mozhno-pay
+  annotations:
+    ingress.alb.yc.io/group-name: customer-web
+    ingress.alb.yc.io/subnets: ${SUBNET_IDS}
+    ingress.alb.yc.io/external-ipv4-address: ${EXTERNAL_IP}
+    ingress.alb.yc.io/protocol: http
+spec:
+  tls:
+    - hosts:
+        - ${EXTERNAL_HOST}
+      secretName: yc-certmgr-cert-id-${HTTPS_CERTIFICATE_ID}
+  rules:
+    - host: ${EXTERNAL_HOST}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-web-frontend
+                port:
+                  name: http
