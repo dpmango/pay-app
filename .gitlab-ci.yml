@@ -7,16 +7,15 @@ variables:
   CONTAINER_NAME: customer-web-frontend
   CONTAINER_TAG: $CI_COMMIT_SHORT_SHA
 
-cache:
-  key:
-    files:
-      - package-lock.json
-  paths:
-    - node_modules/
-
 build-code:
   stage: build-code
   image: node
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
   script:
       - npm install
       - npm run build
