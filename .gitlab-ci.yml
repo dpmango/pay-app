@@ -1,52 +1,6 @@
-stages:
-  - build-code
-  - build-container
-  - deploy
-
 variables:
   CONTAINER_NAME: customer-web-frontend
-  CONTAINER_TAG: $CI_COMMIT_SHORT_SHA
 
-build-code:
-  stage: build-code
-  image: node
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - node_modules/
-  script:
-      - npm install
-      - npm run build
-  artifacts:
-    paths:
-      - build/
-
-build-container:
-  stage: build-container
-  image:
-    name: gcr.io/kaniko-project/executor:v1.8.1-debug
-    entrypoint: [""]
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD | base64)\"}}}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
-      --context .
-      --dockerfile Dockerfile
-      --destination "$CI_REGISTRY_IMAGE/$CONTAINER_NAME:$CONTAINER_TAG"
-
-deploy:
-  stage: deploy
-  image: cr.yandex/crprd8fjvm5h9q7qgndk/kubectl-with-tools
-  dependencies: []
-  script:
-    - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
-    - kubectl config set-context default --cluster=k8s --user=admin
-    - kubectl config use-context default
-    - REGISTRY_CREDENTIALS="{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n $KUBE_TO_GITLAB_USER:$KUBE_TO_GITLAB_PASSWORD | base64 --wrap=0)\"}}}"
-    - export REGISTRY_CREDENTIALS="$(echo -n $REGISTRY_CREDENTIALS | base64 --wrap=0)"
-    - envsubst <k8s.yml >k8s.yml.tmp && mv -f k8s.yml.tmp k8s.yml
-    - kubectl apply -f k8s.yml
+include:
+  - project: devops/ci-jobs
+    file: frontend-simple.yml
