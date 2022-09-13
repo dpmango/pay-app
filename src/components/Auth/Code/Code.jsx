@@ -21,6 +21,7 @@ const Code = observer(({ tab, className }) => {
 
   const handleValidation = (values) => {
     const errors = {};
+    console.log({ values });
     if (!values.code) {
       errors.code = 'Введите код';
     } else if (values.code.length !== 4) {
@@ -66,6 +67,7 @@ const Code = observer(({ tab, className }) => {
                     value={field.value}
                     error={meta.touched && meta.error}
                     onChange={(v) => {
+                      console.log({ touched });
                       setFieldValue(field.name, v);
                       setFieldError(field.name);
                     }}
@@ -75,7 +77,7 @@ const Code = observer(({ tab, className }) => {
             </div>
 
             <div className={st.cta}>
-              <Button type="submit" disabled={Object.keys(touched).length === 0 || !isValid} block>
+              <Button type="submit" disabled={!isValid} block>
                 Отправить
               </Button>
             </div>
