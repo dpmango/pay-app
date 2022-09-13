@@ -1,21 +1,42 @@
 import React, { lazy, Suspense, useContext } from 'react';
-import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
-import { Spinner } from '@ui';
-import Layout from '@c/Layout/';
-import { Home, Profile, Contacts, Payment } from '@c/Routes';
+import { SessionStoreContext } from '@store';
+import { Home, Profile, Contacts, Payment, Auth } from '@c/Routes';
+
+const ProtectedRoute = observer(() => {
+  const { token } = useContext(SessionStoreContext);
+
+  if (!token) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  return <Outlet />;
+});
 
 const Router = () => (
   <BrowserRouter>
-    <Layout variant="main">
-      <Routes>
-        <Route path="/" element={<Home tab="purchases" />} />
-        <Route path="/shops" element={<Home tab="shops" />} />
-        <Route path="/pay/:id" element={<Payment />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/contacts" element={<Contacts />} />
-      </Routes>
-    </Layout>
+    <Routes>
+      <Route element={<ProtectedRoute />}>
+        <Route index element={<Home tab="purchases" />} />
+        <Route path="shops" element={<Home tab="shops" />} />
+        <Route path="pay/:id" element={<Payment />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="contacts" element={<Contacts />} />
+      </Route>
+
+      <Route path="auth" element={<Auth />} />
+
+      <Route
+        path="*"
+        element={
+          <div className="container">
+            <h2>404 Not Found</h2>
+          </div>
+        }
+      />
+    </Routes>
   </BrowserRouter>
 );
 

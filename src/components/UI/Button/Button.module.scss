@@ -7,14 +7,16 @@
   line-height: calc(26 / 20);
   padding: 23px 30px;
   border-radius: 11px;
-  transition: background 0.25s $ease, color 0.25s $ease;
+  transition: background 0.25s $ease, color 0.25s $ease, box-shadow 0.25s $ease;
 
   &._primary {
     background: $colorPrimary;
     color: white;
+    box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
 
     &:hover {
       background: $colorAccent;
+      box-shadow: none;
     }
 
     &._outline {
@@ -30,16 +32,12 @@
     }
 
     &[disabled] {
-      color: rgba(#000, 0.3);
-      border-color: rgba(#000, 0.3);
+      background: #b8d1e4;
+      box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+      border-color: #b8d1e4;
+      color: white;
       cursor: not-allowed;
       pointer-events: none;
-
-      &:hover {
-        background: transparent;
-        color: rgba(#000, 0.3);
-        border-color: rgba(#000, 0.3);
-      }
     }
   }
 

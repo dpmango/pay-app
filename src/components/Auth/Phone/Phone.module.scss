@@ -1,0 +1,66 @@
+.container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+  color: $colorGray2;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  &Body {
+    margin: auto 0;
+    padding: 16px 30px 32px;
+  }
+
+  :global .PhoneInput {
+    background: #fff;
+    box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+    border-radius: 11px;
+    padding: 0;
+
+    &Country {
+      margin-right: 10px;
+      padding-left: 14px;
+    }
+
+    &CountryIcon {
+      width: 18px;
+      height: 13px;
+      border: 0;
+      box-shadow: none;
+    }
+
+    &CountrySelectArrow {
+      opacity: 1;
+    }
+
+    &Input {
+      border: 0;
+      box-shadow: none;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      color: $fontColor;
+      padding: 17px 14px 16px 0;
+
+      &:placeholder {
+        color: $colorGray;
+      }
+    }
+  }
+}
+
+.cta {
+  margin-top: auto;
+}

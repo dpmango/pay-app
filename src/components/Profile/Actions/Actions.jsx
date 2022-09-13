@@ -4,12 +4,17 @@ import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
+import { SessionStoreContext } from '@store';
 
 import st from './Actions.module.scss';
+import { useCallback } from 'react';
 
 const Actions = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
+  const sessionContext = useContext(SessionStoreContext);
+
+  const handleLogout = useCallback(() => {
+    sessionContext.logout();
+  }, []);
 
   return (
     <>
@@ -20,13 +25,13 @@ const Actions = observer(({ className }) => {
               <SvgIcon name="question" />
               <span>Часто задаваемые вопросы</span>
             </Link>
-            <Link to="/" className={st.navLink}>
+            {/* <Link to="/" className={st.navLink}>
               <SvgIcon name="settings" />
               <span>Настройки</span>
-            </Link>
-            <Link to="/" className={cns(st.navLink, st._danger)}>
+            </Link> */}
+            <a href="#" className={cns(st.navLink, st._danger)} onClick={handleLogout}>
               <span>Выйти из приложения</span>
-            </Link>
+            </a>
           </div>
 
           <div className={st.app}>

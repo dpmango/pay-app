@@ -32,14 +32,16 @@ const Stories = observer(({ className }) => {
   return (
     <>
       <section className={cns(st.container, className)}>
-        <Swiper spaceBetween={14} slidesPerView={'auto'}>
-          {stories &&
-            stories.map((story) => (
-              <SwiperSlide key={story.id}>
-                <Story {...story} />
-              </SwiperSlide>
-            ))}
-        </Swiper>
+        <div className="container">
+          <Swiper spaceBetween={14} slidesPerView={'auto'}>
+            {stories &&
+              stories.map((story) => (
+                <SwiperSlide key={story.id}>
+                  <Story {...story} />
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        </div>
       </section>
     </>
   );

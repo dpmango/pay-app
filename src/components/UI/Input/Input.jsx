@@ -30,6 +30,7 @@ const Input = ({
   error,
   showError,
   cardNumber,
+  children,
   ...props
 }) => {
   const id = useMemo(() => {
@@ -100,6 +101,8 @@ const Input = ({
       )}
 
       <div className={st.input_wrapper}>
+        {children}
+
         {props.type === 'textarea' ? (
           <textarea {...inputProps} />
         ) : mask ? (
@@ -144,6 +147,7 @@ Input.propTypes = {
   mask: PropTypes.string,
   cardNumber: PropTypes.bool,
   style: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 Input.defaultProps = {

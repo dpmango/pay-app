@@ -6,7 +6,7 @@ export default {
   },
   alive: async (req) => {
     /**
-      @sessionId string
+      @token string
       @cartId string
     */
     return api.post(endpoints.session.alive, req);

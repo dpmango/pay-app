@@ -1,5 +1,4 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { LOCAL_STORAGE_DEV_SECTIONS } from '@config/localStorage';
 
 export default class UiStore {
   prevModal = null;

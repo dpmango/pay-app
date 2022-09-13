@@ -1,0 +1,20 @@
+.header {
+  display: block;
+  z-index: 9;
+  background: transparent;
+  backface-visibility: hidden;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding: 28px 0 26px;
+}
+
+.logo {
+  font-size: 0;
+
+  svg {
+    font-size: 30px;
+  }
+}
