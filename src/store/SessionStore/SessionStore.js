@@ -1,91 +1,47 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import axios from 'axios';
+import Cookies from 'js-cookie';
 
-import { LOCAL_STORAGE_SESSION } from '@config/localStorage';
+import { AUTH_TOKEN_COOKIE } from '@config/cookie';
 import service from './api-service';
 
 export default class SessionStore {
-  sessionId = null;
-  sessionNumber = null;
+  token = null;
+  phone = null;
+  profile = {};
 
   constructor() {
     makeAutoObservable(this);
 
-    // this.init();
+    this.init();
   }
   // inner actions
   setSession(newSession) {
-    const { sessionId, sessionNumber } = newSession;
+    const { token } = newSession;
 
     runInAction(() => {
-      this.sessionId = sessionId;
-      this.sessionNumber = sessionNumber;
-
-      localStorage.setItem(LOCAL_STORAGE_SESSION, JSON.stringify(newSession));
+      this.token = token;
+      Cookies.set(AUTH_TOKEN_COOKIE, token);
     });
   }
 
-  // api actions
-  /**
-   @action init
-   @description
-    сперва пытаемся получить сессию из localStorage либо создаем новую
-    делаем запрос на alive сессии
-    при ошибках пересоздаем сессию
-  **/
+  setPhone(phone) {
+    this.phone = phone;
+  }
+
+  setProfile(profile) {
+    this.profile = {
+      ...this.profile,
+      ...profile,
+    };
+  }
+
   async init() {
-    // migration
-    let useMigration = false;
-    let sessionId = null;
-    let sessionNumber = null;
+    const token = Cookies.get(AUTH_TOKEN_COOKIE);
 
-    // ищет последнюю актуальную версию сессии. every позволяет выйти из цикла
-    const versionsList = ['session_0.0.1'];
-    versionsList.reverse().every((key) => {
-      const lsSession = localStorage.getItem(key);
-      if (lsSession) {
-        const lsSessionObj = JSON.parse(lsSession);
-
-        sessionId = lsSessionObj.sessionId;
-        sessionNumber = lsSessionObj.sessionNumber;
-
-        useMigration = true;
-
-        return false;
-      }
-
-      return true;
-    });
-
-    // уже запомнили в переменную, очищаем старые версии
-    versionsList.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-
-    if (localStorage.getItem(LOCAL_STORAGE_SESSION) || useMigration) {
-      if (localStorage.getItem(LOCAL_STORAGE_SESSION)) {
-        // даже если используются миграция, в приоритете данные из актуальной версии LS
-        const lsSession = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SESSION));
-
-        sessionId = lsSession.sessionId;
-        sessionNumber = lsSession.sessionNumber;
-      }
-
-      runInAction(() => {
-        this.sessionId = sessionId;
-        this.sessionNumber = sessionNumber;
-      });
-
-      let newSessionOnErr = true;
-      try {
-        await this.aliveSession({ sessionId });
-      } catch (err) {
-        if (newSessionOnErr && err.response && [400, 404].includes(err.response.status)) {
-          await this.createSession();
-        }
-      }
+    if (token) {
+      await this.aliveSession({ token });
     } else {
-      await this.createSession();
+      // await this.createSession();
     }
   }
 
@@ -95,32 +51,25 @@ export default class SessionStore {
 
     if (err) throw err;
 
-    const { sessionId, sessionNumber } = data;
+    const { token } = data;
 
-    this.setSession({ sessionId, sessionNumber });
+    this.setSession({ token });
 
     return data;
   }
 
   async aliveSession(req) {
-    const [err, result] = await service.alive(req);
+    // const [err, result] = await service.alive(req);
 
-    if (err) throw err;
+    // if (err) throw err;
+    this.setSession(req);
 
-    return result;
+    // return result;
   }
 
-  // multitab ls feature
-  hydrateStore() {
-    const lsSession = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SESSION));
-
-    const { sessionId, sessionNumber } = lsSession;
-
-    runInAction(() => {
-      this.sessionId = sessionId;
-      this.sessionNumber = sessionNumber;
-    });
-
-    localStorage.setItem(LOCAL_STORAGE_SESSION, localStorage.getItem(LOCAL_STORAGE_SESSION));
+  async logout() {
+    this.token = null;
+    this.phone = null;
+    Cookies.remove(AUTH_TOKEN_COOKIE);
   }
 }

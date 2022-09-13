@@ -3,21 +3,25 @@ import PropTypes from 'prop-types';
 import cns from 'classnames';
 
 import Header from '@c/Layout/Header';
+import HeaderSimple from '@c/Layout/HeaderSimple';
 
 import st from './Layout.module.scss';
 
 const Variants = {
   MAIN: 'main',
+  CLEAR: 'clear',
 };
 
 const VariantClasses = {
   [Variants.MAIN]: '',
+  [Variants.CLEAR]: st._clear,
 };
 
 const Layout = ({ variant, children }) => {
   return (
     <div className={cns(st.layout, variant && VariantClasses[variant])}>
-      <Header className={st.header} />
+      {variant === Variants.MAIN && <Header className={st.header} />}
+      {variant === Variants.CLEAR && <HeaderSimple />}
 
       <main className={st.main}>{children}</main>
     </div>
@@ -30,7 +34,7 @@ Layout.propTypes = {
 };
 
 Layout.defaultProps = {
-  variant: Variants.SIMPLE,
+  variant: Variants.MAIN,
 };
 
 export default Layout;

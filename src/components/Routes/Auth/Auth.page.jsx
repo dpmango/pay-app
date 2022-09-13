@@ -3,22 +3,22 @@ import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 
 import Layout from '@c/Layout';
-import Contacts from '@c/Contacts';
+import { Auth } from '@c/Auth';
 
-import st from './Profile.module.scss';
+import st from './Auth.module.scss';
 
-const ContactsPage = observer(() => {
+const AuthPage = observer(() => {
   // const uiContext = useContext(UiStoreContext);
 
   return (
-    <Layout variant="main">
+    <Layout variant="clear">
       <Helmet>
-        <title>Contacts</title>
+        <title>Auth</title>
       </Helmet>
 
-      <Contacts className={st.contacts} />
+      <Auth className={st.auth} />
     </Layout>
   );
 });
 
-export default ContactsPage;
+export default AuthPage;

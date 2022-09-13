@@ -16,7 +16,7 @@ const Info = observer(({ className }) => {
       <section className={cns(st.container, className)}>
         <div className="container">
           <div className={st.head}>
-            <Avatar name="АС" variant="big" />
+            <Avatar variant="big" />
             <div className={st.title}>
               Здравствуйте, <br />
               Александр!
@@ -30,12 +30,12 @@ const Info = observer(({ className }) => {
               icon="phone"
               className={st.gridCard}
             />
-            <Tile
+            {/* <Tile
               title="alex@mail.ru"
               description="Эл. почта"
               icon="email"
               className={st.gridCard}
-            />
+            /> */}
             <Tile
               title="Карта Visa *8644"
               description="Способ оплаты"

@@ -16,7 +16,7 @@ function readBynary(file) {
 
 export default {
   upload: async (req) => {
-    // @sessionId string
+    // @token string
     // @file binary blob
 
     const formData = new FormData();

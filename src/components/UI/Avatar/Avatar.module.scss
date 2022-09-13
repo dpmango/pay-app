@@ -13,7 +13,8 @@
     width: 48px;
     height: 48px;
 
-    .name {
+    .name,
+    .icon {
       font-size: 22px;
     }
   }
@@ -22,9 +23,14 @@
     width: 87px;
     height: 87px;
 
-    .name {
+    .name,
+    .icon {
       font-size: 42px;
     }
+  }
+
+  &._empty {
+    background: $colorPrimary;
   }
 }
 
@@ -36,4 +42,8 @@
 
 .name {
   font-weight: 600;
+}
+
+.icon {
+  line-height: 0.7;
 }

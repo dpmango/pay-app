@@ -5,7 +5,7 @@ export const purchases = [
       title: 'АВТОDOM',
       logo: '/img/logo-1@2x.png',
     },
-    description: '23.05.22',
+    status: 2,
     payments: {
       current: 4200,
       total: 8400,
@@ -17,7 +17,7 @@ export const purchases = [
       title: 'АвтоСпецЦентр',
       logo: '/img/logo-2@2x.png',
     },
-    description: '23.05.22',
+    status: 1,
     payments: {
       current: 640,
       total: 2560,
@@ -30,7 +30,7 @@ export const purchases = [
       title: 'АВТОDOM',
       logo: '/img/logo-1@2x.png',
     },
-    description: '23.05.22',
+    status: 2,
     payments: {
       current: 28000,
       total: 40000,

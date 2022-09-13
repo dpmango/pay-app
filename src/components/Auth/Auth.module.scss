@@ -1,0 +1,13 @@
+.container {
+  flex: 1 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+
+  :global .container {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+}

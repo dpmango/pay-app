@@ -3,6 +3,11 @@
   flex-direction: column;
   min-height: 100vh;
   // overflow: hidden;
+  &._clear {
+    .main {
+      padding-top: 0;
+    }
+  }
 }
 
 .header {
