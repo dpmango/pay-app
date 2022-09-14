@@ -1,0 +1,92 @@
+.container {
+  position: relative;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    font-size: 26px;
+    margin-right: 12px;
+  }
+
+  span {
+    display: inline-block;
+    padding-bottom: 5px;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: calc(28 / 22);
+    color: $fontColor;
+  }
+}
+
+.payments {
+  margin-top: 30px;
+  display: flex;
+  margin-right: -10px;
+}
+
+.payment {
+  flex: 0 0 calc(50% - 10px);
+  min-width: 1px;
+  margin-right: 10px;
+  padding: 5px 12px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
+  border-radius: 11px;
+  text-align: center;
+
+  &Title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: calc(36 / 28);
+    color: $fontColor;
+  }
+
+  &Desc {
+    margin-top: -4px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: calc(21 / 16);
+    color: $colorGray;
+  }
+}
+
+.monts {
+  margin-top: 20px;
+  display: flex;
+  margin-right: -5px;
+}
+
+.month {
+  flex: 0 0 $col3;
+  padding-right: 5px;
+
+  button {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+.cta {
+  margin-top: 24px;
+}
+
+.link {
+  margin-top: 22px;
+  text-align: center;
+
+  a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: calc(21 / 16);
+    color: $colorGray;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
