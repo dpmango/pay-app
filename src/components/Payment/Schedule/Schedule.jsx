@@ -21,35 +21,33 @@ const Schedule = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
 
   return (
-    <>
-      <section className={cns(st.container, className)}>
-        <div className="container">
-          <div className={st.box}>
-            <div className={st.head}>График платежей</div>
+    <section className={cns(st.container, className)}>
+      <div className="container">
+        <div className={st.box}>
+          <div className={st.head}>График платежей</div>
 
-            <div className={st.list}>
-              {payments &&
-                payments.map((payment) => (
-                  <ScheduleCard {...payment} className={st.listCard} key={payment.id} />
-                ))}
+          <div className={st.list}>
+            {payments &&
+              payments.map((payment) => (
+                <ScheduleCard {...payment} className={st.listCard} key={payment.id} />
+              ))}
+          </div>
+
+          <div className={st.tiles}>
+            <div className={st.tile}>
+              <div className={st.tileLabel}>Осталось оплатить</div>
+              <div className={st.tileValue}>4200 ₽</div>
             </div>
-
-            <div className={st.tiles}>
-              <div className={st.tile}>
-                <div className={st.tileLabel}>Осталось оплатить</div>
-                <div className={st.tileValue}>4200 ₽</div>
-              </div>
-              <div className={st.tile}>
-                <div className={st.tileLabel}>Карта Visa *8644</div>
-                <div className={st.tileValue}>
-                  <Image src="/img/payment/visa.png" have2x={true} />
-                </div>
+            <div className={st.tile}>
+              <div className={st.tileLabel}>Карта Visa *8644</div>
+              <div className={st.tileValue}>
+                <Image src="/img/payment/visa.png" have2x={true} />
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 });
 

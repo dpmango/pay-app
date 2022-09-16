@@ -28,7 +28,7 @@ const Avatar = ({ className, img, name, variant = 'default', ...props }) => {
 
   return (
     <div className={classStyle} {...props}>
-      {img && <img className={st.img} alt={name} />}
+      {img && <img src={img} className={st.img} alt={name} />}
       {name && <span className={st.name}>{name}</span>}
       {empty && (
         <span className={st.icon}>

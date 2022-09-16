@@ -41,40 +41,36 @@ const Header = observer(({ className }) => {
   };
 
   return (
-    <>
-      <header className={cns(st.header, className)}>
-        <div className="container">
-          <div className={st.wrapper}>
-            <div
-              className={cns(st.pagename, showBack && st._navigatable)}
-              onClick={handleBackClick}>
-              <SvgIcon name="arrow-left" />
-              <span>{pageName}</span>
+    <header className={cns(st.header, className)}>
+      <div className="container">
+        <div className={st.wrapper}>
+          <div className={cns(st.pagename, showBack && st._navigatable)} onClick={handleBackClick}>
+            <SvgIcon name="arrow-left" />
+            <span>{pageName}</span>
+          </div>
+
+          <Link to="/profile" className={st.user}>
+            <Avatar name="АС" />
+            <span className={st.userName}>Александр</span>
+          </Link>
+
+          <Link to="/chat" className={st.chat}>
+            <SvgIcon name="chat" />
+            <div className={st.chatCounter}>
+              <span>2</span>
             </div>
+          </Link>
 
-            <Link to="/profile" className={st.user}>
-              <Avatar name="АС" />
-              <span className={st.userName}>Александр</span>
-            </Link>
-
-            <Link to="/contacts" className={st.chat}>
-              <SvgIcon name="chat" />
-              <div className={st.chatCounter}>
-                <span>2</span>
-              </div>
-            </Link>
-
-            {/* <div className={st.hamburger}>
+          {/* <div className={st.hamburger}>
               <div className={cns('hamburger', menuOpened && 'is-active')} onClick={() => setMenuOpened(!menuOpened)}>
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
             </div> */}
-          </div>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 });
 

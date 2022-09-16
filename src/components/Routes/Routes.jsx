@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 import { SessionStoreContext } from '@store';
-import { Home, Profile, Contacts, Payment, Auth } from '@c/Routes';
+import { Auth, Home, Profile, Contacts, Chat, Payment, PaymentProcessing } from '@c/Routes';
 
 const ProtectedRoute = observer(() => {
   const { token } = useContext(SessionStoreContext);
@@ -22,8 +22,10 @@ const Router = () => (
         <Route index element={<Home tab="purchases" />} />
         <Route path="shops" element={<Home tab="shops" />} />
         <Route path="pay/:id" element={<Payment />} />
+        <Route path="pay/processing" element={<PaymentProcessing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="contacts" element={<Contacts />} />
+        <Route path="chat" element={<Chat />} />
       </Route>
 
       <Route path="auth" element={<Auth />} />

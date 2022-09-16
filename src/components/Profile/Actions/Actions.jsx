@@ -17,30 +17,28 @@ const Actions = observer(({ className }) => {
   }, []);
 
   return (
-    <>
-      <section className={cns(st.container, className)}>
-        <div className="container">
-          <div className={st.nav}>
-            <Link to="/" className={st.navLink}>
-              <SvgIcon name="question" />
-              <span>Часто задаваемые вопросы</span>
-            </Link>
-            {/* <Link to="/" className={st.navLink}>
+    <section className={cns(st.container, className)}>
+      <div className="container">
+        <div className={st.nav}>
+          <Link to="/" className={st.navLink}>
+            <SvgIcon name="question" />
+            <span>Часто задаваемые вопросы</span>
+          </Link>
+          {/* <Link to="/" className={st.navLink}>
               <SvgIcon name="settings" />
               <span>Настройки</span>
             </Link> */}
-            <a href="#" className={cns(st.navLink, st._danger)} onClick={handleLogout}>
-              <span>Выйти из приложения</span>
-            </a>
-          </div>
-
-          <div className={st.app}>
-            <div className={st.appName}>Контакты</div>
-            <div className={st.appVersion}>0.3.1</div>
-          </div>
+          <a href="#" className={cns(st.navLink, st._danger)} onClick={handleLogout}>
+            <span>Выйти из приложения</span>
+          </a>
         </div>
-      </section>
-    </>
+
+        <div className={st.app}>
+          <div className={st.appName}>Контакты</div>
+          <div className={st.appVersion}>0.3.1</div>
+        </div>
+      </div>
+    </section>
   );
 });
 

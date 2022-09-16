@@ -63,7 +63,9 @@ const ModalPay = observer(({ className }) => {
       </div>
 
       <div className={st.cta}>
-        <Button block>Оплатить {formatPrice(paymentAmount)} ₽</Button>
+        <Button type="link" to="/pay/processing" block>
+          Оплатить {formatPrice(paymentAmount)} ₽
+        </Button>
       </div>
     </Modal>
   );

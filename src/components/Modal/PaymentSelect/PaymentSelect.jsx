@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Link } from 'react-router-dom';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext } from '@store';
@@ -16,10 +16,9 @@ const ModalPaymentSelect = observer(({ className }) => {
 
   const handleSubmit = useCallback(() => {
     if (paymentMode === 'new') {
-      console.log('should open new modal');
       uiContext.setModal('addCard');
     } else {
-      alert('redirect to payment api?');
+      alert('redirect to banking page');
     }
   }, [paymentMode]);
 
@@ -75,7 +74,7 @@ const ModalPaymentSelect = observer(({ className }) => {
       </div>
 
       <div className={st.cta}>
-        <Button block onClick={handleSubmit}>
+        <Button type="link" to="/pay/processing" block onClick={handleSubmit}>
           Оплатить {formatPrice(2100)} ₽
         </Button>
       </div>

@@ -12,40 +12,38 @@ const Info = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
 
   return (
-    <>
-      <section className={cns(st.container, className)}>
-        <div className="container">
-          <div className={st.head}>
-            <Avatar variant="big" />
-            <div className={st.title}>
-              Здравствуйте, <br />
-              Александр!
-            </div>
+    <section className={cns(st.container, className)}>
+      <div className="container">
+        <div className={st.head}>
+          <Avatar variant="big" />
+          <div className={st.title}>
+            Здравствуйте, <br />
+            Александр!
           </div>
+        </div>
 
-          <div className={st.grid}>
-            <Tile
-              title="+7 (954) 450-45-34"
-              description="Мобильный телефон"
-              icon="phone"
-              className={st.gridCard}
-            />
-            {/* <Tile
+        <div className={st.grid}>
+          <Tile
+            title="+7 (954) 450-45-34"
+            description="Мобильный телефон"
+            icon="phone"
+            className={st.gridCard}
+          />
+          {/* <Tile
               title="alex@mail.ru"
               description="Эл. почта"
               icon="email"
               className={st.gridCard}
             /> */}
-            <Tile
-              title="Карта Visa *8644"
-              description="Способ оплаты"
-              image="/img/payment/visa.png"
-              className={st.gridCard}
-            />
-          </div>
+          <Tile
+            title="Карта Visa *8644"
+            description="Способ оплаты"
+            image="/img/payment/visa.png"
+            className={st.gridCard}
+          />
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 });
 

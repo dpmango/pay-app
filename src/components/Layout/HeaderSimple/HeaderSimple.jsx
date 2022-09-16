@@ -12,17 +12,15 @@ const Header = observer(({ className }) => {
   // const [menuOpened, setMenuOpened] = useState(false);
 
   return (
-    <>
-      <header className={cns(st.header, className)}>
-        <div className="container">
-          <div className={st.wrapper}>
-            <div className={st.logo}>
-              <SvgIcon name="logo" />
-            </div>
+    <header className={cns(st.header, className)}>
+      <div className="container">
+        <div className={st.wrapper}>
+          <div className={st.logo}>
+            <SvgIcon name="logo" />
           </div>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 });
 

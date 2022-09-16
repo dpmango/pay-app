@@ -14,13 +14,15 @@ export default class UiStore {
     const timeoutms = this.prevModal ? 100 : 0;
 
     setTimeout(() => {
-      this.prevModal = this.activeModal;
-      this.activeModal = name;
-      if (params) {
-        this.modalParams = { ...params };
-      } else {
-        this.modalParams = null;
-      }
+      runInAction(() => {
+        this.prevModal = this.activeModal;
+        this.activeModal = name;
+        if (params) {
+          this.modalParams = { ...params };
+        } else {
+          this.modalParams = null;
+        }
+      });
     }, timeoutms);
   }
 

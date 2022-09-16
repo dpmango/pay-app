@@ -1,0 +1,160 @@
+.container {
+  padding: 5px 0 22px;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  :global .container {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.user {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+
+  &Avatar {
+    flex: 0 0 auto;
+    margin-right: 12px;
+  }
+  // &Content {
+  // }
+  &Name {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  &Status {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    &._online {
+      color: #01ce53;
+    }
+
+    &._offline {
+      color: $colorRed;
+    }
+  }
+}
+
+.scroller {
+  flex: 1 1 auto;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+
+  & + & {
+    margin-top: 14px;
+  }
+
+  &._in {
+    .message {
+      &Wrapper {
+        margin-right: auto;
+      }
+
+      &Text {
+        background: $colorBg;
+        border-radius: 11px 11px 11px 0;
+      }
+    }
+  }
+
+  &._out {
+    .message {
+      &Wrapper {
+        margin-left: auto;
+      }
+
+      &Text {
+        background: #fff;
+        border-radius: 11px 11px 0;
+      }
+
+      &Meta {
+        text-align: right;
+      }
+    }
+  }
+
+  &Wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+
+  &Text {
+    padding: 20px 24px;
+    font-size: 22px;
+    line-height: 28px;
+    color: #656565;
+  }
+
+  &Meta {
+    margin-top: 3px;
+    font-size: 14px;
+    line-height: 18px;
+    color: $colorGray;
+  }
+}
+
+.create {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e9e9e9;
+  border-radius: 11px 11px 10px;
+  overflow: hidden;
+
+  textarea {
+    display: block;
+    width: 100%;
+    resize: none;
+    border: 0;
+    box-shadow: none;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    padding: 20px 60px 20px 22px;
+    color: $fontColor;
+
+    &:placeholder {
+      color: $colorGray;
+    }
+  }
+
+  button {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding: 10px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: $colorPrimary;
+    transition: color 0.25s $ease;
+    font-size: 0;
+
+    svg {
+      font-size: 31px;
+    }
+
+    &:hover {
+      color: $fontColor;
+    }
+  }
+}
