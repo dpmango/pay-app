@@ -1,0 +1,76 @@
+.container {
+  padding: 20px 0 180px;
+}
+
+.head {
+  text-align: center;
+  color: $colorGray2;
+
+  &Title {
+    margin-bottom: 16px;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+.description {
+  margin-top: 16px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+}
+
+.wrapper {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 45px -7px -16px;
+}
+
+.col {
+  flex: 0 0 $col6;
+  max-width: $col6;
+  min-width: 1px;
+  padding: 0 7px;
+
+  &._full {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+.info {
+  text-align: center;
+  color: $colorGray2;
+}
+
+.cta {
+  position: fixed;
+  z-index: 5;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  padding: 16px 0 20px;
+  background: #f5f8fa;
+
+  &Link {
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+    text-decoration-line: underline;
+    color: $colorGray;
+    transition: color 0.25s $ease;
+    cursor: pointer;
+
+    &:hover {
+      color: $fontColor;
+    }
+  }
+}

@@ -1,0 +1,114 @@
+.upload {
+  position: relative;
+  margin-bottom: 16px;
+  background: #fff;
+  box-shadow: 0 4px 32px rgb(0 0 0 / 4%);
+  border-radius: 11px;
+  text-align: center;
+  overflow: hidden;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &._horizontal {
+    .trigger {
+      flex-direction: row;
+      justify-content: flex-start;
+      min-height: 124px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .image {
+      svg {
+        font-size: 66px;
+      }
+    }
+
+    .title {
+      margin-top: 0;
+      margin-left: 30px;
+      font-size: 16px;
+      text-align: left;
+    }
+  }
+}
+
+.trigger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 165px;
+  padding: 20px 16px;
+  cursor: pointer;
+
+  &:hover {
+    .title {
+      color: $fontColor;
+    }
+  }
+}
+
+.image {
+  font-size: 0;
+
+  svg {
+    font-size: 44px;
+  }
+}
+
+.title {
+  margin-top: 16px;
+  min-height: 30px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: calc(15 / 12);
+  color: #8d8d8d;
+  transition: color 0.25s $ease;
+}
+
+.radial {
+  margin-top: auto;
+  position: relative;
+  max-width: 56px;
+  margin-left: auto;
+  margin-right: auto;
+
+  > svg {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &Content {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    padding: 10px;
+    color: $colorPrimary;
+
+    :global .svg-icon {
+      font-size: 17px;
+    }
+
+    &._error {
+      color: $colorRed;
+    }
+  }
+}
