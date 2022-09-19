@@ -47,7 +47,11 @@ const Installment = observer(({ className }) => {
         </div>
 
         <div className={st.cta}>
-          <Button block onClick={() => {}}>
+          <Button
+            block
+            onClick={() => {
+              uiContext.setModal('error');
+            }}>
             Начать оформление
           </Button>
         </div>

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import Layout from '@c/Layout';
 import { PaymentScope, PaymentSchedule, PaymentOrder, PaymentInstallment } from '@c/Payment';
-import { ModalPay, ModalPaymentSelect, ModalAddCard } from '@c/Modal';
+import { ModalPay, ModalPaymentSelect, ModalAddCard, ModalError } from '@c/Modal';
 
 import st from './Payment.module.scss';
 
@@ -25,6 +25,7 @@ const PaymentPage = observer(() => {
       <ModalPay />
       <ModalPaymentSelect />
       <ModalAddCard />
+      <ModalError />
     </Layout>
   );
 });
