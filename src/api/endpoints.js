@@ -2,8 +2,13 @@ import { getEnv } from '@helpers';
 
 export default {
   session: {
-    create: 'api/session/create',
-    alive: 'api/session/alive',
+    create: 'login',
+    confirm: 'login/confirmation',
+    renew: 'login/renewal',
+  },
+
+  profile: {
+    read: 'profile',
   },
 
   file: {

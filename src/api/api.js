@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 import { getEnv } from '@helpers';
+import { AUTH_TOKEN_COOKIE } from '@config/cookie';
 
 const api = axios.create({
   baseURL: getEnv('GATEWAY_URL'),
@@ -12,8 +15,15 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((x) => {
-  console.log(`${x.method.toUpperCase()} | ${x.url}`, x.params, x.data);
+  console.log(`${x.method.toUpperCase()} | ${x.url}`, x.data);
 
+  const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
+  if (accessToken) {
+    x.headers = {
+      ...x.headers,
+      ['Authorization']: `Bearer ${accessToken}`,
+    };
+  }
   return x;
 });
 
@@ -22,10 +32,5 @@ api.interceptors.response.use((x) => {
 
   return x;
 });
-
-export const setDefaultAxiosParam = (param, value) => {
-  api.defaults.params = api.defaults.params || {};
-  api.defaults.params[param] = value;
-};
 
 export default api;

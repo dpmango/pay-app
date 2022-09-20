@@ -1,14 +1,35 @@
-import { api, endpoints } from '@api';
+import { api, endpoints, withVersion } from '@api';
 
 export default {
-  create: async () => {
-    return api.post(endpoints.session.create);
+  /**
+    @method "PhoneOTP",
+    @phone string
+  */
+  create: async (req) => {
+    return api.put(endpoints.session.create, req, {
+      ...withVersion(),
+    });
   },
-  alive: async (req) => {
-    /**
-      @token string
-      @cartId string
-    */
-    return api.post(endpoints.session.alive, req);
+  /**
+    @confirmationToken "PhoneOTP",
+    @confirmationCode string
+  */
+  confirm: async (req) => {
+    return api.put(endpoints.session.confirm, req, {
+      ...withVersion(),
+    });
+  },
+  /**
+    @refreshToken string
+  */
+  renew: async (req) => {
+    return api.put(endpoints.session.renew, req, {
+      ...withVersion(),
+    });
+  },
+  profile: async () => {
+    return api.get(endpoints.profile.read, {
+      ...withVersion(),
+    });
   },
 };

@@ -15,6 +15,7 @@ const formInitial = {
 };
 
 const Phone = observer(({ tab, className }) => {
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const sessionContext = useContext(SessionStoreContext);
@@ -35,10 +36,17 @@ const Phone = observer(({ tab, className }) => {
       if (loading) {
         return;
       }
-      sessionContext.setPhone(values.phone);
-      // setLoading(true);
 
-      let data = {};
+      setLoading(true);
+      await sessionContext
+        .createSession({
+          method: 'PhoneOTP',
+          phone: values.phone.replace('+', ''),
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+      setLoading(false);
     },
     [loading]
   );
@@ -82,7 +90,7 @@ const Phone = observer(({ tab, className }) => {
             </div>
 
             <div className={st.cta}>
-              <Button type="submit" disabled={touched && !isValid} block>
+              <Button loading={loading} type="submit" disabled={touched && !isValid} block>
                 Подтвердить
               </Button>
             </div>

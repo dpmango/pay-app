@@ -14,6 +14,7 @@ const formInitial = {
 };
 
 const Code = observer(({ tab, className }) => {
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const sessionContext = useContext(SessionStoreContext);
@@ -21,7 +22,7 @@ const Code = observer(({ tab, className }) => {
 
   const handleValidation = (values) => {
     const errors = {};
-    console.log({ values });
+
     if (!values.code) {
       errors.code = 'Введите код';
     } else if (values.code.length !== 4) {
@@ -36,11 +37,19 @@ const Code = observer(({ tab, className }) => {
         return;
       }
 
-      await sessionContext.setSession({ token: '12345' });
-      navigate('/', { replace: true });
-      // setLoading(true);
+      setLoading(true);
+      await sessionContext
+        .confirmSession({
+          code: values.code,
+        })
+        .then(() => {
+          navigate('/', { replace: true });
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
 
-      let data = {};
+      setLoading(false);
     },
     [loading]
   );
@@ -67,7 +76,6 @@ const Code = observer(({ tab, className }) => {
                     value={field.value}
                     error={meta.touched && meta.error}
                     onChange={(v) => {
-                      console.log({ touched });
                       setFieldValue(field.name, v);
                       setFieldError(field.name);
                     }}
@@ -77,7 +85,7 @@ const Code = observer(({ tab, className }) => {
             </div>
 
             <div className={st.cta}>
-              <Button type="submit" disabled={!isValid} block>
+              <Button loading={loading} type="submit" disabled={!isValid} block>
                 Отправить
               </Button>
             </div>

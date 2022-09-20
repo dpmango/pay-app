@@ -13,11 +13,14 @@ import {
   Payment,
   PaymentProcessing,
 } from '@c/Routes';
+import Cookies from 'js-cookie';
+import { AUTH_TOKEN_COOKIE } from '@config/cookie';
 
 const ProtectedRoute = observer(() => {
-  const { token } = useContext(SessionStoreContext);
+  // const { accessToken } = useContext(SessionStoreContext);
+  const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
 
-  if (!token) {
+  if (!accessToken) {
     return <Navigate to="/auth" replace />;
   }
 
