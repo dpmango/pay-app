@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar, Tile } from '@ui';
@@ -10,6 +11,7 @@ import st from './Chat.module.scss';
 
 const Chat = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('chat');
 
   return (
     <section className={cns(st.container, className)}>
@@ -19,8 +21,8 @@ const Chat = observer(({ className }) => {
             <Avatar img="/img/avatar.svg" />
           </div>
           <div className={st.userContent}>
-            <div className={st.userName}>Оператор</div>
-            <div className={cns(st.userStatus, st._online)}>Онлайн</div>
+            <div className={st.userName}>{t('admin.title')}</div>
+            <div className={cns(st.userStatus, st._online)}>{t('admin.offline')}</div>
           </div>
         </div>
 
@@ -28,7 +30,7 @@ const Chat = observer(({ className }) => {
           <div className={cns(st.message, st._in)}>
             <div className={st.messageWrapper}>
               <div className={st.messageText}>Сейчас поможем 🥰</div>
-              <div className={st.messageMeta}>Оператор поддержки</div>
+              <div className={st.messageMeta}>{t('admin.meta')}</div>
             </div>
           </div>
           <div className={cns(st.message, st._out)}>
@@ -40,7 +42,7 @@ const Chat = observer(({ className }) => {
         </div>
 
         <div className={st.create}>
-          <textarea rows="1" placeholder="Текст сообщения"></textarea>
+          <textarea rows="1" placeholder={t('submit.placeholder')}></textarea>
           <button type="submit">
             <SvgIcon name="send" />
           </button>

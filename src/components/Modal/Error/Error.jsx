@@ -1,5 +1,6 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
@@ -12,6 +13,7 @@ const ErrorPay = observer(({ className }) => {
   const [loading, setLoading] = useState(false);
 
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('modalError');
 
   return (
     <Modal name="error" variant="center" className={className}>
@@ -19,11 +21,11 @@ const ErrorPay = observer(({ className }) => {
         <div className={st.icon}>
           <SvgIcon name="error-circle" />
         </div>
-        <div className={st.title}>Платеж не прошел</div>
-        <div className={st.description}>На вашей карте недостаточно средств</div>
+        <div className={st.title}>{t('title')}</div>
+        <div className={st.description}>{t('description')}</div>
         <div className={st.cta}>
           <Button block onClick={() => uiContext.resetModal()}>
-            Попробовать заново
+            {t('action')}
           </Button>
         </div>
       </div>

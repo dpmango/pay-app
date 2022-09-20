@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import { SvgIcon, Button, Image } from '@ui';
@@ -19,12 +20,13 @@ const radialStyle = buildStyles({
 
 const Schedule = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
 
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
         <div className={st.box}>
-          <div className={st.head}>График платежей</div>
+          <div className={st.head}>{t('title')}</div>
 
           <div className={st.list}>
             {payments &&
@@ -35,7 +37,7 @@ const Schedule = observer(({ className }) => {
 
           <div className={st.tiles}>
             <div className={st.tile}>
-              <div className={st.tileLabel}>Осталось оплатить</div>
+              <div className={st.tileLabel}>{t('rest')}</div>
               <div className={st.tileValue}>4200 ₽</div>
             </div>
             <div className={st.tile}>

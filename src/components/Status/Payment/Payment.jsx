@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
@@ -13,6 +14,7 @@ const Payment = observer(({ className }) => {
   const [status, setStatus] = useState(1);
   const [progress, setProgress] = useState(0);
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('await', { keyPrefix: 'payment' });
 
   const radialStyle = useMemo(() => {
     let pathColor, trailColor;
@@ -75,25 +77,20 @@ const Payment = observer(({ className }) => {
           <div className={st.info}>
             {status === 1 && (
               <>
-                <div className={st.infoTitle}>Ваш платеж в обработке</div>
-                <div className={st.infoDescription}>
-                  Платеж отправлен и находится в обработке. Срок обработки может составлять до 24
-                  часов
-                </div>
+                <div className={st.infoTitle}>{t('title')}</div>
+                <div className={st.infoDescription}>{t('description')}</div>
               </>
             )}
             {status === 2 && (
               <>
-                <div className={st.infoTitle}>Поздравляем!</div>
-                <div className={st.infoDescription}>Ваша рассрочка одобрена</div>
+                <div className={st.infoTitle}>{t('done.title')}</div>
+                <div className={st.infoDescription}>{t('done.description')}</div>
               </>
             )}
             {status === 3 && (
               <>
-                <div className={st.infoTitle}>Ошибка карты!</div>
-                <div className={st.infoDescription}>
-                  Неверно введены данные или карта просрочена
-                </div>
+                <div className={st.infoTitle}>{t('error.title')}</div>
+                <div className={st.infoDescription}>{t('error.description')}</div>
               </>
             )}
             <p
@@ -109,11 +106,11 @@ const Payment = observer(({ className }) => {
           <div className={cns(st.cta, progress === 100 && st._visible)}>
             {[1, 2].includes(status) ? (
               <Button type="link" to="/" block>
-                Продолжить
+                {t('actions.continue')}
               </Button>
             ) : (
               <Button block onClick={() => uiContext.setModal('paymentSelect')}>
-                Привязать карту
+                {t('actions.connect')}
               </Button>
             )}
           </div>

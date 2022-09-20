@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar } from '@ui';
@@ -15,6 +16,7 @@ const Header = observer(({ className }) => {
   const { pathname } = useLocation();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation('header');
 
   const showBack = useMemo(() => {
     return pathname !== '/';
@@ -22,17 +24,17 @@ const Header = observer(({ className }) => {
 
   const pageName = useMemo(() => {
     if (pathname === '/') {
-      return 'Покупки';
+      return t('menu.home');
     } else if (pathname.includes('shops')) {
-      return 'Магазины';
+      return t('menu.shops');
     } else if (pathname.includes('pay')) {
-      return 'Покупки';
+      return t('menu.pay');
     } else if (pathname.includes('profile')) {
-      return 'Профиль';
+      return t('menu.profile');
     } else if (pathname.includes('contacts')) {
-      return 'Контакты';
+      return t('menu.contacts');
     } else {
-      return 'Назад';
+      return t('menu.back');
     }
   }, [pathname]);
 

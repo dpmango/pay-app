@@ -1,5 +1,6 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ import st from './PaymentSelect.module.scss';
 const ModalPaymentSelect = observer(({ className }) => {
   const [paymentMode, setPaymentMode] = useState(1);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation('modalSelectPayment');
 
   const uiContext = useContext(UiStoreContext);
 
@@ -24,7 +26,7 @@ const ModalPaymentSelect = observer(({ className }) => {
 
   return (
     <Modal name="paymentSelect" className={className}>
-      <div className={st.title}>Способ оплаты</div>
+      <div className={st.title}>{t('title')}</div>
 
       <div className={st.payments}>
         <div
@@ -66,7 +68,7 @@ const ModalPaymentSelect = observer(({ className }) => {
           <div className={st.paymentImage}>
             <SvgIcon name="add-card" />
           </div>
-          <div className={st.paymentTitle}>Новая карта</div>
+          <div className={st.paymentTitle}>{t('newCard')}</div>
           <div className={st.paymentCheckbox}>
             <SvgIcon name="checkmark" />
           </div>
@@ -75,7 +77,7 @@ const ModalPaymentSelect = observer(({ className }) => {
 
       <div className={st.cta}>
         <Button type="link" to="/pay/processing" block onClick={handleSubmit}>
-          Оплатить {formatPrice(2100)} ₽
+          {t('action')} {formatPrice(2100)} ₽
         </Button>
       </div>
     </Modal>

@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Button, Image } from '@ui';
@@ -12,6 +13,7 @@ const Order = observer(({ className }) => {
   const [activeDropDown, setActiveDropDown] = useState(null);
 
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('pay', { keyPrefix: 'order' });
 
   const handleDropdownCLick = useCallback(
     (id) => {
@@ -84,10 +86,10 @@ const Order = observer(({ className }) => {
                       <thead>
                         <tr>
                           <td>№</td>
-                          <td>Название</td>
-                          <td>Кол-во</td>
-                          <td>Цена</td>
-                          <td>Сумма</td>
+                          <td>{t('table.name')}</td>
+                          <td>{t('table.amount')}</td>
+                          <td>{t('table.price')}</td>
+                          <td>{t('table.sum')}</td>
                         </tr>
                       </thead>
                     </table>
@@ -116,9 +118,9 @@ const Order = observer(({ className }) => {
                         <tr>
                           <td>№</td>
                           <td>Название</td>
-                          <td className="tar">Кол-во</td>
-                          <td className="tar">Цена</td>
-                          <td className="tar">Сумма</td>
+                          <td className="tar">{t('table.amoun')}</td>
+                          <td className="tar">{t('table.price')}</td>
+                          <td className="tar">{t('table.sum')}</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -155,7 +157,7 @@ const Order = observer(({ className }) => {
                 </div>
                 <div className={st.contentSection}>
                   <div className={cns(st.contentRow, st._primary)}>
-                    <div className={cns(st.contentLabel)}>Общая сумма</div>
+                    <div className={cns(st.contentLabel)}>{t('total')}</div>
                     <div className={st.contentValue}>1200 ₽</div>
                   </div>
                 </div>
@@ -163,7 +165,7 @@ const Order = observer(({ className }) => {
                 <div className={st.contentDownload}>
                   <a href="/uploads/order.pdf" target="_blank" className={st.contentDownloadLink}>
                     <SvgIcon name="file-pdf" />
-                    <span>Скачать PDF</span>
+                    <span>{t('download')}</span>
                   </a>
                 </div>
               </div>

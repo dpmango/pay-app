@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { useTranslation } from 'react-i18next';
 import 'react-phone-number-input/style.css';
 
 import { Button, Input } from '@ui';
@@ -17,15 +18,16 @@ const formInitial = {
 const Phone = observer(({ tab, className }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation('auth', { keyPrefix: 'phone' });
 
   const sessionContext = useContext(SessionStoreContext);
 
   const handleValidation = (values) => {
     const errors = {};
     if (!values.phone) {
-      errors.phone = 'Введите номер телефона';
+      errors.phone = t('validation.empty');
     } else if (!isValidPhoneNumber(values.phone)) {
-      errors.phone = 'Неверный формат';
+      errors.phone = t('validation.mask');
     }
 
     return errors;
@@ -61,7 +63,7 @@ const Phone = observer(({ tab, className }) => {
         {({ isValid, touched, isSubmitting, setFieldError }) => (
           <Form className={st.form}>
             <div className={cns(st.formBody)}>
-              <div className={st.title}>Ваш номер телефона</div>
+              <div className={st.title}>{t('title')}</div>
               <Field type="text" name="phone">
                 {({ field, form: { setFieldValue }, meta }) => (
                   <PhoneInput
@@ -91,7 +93,7 @@ const Phone = observer(({ tab, className }) => {
 
             <div className={st.cta}>
               <Button loading={loading} type="submit" disabled={touched && !isValid} block>
-                Подтвердить
+                {t('submit')}
               </Button>
             </div>
           </Form>

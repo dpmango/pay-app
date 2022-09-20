@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
@@ -13,6 +14,8 @@ const radialStyle = buildStyles({
 });
 
 const ShopCard = ({ id, company, description, status, payments, isShopCard, className }) => {
+  const { t } = useTranslation('shop');
+
   const progress = useMemo(() => {
     const percent = payments.current / payments.total;
 
@@ -30,15 +33,15 @@ const ShopCard = ({ id, company, description, status, payments, isShopCard, clas
     let cn = '';
     switch (status) {
       case 1:
-        text = 'На рассмотрении';
+        text = t('status.pending');
         cn = st._orange;
         break;
       case 2:
-        text = 'В процессе';
+        text = t('status.processing');
         cn = st._green;
         break;
       case 3:
-        text = 'Ошибка';
+        text = t('status.error');
         cn = st._red;
         break;
 

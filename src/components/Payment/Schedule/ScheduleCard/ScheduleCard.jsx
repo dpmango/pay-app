@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
@@ -11,6 +12,7 @@ import st from './ScheduleCard.module.scss';
 
 const ScheduleCard = ({ id, number, status, price, total, deadline, className }) => {
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
 
   const progress = useMemo(() => {
     const percent = price / 12000;
@@ -33,17 +35,17 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
 
     switch (status) {
       case 1:
-        topic = 'Спишется';
+        topic = t('status.willcharge');
         break;
       case 5:
-        topic = 'Спишется';
+        topic = t('status.willcharge');
         break;
       case 9:
-        topic = 'Ошибка оплаты';
+        topic = t('status.error');
         showDate = false;
         break;
       case 10:
-        topic = 'Оплачен';
+        topic = t('status.payed');
         break;
       default:
         break;

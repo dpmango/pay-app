@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar } from '@ui';
@@ -12,6 +13,7 @@ import { purchases, shops } from './mockData';
 
 const Shop = observer(({ tab, className }) => {
   const [pTab, setPTab] = useState(1);
+  const { t } = useTranslation('shop');
 
   const uiContext = useContext(UiStoreContext);
 
@@ -24,12 +26,12 @@ const Shop = observer(({ tab, className }) => {
               <div
                 className={cns(st.tabsLink, pTab === 1 && st._active)}
                 onClick={() => setPTab(1)}>
-                Активные
+                {t('tabs.active')}
               </div>
               <div
                 className={cns(st.tabsLink, pTab === 2 && st._active)}
                 onClick={() => setPTab(2)}>
-                История
+                {t('tabs.history')}
               </div>
             </div>
 
@@ -55,12 +57,12 @@ const Shop = observer(({ tab, className }) => {
           <div className={st.nav}>
             <NavLink to="/shops" className={st.navLink}>
               <SvgIcon name="shopping-cart" />
-              <span>Магазины</span>
+              <span>{t('nav.shops')}</span>
             </NavLink>
 
             <NavLink to="/" className={st.navLink}>
               <SvgIcon name="list" />
-              <span>Покупки</span>
+              <span>{t('nav.purchases')}</span>
             </NavLink>
           </div>
         </div>

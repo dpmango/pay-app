@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar, Tile } from '@ui';
@@ -10,6 +11,7 @@ import st from './Info.module.scss';
 
 const Info = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
+  const { t } = useTranslation('profile', { keyPrefix: 'info' });
 
   return (
     <section className={cns(st.container, className)}>
@@ -17,7 +19,7 @@ const Info = observer(({ className }) => {
         <div className={st.head}>
           <Avatar variant="big" />
           <div className={st.title}>
-            Здравствуйте, <br />
+            {t('title')} <br />
             Александр!
           </div>
         </div>
@@ -25,7 +27,7 @@ const Info = observer(({ className }) => {
         <div className={st.grid}>
           <Tile
             title="+7 (954) 450-45-34"
-            description="Мобильный телефон"
+            description={t('phone')}
             icon="phone"
             className={st.gridCard}
           />
@@ -37,7 +39,7 @@ const Info = observer(({ className }) => {
             /> */}
           <Tile
             title="Карта Visa *8644"
-            description="Способ оплаты"
+            description={t('paymentMethod')}
             image="/img/payment/visa.png"
             className={st.gridCard}
           />
