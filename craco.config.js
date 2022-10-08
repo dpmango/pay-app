@@ -1,10 +1,16 @@
 const path = require('path');
-const { removeLoaders, loaderByName, addBeforeLoader } = require('@craco/craco');
 
-const alias = require('./src/config/aliases');
-
-const SRC = './src';
-const aliases = alias(SRC);
+const aliases = {
+  '@': 'src',
+  '@c': 'src/components',
+  '@components': 'src/components',
+  '@ui': 'src/components/UI',
+  '@core': 'src/core',
+  '@utils': 'src/utils',
+  '@store': 'src/store',
+  '@assets': 'src/assets',
+  '@styles': 'src/assets/styles',
+};
 
 const resolvedAliases = Object.fromEntries(
   Object.entries(aliases).map(([key, value]) => [key, path.resolve(__dirname, value)])

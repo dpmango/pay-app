@@ -1,8 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import Cookies from 'js-cookie';
 
-import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@config/cookie';
-import service from './api-service';
+import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
+import api from './session.api';
 
 export default class SessionStore {
   accessToken = null;
@@ -65,7 +65,7 @@ export default class SessionStore {
 
   async createSession(req) {
     // send phone - get confirmation token
-    const [err, data] = await service.send('create', req);
+    const [err, data] = await api.create(req);
 
     if (err) throw err;
 
@@ -79,7 +79,7 @@ export default class SessionStore {
 
   async confirmSession({ code }) {
     // send sms confirmation - get access token
-    const [err, data] = await service.send('confirm', {
+    const [err, data] = await api.confirm({
       confirmationCode: code,
       confirmationToken: this.confirmation.confirmationToken,
     });
@@ -93,7 +93,7 @@ export default class SessionStore {
   }
 
   async renewSession(req) {
-    const [err, data] = await service.send('renew', req);
+    const [err, data] = await api.renew(req);
 
     if (err) throw err;
     this.setSession(data);
@@ -102,7 +102,7 @@ export default class SessionStore {
   }
 
   async getProfile(req) {
-    const [err, data] = await service.send('profile', req);
+    const [err, data] = await api.profile(req);
 
     if (err) throw err;
     this.setProfile(data);

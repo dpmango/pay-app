@@ -1,4 +1,5 @@
 .btn {
+  appearance: none;
   display: inline-flex;
   justify-content: center;
   font-weight: 600;
@@ -7,7 +8,12 @@
   line-height: calc(26 / 20);
   padding: 23px 30px;
   border-radius: 11px;
+  cursor: pointer;
   transition: background 0.25s $ease, color 0.25s $ease, box-shadow 0.25s $ease;
+
+  &:focus {
+    outline: none;
+  }
 
   &._primary {
     background: $colorPrimary;

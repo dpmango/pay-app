@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext } from '@store';
-import { formatPrice } from '@helpers';
+import { formatPrice } from '@utils';
 import st from './PaymentSelect.module.scss';
 
 const ModalPaymentSelect = observer(({ className }) => {

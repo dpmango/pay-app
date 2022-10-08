@@ -6,7 +6,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import { UiStoreContext } from '@store';
 import { SvgIcon } from '@ui';
-import { formatPrice } from '@helpers';
+import { formatPrice } from '@utils';
 
 import st from './ScheduleCard.module.scss';
 

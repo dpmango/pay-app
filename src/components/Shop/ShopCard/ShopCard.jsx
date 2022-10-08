@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { formatPrice } from '@helpers';
+import { formatPrice } from '@utils';
 
 import st from './ShopCard.module.scss';
 const radialStyle = buildStyles({

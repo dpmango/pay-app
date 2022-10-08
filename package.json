@@ -53,13 +53,11 @@
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
     "react-spinners": "^0.13.4",
-    "react-tooltip": "^4.2.21",
     "swiper": "^8.3.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
     "@babel/eslint-plugin": "^7.18.10",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@craco/craco": "^7.0.0-alpha.7",
     "cross-env": "^7.0.3",
@@ -93,13 +91,6 @@
   },
   "eslintConfig": {
     "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "babelOptions": {
-        "plugins": [
-          "@babel/plugin-proposal-class-properties"
-        ]
-      }
-    },
     "extends": [
       "plugin:react/recommended",
       "plugin:prettier/recommended"
@@ -128,14 +119,6 @@
   "babel": {
     "presets": [
       "@babel/preset-react"
-    ],
-    "plugins": [
-      [
-        "@babel/plugin-proposal-class-properties",
-        {
-          "loose": true
-        }
-      ]
     ]
   }
 }

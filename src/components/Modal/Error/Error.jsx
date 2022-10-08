@@ -5,7 +5,7 @@ import cns from 'classnames';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext } from '@store';
-import { formatPrice } from '@helpers';
+import { formatPrice } from '@utils';
 import st from './Error.module.scss';
 
 const ErrorPay = observer(({ className }) => {
