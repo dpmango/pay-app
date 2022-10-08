@@ -26,7 +26,7 @@ const ModalPay = observer(({ className }) => {
   return (
     <Modal name="pay" className={className}>
       <div className={st.title}>{t('title')}</div>
-      <div className={st.method} onClick={() => uiContext.setModal('paymentSelect')}>
+      <div className={st.method} onClick={() => uiContext.setModal('methodSelect')}>
         <div className={st.methodContent}>
           <div className={st.methodlabel}>{t('method')}</div>
           <div className={st.methodValue}>Карта Visa *8644</div>

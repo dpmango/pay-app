@@ -50,7 +50,6 @@ const Code = observer(({ tab, className }) => {
         .catch((err) => {
           setError(err.message);
         });
-
       setLoading(false);
     },
     [loading]

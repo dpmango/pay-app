@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
+import { PayoutStoreContext } from '@store';
 
 import ShopCard from '@c/Shop/ShopCard';
 import st from './Shop.module.scss';
@@ -15,7 +15,11 @@ const Shop = observer(({ tab, className }) => {
   const [pTab, setPTab] = useState(1);
   const { t } = useTranslation('shop');
 
-  const uiContext = useContext(UiStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
+
+  useEffect(() => {
+    payoutContext.getPayouts({ completed: pTab === 2 });
+  }, [pTab]);
 
   return (
     <section className={cns(st.container, className)}>

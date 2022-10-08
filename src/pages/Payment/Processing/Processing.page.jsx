@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import Layout from '@c/Layout';
 import { StatusPayment } from '@c/Status';
-import { ModalPaymentSelect } from '@c/Modal';
+import { ModalMethodSelect } from '@c/Modal';
 // import st from './PaymentProcessing.module.scss';
 
 const PaymentPage = observer(() => {
@@ -17,7 +17,7 @@ const PaymentPage = observer(() => {
       </Helmet>
 
       <StatusPayment />
-      <ModalPaymentSelect />
+      <ModalMethodSelect />
     </Layout>
   );
 });

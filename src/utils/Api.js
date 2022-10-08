@@ -11,10 +11,7 @@ export const ApiService = async (axiosActionWithRequest) => {
 };
 
 const useCatchError = (e) => {
-  if (e && !e.response) {
-    console.warn('ApiService error  -', e);
-    return;
-  } else {
+  try {
     const {
       data: { errors },
       status,
@@ -29,6 +26,12 @@ const useCatchError = (e) => {
     return {
       status: status,
       message: message,
+    };
+  } catch (err) {
+    console.warn(e, err);
+    return {
+      status: 500,
+      message: 'Unknown error',
     };
   }
 };

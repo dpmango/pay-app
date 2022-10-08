@@ -119,7 +119,7 @@
   },
   "modalSelectPayment": {
     "title": "Способ оплаты",
-    "newCard": "Новая карта",
+    "newCard": "--Новая карта",
     "action": "Оплатить"
   },
   "profile": {

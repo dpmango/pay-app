@@ -15,3 +15,17 @@ export const checkImageExists = (path) => {
     img.src = path;
   });
 };
+
+export const readFileBinary = (file) => {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsBinaryString(file);
+  });
+};

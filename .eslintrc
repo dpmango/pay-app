@@ -9,7 +9,7 @@
   },
   "rules": {
     "quotes": ["error", "single"],
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "react/prop-types": "off",
     "react/state-in-constructor": ["error", "never"],
     "react/display-name": ["off"]

@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 
 import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
 import api from './session.api';
+import { first } from 'lodash';
 
 export default class SessionStore {
   accessToken = null;
@@ -19,6 +20,29 @@ export default class SessionStore {
     makeAutoObservable(this);
 
     this.init();
+  }
+
+  get displayName() {
+    const { phone, firstName, middleName } = this.profile;
+    if (firstName) {
+      return firstName[0].toUpperCase() + firstName.slice(1).toLowerCase();
+    } else {
+      return phone;
+    }
+  }
+
+  get shortName() {
+    let returnable = '';
+    const { firstName, middleName, lastName } = this.profile;
+
+    if (firstName) {
+      returnable = firstName[0];
+      if (lastName) {
+        returnable += lastName[0];
+      }
+    }
+
+    return returnable.toUpperCase();
   }
 
   // inner actions
@@ -56,10 +80,8 @@ export default class SessionStore {
     const refreshToken = Cookies.get(AUTH_REFRESH_COOKIE);
 
     if (accessToken && refreshToken) {
-      await this.renewSession({ refreshToken });
+      await this.renewSession({ refreshToken }).catch(console.warn);
       await this.getProfile();
-    } else {
-      // await this.createSession();
     }
   }
 
@@ -87,8 +109,7 @@ export default class SessionStore {
     if (err) throw err;
 
     this.setSession(data);
-    const [profileErr, profileData] = await this.getProfile();
-
+    await this.getProfile();
     return data;
   }
 
@@ -107,10 +128,25 @@ export default class SessionStore {
     if (err) throw err;
     this.setProfile(data);
 
+    if (data.avatarSlug) {
+      const [avatarErr, avatarData] = await api.getAvatar({ slug: data.avatarSlug });
+    }
+    return data;
+  }
+
+  async updateProfile(req) {
+    const [err, data] = await api.updateProfile(req);
+
+    if (err) throw err;
+    this.setProfile(data);
+
     return data;
   }
 
   async logout() {
+    const [err, _success] = await api.logout();
+    if (err) throw err;
+
     this.accessToken = null;
     this.refreshToken = null;
     this.accessTokenLifetime = null;

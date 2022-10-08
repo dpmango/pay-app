@@ -109,7 +109,7 @@ const Payment = observer(({ className }) => {
                 {t('actions.continue')}
               </Button>
             ) : (
-              <Button block onClick={() => uiContext.setModal('paymentSelect')}>
+              <Button block onClick={() => uiContext.setModal('methodSelect')}>
                 {t('actions.connect')}
               </Button>
             )}

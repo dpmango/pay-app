@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
@@ -13,9 +14,11 @@ import { useCallback } from 'react';
 const Actions = observer(({ className }) => {
   const sessionContext = useContext(SessionStoreContext);
   const { t } = useTranslation('profile', { keyPrefix: 'actions' });
+  const navigate = useNavigate();
 
-  const handleLogout = useCallback(() => {
-    sessionContext.logout();
+  const handleLogout = useCallback(async () => {
+    await sessionContext.logout();
+    navigate('/auth');
   }, []);
 
   return (
@@ -26,10 +29,10 @@ const Actions = observer(({ className }) => {
             <SvgIcon name="question" />
             <span>{t('faq')}</span>
           </Link>
-          {/* <Link to="/" className={st.navLink}>
-              <SvgIcon name="settings" />
-              <span>Настройки</span>
-            </Link> */}
+          <Link to="/profile/settings" className={st.navLink}>
+            <SvgIcon name="settings" />
+            <span>Настройки</span>
+          </Link>
           <a href="#" className={cns(st.navLink, st._danger)} onClick={handleLogout}>
             <span>{t('logout')}</span>
           </a>

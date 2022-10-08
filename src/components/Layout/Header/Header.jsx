@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
+import { SessionStoreContext } from '@store';
 
 import st from './Header.module.scss';
 
 const Header = observer(({ className }) => {
   const [menuOpened, setMenuOpened] = useState(false);
 
-  const uiContext = useContext(UiStoreContext);
+  const sessionContext = useContext(SessionStoreContext);
   const { pathname } = useLocation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -52,8 +52,8 @@ const Header = observer(({ className }) => {
           </div>
 
           <Link to="/profile" className={st.user}>
-            <Avatar name="АС" />
-            <span className={st.userName}>Александр</span>
+            <Avatar name={sessionContext.shortName} />
+            <span className={st.userName}>{sessionContext.displayName}</span>
           </Link>
 
           <Link to="/chat" className={st.chat}>
