@@ -3,11 +3,10 @@ import api from './payout.api';
 
 export default class PayoutStore {
   payouts = [];
+  payout = {};
 
   constructor() {
     makeAutoObservable(this);
-
-    this.init();
   }
 
   // inner actions
@@ -17,16 +16,53 @@ export default class PayoutStore {
     });
   }
 
-  async init() {
-    // const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
-    // const refreshToken = Cookies.get(AUTH_REFRESH_COOKIE);
+  setPayout(payload) {
+    runInAction(() => {
+      this.payout = { ...this.payout, ...payload };
+    });
   }
 
+  // api actions
   async getPayouts(req) {
     const [err, data] = await api.payouts(req);
 
     if (err) throw err;
     this.setPayouts(data);
+
+    return data;
+  }
+
+  async getPayout(id) {
+    const [err, data] = await api.payoutById(id);
+
+    if (err) throw err;
+    this.setPayout(data);
+
+    return data;
+  }
+
+  async getPayoutDocument(id) {
+    const [err, data] = await api.payoutDocument(id);
+
+    if (err) throw err;
+    this.setPayout({ document: data });
+
+    return data;
+  }
+
+  async getPayoutPdf(id) {
+    const [err, data] = await api.payoutDocumentPdf(id);
+
+    if (err) throw err;
+    // this.setPayout({ document: data });
+
+    return data;
+  }
+
+  async acceptPayout(req) {
+    const [err, data] = await api.acceptPayout(req);
+
+    if (err) throw err;
 
     return data;
   }

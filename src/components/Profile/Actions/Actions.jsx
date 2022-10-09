@@ -25,10 +25,11 @@ const Actions = observer(({ className }) => {
     <section className={cns(st.container, className)}>
       <div className="container">
         <div className={st.nav}>
-          <Link to="/" className={st.navLink}>
+          {/* MVP No faq */}
+          {/* <Link to="/" className={st.navLink}>
             <SvgIcon name="question" />
             <span>{t('faq')}</span>
-          </Link>
+          </Link> */}
           <Link to="/profile/settings" className={st.navLink}>
             <SvgIcon name="settings" />
             <span>Настройки</span>

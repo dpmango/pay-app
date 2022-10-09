@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
+import { ApiImage } from '@ui';
 import { formatPrice } from '@utils';
 
 import st from './ShopCard.module.scss';
@@ -13,12 +14,11 @@ const radialStyle = buildStyles({
   trailColor: '#EBEAEA',
 });
 
-const ShopCard = ({ id, company, description, status, payments, isShopCard, className }) => {
+const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, className }) => {
   const { t } = useTranslation('shop');
 
   const progress = useMemo(() => {
-    const percent = payments.current / payments.total;
-
+    const percent = sumPaid / sum;
     const round = percent.toLocaleString('en', {
       useGrouping: false,
       minimumFractionDigits: 1,
@@ -26,13 +26,13 @@ const ShopCard = ({ id, company, description, status, payments, isShopCard, clas
     });
 
     return +round;
-  }, [payments]);
+  }, [sum, sumPaid]);
 
   const statusData = useMemo(() => {
     let text = '';
     let cn = '';
     switch (status) {
-      case 1:
+      case 'DocumentsRequired':
         text = t('status.pending');
         cn = st._orange;
         break;
@@ -70,21 +70,21 @@ const ShopCard = ({ id, company, description, status, payments, isShopCard, clas
             styles={radialStyle}
           />
           <div className={st.cardLogo}>
-            {company.logo && <img src={company.logo} alt={company.name} />}
+            {partner.logoSlug && <ApiImage slug={partner.logoSlug} width={80} />}
           </div>
         </div>
       </div>
 
       <div className={st.cardContent}>
-        <div className={st.cardTitle}>{company.title}</div>
+        <div className={st.cardTitle}>{partner.name}</div>
         {description && <div className={st.cardDescription}>{description}</div>}
         {status && <div className={cns(st.cardStatus, statusData.cn)}>{statusData.text}</div>}
       </div>
 
-      {payments && !isShopCard && (
+      {!isShopCard && (
         <div className={st.cardMeta}>
-          <div className={st.cardMetaPrimary}>{formatPrice(payments.current)} ₽</div>
-          <div className={st.cardMetaSecondary}>из {formatPrice(payments.total)} ₽</div>
+          <div className={st.cardMetaPrimary}>{formatPrice(sumPaid)} ₽</div>
+          <div className={st.cardMetaSecondary}>из {formatPrice(sum)} ₽</div>
         </div>
       )}
     </Link>

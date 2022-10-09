@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
 import api from './session.api';
-import { first } from 'lodash';
+// import uiApi from '@store/UiStore/ui.api';
 
 export default class SessionStore {
   accessToken = null;
@@ -128,9 +128,11 @@ export default class SessionStore {
     if (err) throw err;
     this.setProfile(data);
 
-    if (data.avatarSlug) {
-      const [avatarErr, avatarData] = await api.getAvatar({ slug: data.avatarSlug });
-    }
+    // MVP Auto-generated
+    // if (data.avatarSlug) {
+    //   const [avatarErr, avatarData] = await uiApi.getAvatar({ slug: data.avatarSlug });
+    // }
+
     return data;
   }
 

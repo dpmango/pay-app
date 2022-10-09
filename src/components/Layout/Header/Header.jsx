@@ -25,8 +25,8 @@ const Header = observer(({ className }) => {
   const pageName = useMemo(() => {
     if (pathname === '/') {
       return t('menu.home');
-    } else if (pathname.includes('shops')) {
-      return t('menu.shops');
+      // } else if (pathname.includes('shops')) {
+      //   return t('menu.shops');
     } else if (pathname.includes('pay')) {
       return t('menu.pay');
     } else if (pathname.includes('profile')) {
@@ -56,20 +56,13 @@ const Header = observer(({ className }) => {
             <span className={st.userName}>{sessionContext.displayName}</span>
           </Link>
 
-          <Link to="/chat" className={st.chat}>
+          {/* MVP No chat */}
+          <Link to="/contacts" className={st.chat}>
             <SvgIcon name="chat" />
-            <div className={st.chatCounter}>
+            {/* <div className={st.chatCounter}>
               <span>2</span>
-            </div>
-          </Link>
-
-          {/* <div className={st.hamburger}>
-              <div className={cns('hamburger', menuOpened && 'is-active')} onClick={() => setMenuOpened(!menuOpened)}>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
             </div> */}
+          </Link>
         </div>
       </div>
     </header>

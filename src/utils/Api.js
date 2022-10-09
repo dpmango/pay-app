@@ -4,9 +4,7 @@ export const ApiService = async (axiosActionWithRequest) => {
 
     return [null, data];
   } catch (error) {
-    useCatchError(error);
-
-    return [error, null];
+    return [useCatchError(error), null];
   }
 };
 

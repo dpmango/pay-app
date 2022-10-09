@@ -5,13 +5,14 @@ import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { SvgIcon, Avatar, Tile } from '@ui';
-import { SessionStoreContext } from '@store';
+import { SessionStoreContext, UiStoreContext } from '@store';
 
 import st from './Info.module.scss';
 
 const Info = observer(({ className }) => {
   const { t } = useTranslation('profile', { keyPrefix: 'info' });
   const sessionContext = useContext(SessionStoreContext);
+  const uiContext = useContext(UiStoreContext);
 
   return (
     <section className={cns(st.container, className)}>
@@ -42,8 +43,8 @@ const Info = observer(({ className }) => {
             <Tile
               title="Метод не выбран"
               description={t('paymentMethod')}
-              image="/img/payment/visa.png"
               className={st.gridCard}
+              onClick={() => uiContext.setModal('methodSelect')}
             />
           )}
         </div>

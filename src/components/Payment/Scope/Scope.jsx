@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon, Button, Image, Spinner, ApiImage } from '@ui';
+import { UiStoreContext, PayoutStoreContext } from '@store';
+import { formatPrice, formatDate } from '@utils';
 
 import st from './Scope.module.scss';
 
@@ -18,7 +19,14 @@ const radialStyle = buildStyles({
 
 const Scope = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
+
+  const { payout } = useContext(PayoutStoreContext);
+
   const { t } = useTranslation('pay', { keyPrefix: 'scope' });
+
+  if (!Object.keys(payout).length) {
+    return <Spinner />;
+  }
 
   return (
     <section className={cns(st.container, className)}>
@@ -27,17 +35,17 @@ const Scope = observer(({ className }) => {
           <CircularProgressbar strokeWidth={6} value={0.5} maxValue={1} styles={radialStyle} />
           <div className={st.radialContent}>
             <div className={st.image}>
-              <Image src="/img/logo-1.png" />
+              <ApiImage slug={payout.partner.logoSlug} width={80} />
             </div>
-            <div className={st.date}>23.05.22 14:17</div>
-            <div className={st.title}>{t('order')} №15980</div>
+            <div className={st.date}>{formatDate(payout.createdAt)}</div>
+            <div className={st.title}>{payout.description}</div>
             <div className={st.payments}>
               <div className={st.paymentsCol}>
-                <div className={st.paymentsValue}>8400 ₽</div>
+                <div className={st.paymentsValue}>{formatPrice(payout.sum)} ₽</div>
                 <div className={st.paymentsDescription}>{t('total')}</div>
               </div>
               <div className={st.paymentsCol}>
-                <div className={st.paymentsValue}>4200 ₽</div>
+                <div className={st.paymentsValue}>{formatPrice(payout.sumPaid)} ₽</div>
                 <div className={st.paymentsDescription}>{t('rest')}</div>
               </div>
             </div>

@@ -33,8 +33,9 @@ api.interceptors.request.use((x) => {
 });
 
 api.interceptors.response.use((x) => {
-  console.log(`${x.status} | ${x.config.url}`, x.data);
-
+  if (!x.config.url.includes('images')) {
+    console.log(`${x.status} | ${x.config.url}`, x.data);
+  }
   return x;
 });
 

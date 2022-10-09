@@ -28,9 +28,6 @@ export default {
   profile: async () => {
     return ApiService(api.get('profile'));
   },
-  getAvatar: async ({ slug, request }) => {
-    return ApiService(api.get(`images/${slug}`, { params: { request } }));
-  },
   /**
     @firstName string
     @lastName string

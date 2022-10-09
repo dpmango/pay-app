@@ -3,16 +3,17 @@ import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon, Button, ApiImage, Spinner } from '@ui';
+import { PayoutStoreContext } from '@store';
+import { formatPrice } from '@utils';
 
 import st from './Order.module.scss';
 
-const Order = observer(({ className }) => {
-  const [opened, setOpened] = useState(false);
+const Order = observer(({ className, defaultOpen }) => {
+  const [opened, setOpened] = useState(defaultOpen || false);
   const [activeDropDown, setActiveDropDown] = useState(null);
 
-  const uiContext = useContext(UiStoreContext);
+  const { payout } = useContext(PayoutStoreContext);
   const { t } = useTranslation('pay', { keyPrefix: 'order' });
 
   const handleDropdownCLick = useCallback(
@@ -24,12 +25,16 @@ const Order = observer(({ className }) => {
     [activeDropDown]
   );
 
+  if (!Object.keys(payout).length) {
+    return <Spinner />;
+  }
+
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
         <div className={cns(st.box, opened && st._opened)}>
           <div className={st.boxHead} onClick={() => setOpened(!opened)}>
-            <div className={st.boxHeadTitle}>Заказ-наряд №15980 от 28.07.2022</div>
+            <div className={st.boxHeadTitle}>{payout.description}</div>
             <SvgIcon name="caret" />
           </div>
           {opened && (
@@ -38,127 +43,73 @@ const Order = observer(({ className }) => {
                 <div className={st.contentSection}>
                   <div className={st.contentHead}>
                     <div className={st.contentLogo}>
-                      <Image src="/img/logo-1.png" have2x="" />
+                      <ApiImage slug={payout.partner.logoSlug} width={80} />
                     </div>
-                    <div className={st.contentHeadTitle}>АВТОDOM</div>
+                    <div className={st.contentHeadTitle}>{payout.partner.name}</div>
                   </div>
                   <div className={st.table}>
-                    <div className={st.tableRow}>
-                      <div className={st.tableLabel}>Дилерский центр: </div>
-                      <div className={st.tableValue}>Автодом Зорге</div>
-                    </div>
-                    <div className={st.tableRow}>
-                      <div className={st.tableLabel}>Мастер-приемщик: </div>
-                      <div className={st.tableValue}>Иванов В.В.</div>
-                    </div>
-                    <div className={st.tableRow}>
-                      <div className={st.tableLabel}>Автомобиль: </div>
-                      <div className={st.tableValue}>BMW X5 г.н. O111OO777</div>
-                    </div>
-                    <div className={st.tableRow}>
-                      <div className={st.tableLabel}>VIN: </div>
-                      <div className={st.tableValue}>ABCDE12345678</div>
-                    </div>
-                    <div className={st.tableRow}>
-                      <div className={st.tableLabel}>Цель обращения: </div>
-                      <div className={st.tableValue}>ТО №1 (10000км)</div>
-                    </div>
+                    {payout.document.Headers &&
+                      payout.document.Headers.map((row, idx) => (
+                        <div className={st.tableRow} key={idx}>
+                          <div className={st.tableLabel}>{row.Title} </div>
+                          <div className={st.tableValue}>{row.Value}</div>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
-                <div
-                  className={cns(
-                    st.contentSection,
-                    st._toggle,
-                    activeDropDown === 1 && st._active
-                  )}>
-                  <div className={st.contentRow} onClick={() => handleDropdownCLick(1)}>
-                    <div className={st.contentLabel}>
-                      Дополнительные работы по просьбе/желанию клиента
+                {payout.document.Sections &&
+                  payout.document.Sections.map((section, idx) => (
+                    <div
+                      key={idx}
+                      className={cns(
+                        st.contentSection,
+                        st._toggle,
+                        activeDropDown === idx && st._active
+                      )}>
+                      <div className={st.contentRow} onClick={() => handleDropdownCLick(idx)}>
+                        <div className={st.contentLabel}>{section.Title}</div>
+                        <div className={st.contentValue}>? ₽</div>
+                        <div className={st.contentToggle}>
+                          <SvgIcon name="caret" />
+                        </div>
+                      </div>
+                      <div className={st.contentDropdown}>
+                        <table className={st.table2}>
+                          <thead>
+                            <tr>
+                              <td>№</td>
+                              <td>{t('table.name')}</td>
+                              <td>{t('table.amount')}</td>
+                              <td>{t('table.price')}</td>
+                              <td>{t('table.sum')}</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {section.Items &&
+                              section.Items.map((item, idxx) => (
+                                <tr key={idxx}>
+                                  <td className={st.number}>{idxx + 1}</td>
+                                  <td className={st.title}>
+                                    {item.Title} <small>{item.Code}</small>
+                                  </td>
+                                  <td className={st.amount}>
+                                    {item.Quantity} {item.Unit}
+                                  </td>
+                                  <td>{formatPrice(item.Price)} ₽</td>
+                                  <td>{formatPrice(item.Total)} ₽</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div className={st.contentValue}>56 000 ₽</div>
-                    <div className={st.contentToggle}>
-                      <SvgIcon name="caret" />
-                    </div>
-                  </div>
-                  <div className={st.contentDropdown}>
-                    <table className={st.table2}>
-                      <thead>
-                        <tr>
-                          <td>№</td>
-                          <td>{t('table.name')}</td>
-                          <td>{t('table.amount')}</td>
-                          <td>{t('table.price')}</td>
-                          <td>{t('table.sum')}</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
+                  ))}
 
-                <div
-                  className={cns(
-                    st.contentSection,
-                    st._toggle,
-                    activeDropDown === 2 && st._active
-                  )}>
-                  <div className={st.contentRow} onClick={() => handleDropdownCLick(2)}>
-                    <div className={st.contentLabel}>
-                      Работы по рекомендации
-                      <br /> Сервиса
-                    </div>
-                    <div className={st.contentValue}>16 700 ₽</div>
-                    <div className={st.contentToggle}>
-                      <SvgIcon name="caret" />
-                    </div>
-                  </div>
-                  <div className={st.contentDropdown}>
-                    <table className={st.table2}>
-                      <thead>
-                        <tr>
-                          <td>№</td>
-                          <td>Название</td>
-                          <td className="tar">{t('table.amoun')}</td>
-                          <td className="tar">{t('table.price')}</td>
-                          <td className="tar">{t('table.sum')}</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className={st.number}>1</td>
-                          <td className={st.title}>
-                            Замена масла <small>4499239375702</small>
-                          </td>
-                          <td className={st.amount}>1,0</td>
-                          <td>3 000 ₽</td>
-                          <td>3 000 ₽</td>
-                        </tr>
-                        <tr>
-                          <td className={st.number}>2</td>
-                          <td className={st.title}>
-                            Замена масляного фильтра <small>4499239375702</small>
-                          </td>
-                          <td className={st.amount}>1,0</td>
-                          <td>3 000 ₽</td>
-                          <td>3 000 ₽</td>
-                        </tr>
-                        <tr>
-                          <td className={st.number}>3</td>
-                          <td className={st.title}>
-                            Замена масла <small>4499239375702</small>
-                          </td>
-                          <td className={st.amount}>1,0</td>
-                          <td>3 000 ₽</td>
-                          <td>3 000 ₽</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
                 <div className={st.contentSection}>
                   <div className={cns(st.contentRow, st._primary)}>
                     <div className={cns(st.contentLabel)}>{t('total')}</div>
-                    <div className={st.contentValue}>1200 ₽</div>
+                    <div className={st.contentValue}>{formatPrice(payout.sum)} ₽</div>
                   </div>
                 </div>
 

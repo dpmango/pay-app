@@ -1,4 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import Cookies from 'js-cookie';
+
+import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
 import api from './method.api';
 
 export default class MethodStore {
@@ -26,9 +29,10 @@ export default class MethodStore {
   }
 
   async init() {
-    this.getMethods();
-    // const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
-    // const refreshToken = Cookies.get(AUTH_REFRESH_COOKIE);
+    const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
+    if (accessToken) {
+      this.getMethods();
+    }
   }
 
   async getMethods() {

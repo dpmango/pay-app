@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import Layout from '@c/Layout';
 import { ProfileInfo, ProfileActions } from '@c/Profile';
+import { ModalMethodSelect } from '@c/Modal';
 
 import st from './Profile.module.scss';
 
@@ -18,6 +19,8 @@ const ProfilePage = observer(() => {
 
       <ProfileInfo className={st.info} />
       <ProfileActions className={st.actions} />
+
+      <ModalMethodSelect connectOnly={true} />
     </Layout>
   );
 });

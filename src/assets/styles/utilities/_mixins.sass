@@ -27,11 +27,3 @@
 =retina
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)
     @content
-
-// photoshop to em
-=letter-spacing($letter-spacing, $fontSize: 16)
-  letter-spacing: ($letter-spacing / 1000) + em
-
-// sketch to em
-@function em($pixels, $fontSize: 16)
-  @return #{$pixels / $fontSize}em

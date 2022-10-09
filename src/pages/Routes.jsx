@@ -12,6 +12,7 @@ import {
   Contacts,
   Chat,
   Payment,
+  PaymentSuggestion,
   PaymentProcessing,
 } from '@/pages';
 import { SessionStoreContext } from '@/store';
@@ -31,28 +32,22 @@ const ProtectedRoute = observer(() => {
 const Router = () => (
   <BrowserRouter>
     <Routes>
+      <Route path="auth" element={<Auth />} />
+      <Route path="r/:id" element={<PaymentSuggestion />} />
+
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home tab="purchases" />} />
-        <Route path="shops" element={<Home tab="shops" />} />
+        {/* <Route path="shops" element={<Home tab="shops" />} /> */}
         <Route path="pay/:id" element={<Payment />} />
         <Route path="pay/processing" element={<PaymentProcessing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/validation" element={<ProfileValidation />} />
         <Route path="profile/settings" element={<ProfileSettings />} />
         <Route path="contacts" element={<Contacts />} />
-        <Route path="chat" element={<Chat />} />
+        {/* <Route path="chat" element={<Chat />} /> */}
       </Route>
 
-      <Route path="auth" element={<Auth />} />
-
-      <Route
-        path="*"
-        element={
-          <div className="container">
-            <h2>404 Not Found</h2>
-          </div>
-        }
-      />
+      <Route path="*" element={<Navigate to="/" replace={true} />} />
     </Routes>
   </BrowserRouter>
 );

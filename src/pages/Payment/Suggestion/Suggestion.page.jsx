@@ -1,17 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
-
-import { PayoutStoreContext } from '@store';
+import { useParams, useNavigate } from 'react-router-dom';
+import { PayoutStoreContext } from '@/store';
 
 import Layout from '@c/Layout';
-import { PaymentScope, PaymentSchedule, PaymentOrder, PaymentInstallment } from '@c/Payment';
+import { PaymentOrder, PaymentInstallment } from '@c/Payment';
 import { ModalPay, ModalMethodSelect, ModalAddCard, ModalError } from '@c/Modal';
 
-import st from './Payment.module.scss';
+import st from './Suggestion.module.scss';
 
-const PaymentPage = observer(() => {
+const PaymentSuggestionPage = observer(() => {
+  // const uiContext = useContext(UiStoreContext);
   const payoutContext = useContext(PayoutStoreContext);
 
   let { id } = useParams();
@@ -34,14 +34,13 @@ const PaymentPage = observer(() => {
   }, [id]);
 
   return (
-    <Layout variant="main">
+    <Layout variant="clear">
       <Helmet>
-        <title>Payment</title>
+        <title>Payment welcome</title>
       </Helmet>
 
-      <PaymentScope className={st.scope} />
-      <PaymentSchedule className={st.schedule} />
-      <PaymentOrder className={st.order} />
+      <PaymentOrder defaultOpen={true} className={st.order} />
+      <PaymentInstallment className={st.installment} />
 
       <ModalPay />
       <ModalMethodSelect />
@@ -51,4 +50,4 @@ const PaymentPage = observer(() => {
   );
 });
 
-export default PaymentPage;
+export default PaymentSuggestionPage;

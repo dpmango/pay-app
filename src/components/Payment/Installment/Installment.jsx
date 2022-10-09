@@ -1,19 +1,73 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import cns from 'classnames';
 
-import { SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon, Button, Spinner } from '@ui';
+import { UiStoreContext, PayoutStoreContext, SessionStoreContext } from '@store';
+import { formatPrice } from '@utils';
 
 import st from './Installment.module.scss';
+import { useEffect } from 'react';
 
 const Installment = observer(({ className }) => {
-  const [periods, setPeriods] = useState([3, 6, 9, 12]);
-  const [selectedPeriod, setSelectedPeriod] = useState(6);
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
 
   const uiContext = useContext(UiStoreContext);
+  const { payout } = useContext(PayoutStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
+  const sessionContext = useContext(SessionStoreContext);
+
   const { t } = useTranslation('pay', { keyPrefix: 'installment' });
+
+  const navigate = useNavigate();
+
+  const selectedPlan = useMemo(() => {
+    try {
+      return payout.availablePlans.find((x) => x.id === selectedPeriod);
+    } catch {
+      return null;
+    }
+  }, [selectedPeriod]);
+
+  useEffect(() => {
+    if (payout.availablePlans && payout.availablePlans.length) {
+      try {
+        const defaultId = payout.availablePlans.find((x) => x.isDefault).id;
+        setSelectedPeriod(defaultId);
+      } catch {
+        console.info('no default period');
+      }
+    }
+  }, [payout.availablePlans]);
+
+  const handleAcceptClick = useCallback(async () => {
+    if (sessionContext.accessToken) {
+      const res = await payoutContext
+        .acceptPayout({
+          id: payout.id,
+          selectedPlanId: selectedPlan.id,
+        })
+        .catch(({ status }) => {
+          if (status === 409) {
+            navigate('/profile/validation');
+          }
+        });
+
+      if (res && res.status) {
+        if (res.status === 'DocumentsRequired') {
+          navigate('/profile/validation');
+        }
+      }
+    } else {
+      navigate('/auth');
+    }
+  }, [payout.id, selectedPlan, sessionContext.accessToken]);
+
+  if (!Object.keys(payout).length) {
+    return <Spinner />;
+  }
 
   return (
     <section className={cns(st.container, className)}>
@@ -23,37 +77,37 @@ const Installment = observer(({ className }) => {
           <span>{t('title')}</span>
         </div>
 
-        <div className={st.payments}>
-          <div className={st.payment}>
-            <div className={st.paymentTitle}>56 000 ₽</div>
-            <div className={st.paymentDesc}>{t('firstPayment')}</div>
+        {selectedPlan && (
+          <div className={st.payments}>
+            <div className={st.payment}>
+              <div className={st.paymentTitle}>{formatPrice(selectedPlan.firstSum)} ₽</div>
+              <div className={st.paymentDesc}>{t('firstPayment')}</div>
+            </div>
+            <div className={st.payment}>
+              <div className={st.paymentTitle}>{formatPrice(selectedPlan.periodicalSum)} ₽</div>
+              <div className={st.paymentDesc}>
+                {selectedPlan.period === 'Month' && t('inMount')}
+              </div>
+            </div>
           </div>
-          <div className={st.payment}>
-            <div className={st.paymentTitle}>4200 ₽</div>
-            <div className={st.paymentDesc}>{t('inMount')}</div>
-          </div>
-        </div>
+        )}
 
         <div className={st.monts}>
-          {periods &&
-            periods.map((period, idx) => (
+          {payout.availablePlans &&
+            payout.availablePlans.map((plan, idx) => (
               <div className={st.month} key={idx}>
                 <Button
-                  theme={selectedPeriod === period ? 'blue' : 'green'}
+                  theme={selectedPeriod === plan.id ? 'blue' : 'green'}
                   block
-                  onClick={() => setSelectedPeriod(period)}>
-                  {period} {t('month')}
+                  onClick={() => setSelectedPeriod(plan.id)}>
+                  {plan.duration} {plan.period === 'Month' && t('month')}
                 </Button>
               </div>
             ))}
         </div>
 
         <div className={st.cta}>
-          <Button
-            block
-            onClick={() => {
-              uiContext.setModal('error');
-            }}>
+          <Button block onClick={handleAcceptClick}>
             {t('action')}
           </Button>
         </div>

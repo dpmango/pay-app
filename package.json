@@ -1,10 +1,10 @@
 {
-  "name": "react-app",
+  "name": "mozhno-pay",
   "version": "0.1.0",
   "author": "Sergey Khmelevskoy <sergey@khmelevskoy.co> (https://github.com/dpmango/)",
   "private": true,
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.11.0"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development craco start",

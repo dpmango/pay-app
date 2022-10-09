@@ -10,7 +10,7 @@ import { formatPrice } from '@utils';
 import st from './MethodSelect.module.scss';
 import { useEffect } from 'react';
 
-const ModalMethodSelect = observer(({ className }) => {
+const ModalMethodSelect = observer(({ className, connectOnly }) => {
   const [paymentMode, setPaymentMode] = useState(1);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation('modalSelectPayment');
@@ -69,7 +69,13 @@ const ModalMethodSelect = observer(({ className }) => {
 
       <div className={st.cta}>
         <Button type="link" block onClick={handleSubmit}>
-          {t('action')} {formatPrice(2100)} ₽
+          {!connectOnly ? (
+            <>
+              {t('action')} {formatPrice(2100)} ₽
+            </>
+          ) : (
+            <>Привязать</>
+          )}
         </Button>
       </div>
     </Modal>

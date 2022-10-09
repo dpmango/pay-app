@@ -15,7 +15,8 @@ const HomePage = observer(({ tab }) => {
         <title>APP</title>
       </Helmet>
 
-      {tab === 'shops' && <ShopFilters className={st.filters} />}
+      {/* MVP No shop filters */}
+      {/* {tab === 'shops' && <ShopFilters className={st.filters} />} */}
 
       <Stories className={st.stories} />
       <Shop className={st.shop} tab={tab} />
