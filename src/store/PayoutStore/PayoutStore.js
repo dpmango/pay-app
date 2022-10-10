@@ -4,6 +4,7 @@ import api from './payout.api';
 export default class PayoutStore {
   payouts = [];
   payout = {};
+  documents = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -19,6 +20,12 @@ export default class PayoutStore {
   setPayout(payload) {
     runInAction(() => {
       this.payout = { ...this.payout, ...payload };
+    });
+  }
+
+  setDocuments(payload) {
+    runInAction(() => {
+      this.documents = [...payload];
     });
   }
 
@@ -61,6 +68,41 @@ export default class PayoutStore {
 
   async acceptPayout(req) {
     const [err, data] = await api.acceptPayout(req);
+
+    if (err) throw err;
+
+    return data;
+  }
+
+  async getAttachedDocuments(id) {
+    const [err, data] = await api.attachedDocuments(id);
+
+    if (err) throw err;
+    this.setDocuments(data);
+
+    return data;
+  }
+
+  async getAttachedDocument(req) {
+    const [err, data] = await api.attachedDocumentById(req);
+
+    if (err) throw err;
+    this.setDocuments(data);
+
+    return data;
+  }
+
+  async uploadDocument(req) {
+    console.log({ req });
+    const [err, data] = await api.uploadDocument(req);
+
+    if (err) throw err;
+
+    return data;
+  }
+
+  async deleteDocument(req) {
+    const [err, data] = await api.deleteDocument(req);
 
     if (err) throw err;
 

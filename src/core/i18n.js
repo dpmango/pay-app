@@ -4,11 +4,11 @@ import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import ru from '@assets/dictionaries/ru.json';
-// import en from '@assets/dictionaries/en'
+import en from '@assets/dictionaries/en.json';
 
 const resources = {
-  ru,
-  // en,
+  // ru,
+  en,
 };
 
 i18n
@@ -16,7 +16,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: ['ru'], // 'en'
+    supportedLngs: ['en'],
     fallbackLng: 'ru',
     defaultNS: '',
     debug: process.env.NODE_ENV !== 'production',

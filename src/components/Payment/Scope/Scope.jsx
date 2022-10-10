@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
@@ -10,6 +10,7 @@ import { UiStoreContext, PayoutStoreContext } from '@store';
 import { formatPrice, formatDate } from '@utils';
 
 import st from './Scope.module.scss';
+import { useCallback } from 'react';
 
 const radialStyle = buildStyles({
   pathTransitionDuration: 0.5,
@@ -19,10 +20,18 @@ const radialStyle = buildStyles({
 
 const Scope = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
-
   const { payout } = useContext(PayoutStoreContext);
+  const navigate = useNavigate();
 
   const { t } = useTranslation('pay', { keyPrefix: 'scope' });
+
+  const handleCtaClick = useCallback(() => {
+    if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
+      navigate(`/r/${payout.id}`);
+    } else {
+      uiContext.setModal('pay');
+    }
+  }, [payout.status]);
 
   if (!Object.keys(payout).length) {
     return <Spinner />;
@@ -54,7 +63,7 @@ const Scope = observer(({ className }) => {
         </div>
 
         <div className={st.cta}>
-          <Button block onClick={() => uiContext.setModal('pay')}>
+          <Button block onClick={handleCtaClick}>
             {t('action')}
           </Button>
         </div>

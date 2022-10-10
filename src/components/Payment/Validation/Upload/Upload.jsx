@@ -1,20 +1,22 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useContext } from 'react';
 import cns from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { useParams } from 'react-router-dom';
 
 import { SvgIcon, Button } from '@ui';
+import { PayoutStoreContext } from '@store';
 
 import st from './Upload.module.scss';
 
-const Upload = ({ icon, title, horizontal, className }) => {
-  const [file, setFile] = useState(null);
+const Upload = ({ icon, title, id, horizontal, className }) => {
+  // const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState(0);
 
-  const id = useMemo(() => {
-    return uniqueId();
-  }, []);
+  const payoutContext = useContext(PayoutStoreContext);
+
+  let { id: payoutId } = useParams();
 
   const radialStyle = useMemo(() => {
     let pathColor, trailColor;
@@ -34,27 +36,31 @@ const Upload = ({ icon, title, horizontal, className }) => {
     });
   }, [status]);
 
-  const handleFileChange = useCallback((e) => {
-    const file = e.target.files[0];
-    setFile(file);
-    setProgress(0);
-    setStatus(1);
-  }, []);
+  const handleFileChange = useCallback(
+    async (e) => {
+      const file = e.target.files[0];
+      // setFile(file);
 
-  useEffect(() => {
-    if (status) {
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev === 100) {
-            clearInterval(interval);
-            return 100;
-          } else {
-            return prev + 1;
-          }
+      const res = await payoutContext
+        .uploadDocument({
+          id: payoutId,
+          docId: id,
+          file,
+          progress: (e) => {
+            setProgress(e);
+          },
+        })
+        .catch(() => {
+          setStatus(2);
         });
-      }, 50);
-    }
-  }, [status]);
+
+      if (res) {
+        setStatus(1);
+      }
+      setStatus(1);
+    },
+    [payoutId, id]
+  );
 
   useEffect(() => {
     if (progress === 100 && status !== 2) {

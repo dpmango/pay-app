@@ -4,15 +4,21 @@ import { observer } from 'mobx-react-lite';
 import { Trans, useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Button } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon, Button, Spinner, ApiImage } from '@ui';
+import { PayoutStoreContext } from '@store';
 
-import ProfileUpload from './Upload';
+import PaymentUpload from './Upload';
 import st from './Validation.module.scss';
 
 const Validation = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
+  const { documents } = payoutContext;
+
   const { t } = useTranslation('profile', { keyPrefix: 'validate' });
+
+  if (!documents.length) {
+    return <Spinner />;
+  }
 
   return (
     <section className={cns(st.container, className)}>
@@ -26,14 +32,16 @@ const Validation = observer(({ className }) => {
           </div>
 
           <div className={st.grid}>
-            <div className={st.col}>
-              <ProfileUpload icon="upload-photo" title={t('passportMain')} />
-            </div>
-            <div className={st.col}>
-              <ProfileUpload icon="upload-photo" title={t('passportResidency')} />
-            </div>
+            {documents &&
+              documents.map((doc) => (
+                <div className={st.col} key={doc.id}>
+                  {/* {doc.status} || {doc.isRequired ? 'req' : 'no req'} */}
+                  <PaymentUpload icon="upload-photo" title={doc.title} id={doc.id} />
+                </div>
+              ))}
+
             <div className={cns(st.col, st._full)}>
-              <ProfileUpload icon="upload-selfie" horizontal={true} title={t('passportSelfie')} />
+              <PaymentUpload icon="upload-selfie" horizontal={true} title={t('passportSelfie')} />
             </div>
           </div>
 

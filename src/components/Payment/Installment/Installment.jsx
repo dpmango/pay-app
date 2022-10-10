@@ -42,8 +42,12 @@ const Installment = observer(({ className }) => {
     }
   }, [payout.availablePlans]);
 
+  console.log(sessionContext.accessToken);
   const handleAcceptClick = useCallback(async () => {
+    console.log(sessionContext.accessToken);
     if (sessionContext.accessToken) {
+      // if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
+
       const res = await payoutContext
         .acceptPayout({
           id: payout.id,
@@ -51,13 +55,13 @@ const Installment = observer(({ className }) => {
         })
         .catch(({ status }) => {
           if (status === 409) {
-            navigate('/profile/validation');
+            navigate(`/pay/${payout.id}/validation`);
           }
         });
 
       if (res && res.status) {
         if (res.status === 'DocumentsRequired') {
-          navigate('/profile/validation');
+          navigate(`/pay/${payout.id}/validation`);
         }
       }
     } else {

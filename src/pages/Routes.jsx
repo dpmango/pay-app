@@ -8,10 +8,10 @@ import {
   Home,
   Profile,
   ProfileSettings,
-  ProfileValidation,
   Contacts,
   Chat,
   Payment,
+  PaymentValidation,
   PaymentSuggestion,
   PaymentProcessing,
 } from '@/pages';
@@ -39,9 +39,9 @@ const Router = () => (
         <Route index element={<Home tab="purchases" />} />
         {/* <Route path="shops" element={<Home tab="shops" />} /> */}
         <Route path="pay/:id" element={<Payment />} />
+        <Route path="pay/:id/validation" element={<PaymentValidation />} />
         <Route path="pay/processing" element={<PaymentProcessing />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="profile/validation" element={<ProfileValidation />} />
         <Route path="profile/settings" element={<ProfileSettings />} />
         <Route path="contacts" element={<Contacts />} />
         {/* <Route path="chat" element={<Chat />} /> */}

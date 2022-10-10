@@ -83,6 +83,12 @@ export default class SessionStore {
       await this.renewSession({ refreshToken }).catch(console.warn);
       await this.getProfile();
     }
+
+    // TODO - tmp while renew not working
+    runInAction(() => {
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
+    });
   }
 
   async createSession(req) {
