@@ -7,7 +7,7 @@ import ru from '@assets/dictionaries/ru.json';
 import en from '@assets/dictionaries/en.json';
 
 const resources = {
-  // ru,
+  ru,
   en,
 };
 
@@ -16,7 +16,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: ['en'],
+    supportedLngs: ['ru', 'en'],
     fallbackLng: 'ru',
     defaultNS: '',
     debug: process.env.NODE_ENV !== 'production',

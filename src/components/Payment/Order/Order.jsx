@@ -48,18 +48,18 @@ const Order = observer(({ className, defaultOpen }) => {
                     <div className={st.contentHeadTitle}>{payout.partner.name}</div>
                   </div>
                   <div className={st.table}>
-                    {payout.document.Headers &&
-                      payout.document.Headers.map((row, idx) => (
+                    {payout.document.headers &&
+                      payout.document.headers.map((row, idx) => (
                         <div className={st.tableRow} key={idx}>
-                          <div className={st.tableLabel}>{row.Title} </div>
-                          <div className={st.tableValue}>{row.Value}</div>
+                          <div className={st.tableLabel}>{row.title} </div>
+                          <div className={st.tableValue}>{row.value}</div>
                         </div>
                       ))}
                   </div>
                 </div>
 
-                {payout.document.Sections &&
-                  payout.document.Sections.map((section, idx) => (
+                {payout.document.sections &&
+                  payout.document.sections.map((section, idx) => (
                     <div
                       key={idx}
                       className={cns(
@@ -68,7 +68,7 @@ const Order = observer(({ className, defaultOpen }) => {
                         activeDropDown === idx && st._active
                       )}>
                       <div className={st.contentRow} onClick={() => handleDropdownCLick(idx)}>
-                        <div className={st.contentLabel}>{section.Title}</div>
+                        <div className={st.contentLabel}>{section.title}</div>
                         <div className={st.contentValue}>? ₽</div>
                         <div className={st.contentToggle}>
                           <SvgIcon name="caret" />
@@ -86,18 +86,18 @@ const Order = observer(({ className, defaultOpen }) => {
                             </tr>
                           </thead>
                           <tbody>
-                            {section.Items &&
-                              section.Items.map((item, idxx) => (
+                            {section.items &&
+                              section.items.map((item, idxx) => (
                                 <tr key={idxx}>
                                   <td className={st.number}>{idxx + 1}</td>
                                   <td className={st.title}>
-                                    {item.Title} <small>{item.Code}</small>
+                                    {item.title} <small>{item.code}</small>
                                   </td>
                                   <td className={st.amount}>
-                                    {item.Quantity} {item.Unit}
+                                    {item.quantity} {item.unit}
                                   </td>
-                                  <td>{formatPrice(item.Price)} ₽</td>
-                                  <td>{formatPrice(item.Total)} ₽</td>
+                                  <td>{formatPrice(item.price)} ₽</td>
+                                  <td>{formatPrice(item.total)} ₽</td>
                                 </tr>
                               ))}
                           </tbody>
