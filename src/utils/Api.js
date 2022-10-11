@@ -1,8 +1,8 @@
 export const ApiService = async (axiosActionWithRequest) => {
   try {
-    const { data } = await axiosActionWithRequest;
+    const { data, status } = await axiosActionWithRequest;
 
-    return [null, data];
+    return [null, data, status];
   } catch (error) {
     return [useCatchError(error), null];
   }

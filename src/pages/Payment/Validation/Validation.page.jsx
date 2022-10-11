@@ -17,6 +17,7 @@ const PaymentValidationPage = observer(() => {
 
   useEffect(() => {
     const fetchData = async () => {
+      await payoutContext.getPayout(id);
       await payoutContext.getAttachedDocuments(id);
     };
 

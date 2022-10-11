@@ -9,8 +9,7 @@ import { PayoutStoreContext } from '@store';
 
 import st from './Upload.module.scss';
 
-const Upload = ({ icon, title, id, horizontal, className }) => {
-  // const [file, setFile] = useState(null);
+const Upload = ({ icon, title, id, initialStatus, mediaTypesSupported, horizontal, className }) => {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState(0);
 
@@ -39,34 +38,48 @@ const Upload = ({ icon, title, id, horizontal, className }) => {
   const handleFileChange = useCallback(
     async (e) => {
       const file = e.target.files[0];
-      // setFile(file);
 
-      const res = await payoutContext
+      if (!mediaTypesSupported.includes(file.type)) {
+        alert('неподдерживаемый формат');
+        return;
+      }
+
+      await payoutContext
         .uploadDocument({
           id: payoutId,
           docId: id,
           file,
-          progress: (e) => {
-            setProgress(e);
+          progress: (n) => {
+            setProgress(n);
           },
         })
-        .catch(() => {
+        .then(() => {
+          setStatus(1);
+        })
+        .catch((_err) => {
           setStatus(2);
         });
-
-      if (res) {
-        setStatus(1);
-      }
-      setStatus(1);
     },
     [payoutId, id]
   );
 
+  let interval = null;
   useEffect(() => {
-    if (progress === 100 && status !== 2) {
-      setStatus(2);
+    if (initialStatus === 'Succeeded') {
+      setStatus(1);
+      setProgress(100);
     }
-  }, [progress, status]);
+
+    if (initialStatus === 'Processing') {
+      interval = setInterval(async () => {
+        await payoutContext.getAttachedDocument({ id: payoutId, docId: id }).then((res) => {
+          if (res.status === 'Succeeded') {
+            clearInterval(interval);
+          }
+        });
+      }, 1000);
+    }
+  }, [initialStatus]);
 
   return (
     <div className={cns(st.upload, horizontal && st._horizontal, className)}>

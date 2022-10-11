@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -8,6 +8,7 @@ import { ApiImage } from '@ui';
 import { formatPrice } from '@utils';
 
 import st from './ShopCard.module.scss';
+import { useCallback } from 'react';
 const radialStyle = buildStyles({
   pathTransitionDuration: 0.5,
   pathColor: '#34A8FF',
@@ -16,6 +17,8 @@ const radialStyle = buildStyles({
 
 const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, className }) => {
   const { t } = useTranslation('shop');
+
+  const navigate = useNavigate();
 
   const progress = useMemo(() => {
     const percent = sumPaid / sum;
@@ -28,26 +31,58 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
     return +round;
   }, [sum, sumPaid]);
 
-  const statusData = useMemo(() => {
-    let text = '';
-    let cn = '';
-    switch (status) {
-      case 'DocumentsRequired':
-        text = t('status.pending');
-        cn = st._orange;
-        break;
-      case 2:
-        text = t('status.processing');
-        cn = st._green;
-        break;
-      case 3:
-        text = t('status.error');
-        cn = st._red;
-        break;
+  // Offerred – предложена, но не оформлена.
+  // Approving – на рассмотрении.
+  // IncompleteProfile - требуется дозаполнение профиля.
+  // DocumentsRequired - требуется догрузить документы.
+  // Approved – одобрена, но не оформлена.
+  // Active – действующая (выплачиваемая).
+  // Paid – полностью выплачена.
+  // Denied – отказано.
+  // Canceled – отменена.
 
-      default:
-        break;
+  const handleCardClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(status)) {
+        navigate(`/r/${id}`);
+      } else {
+        navigate(`/pay/${id}`);
+      }
+    },
+    [status, id]
+  );
+
+  const statusData = useMemo(() => {
+    let text = status;
+    let cn = '';
+
+    if (['Offerred', 'Approving', 'IncompleteProfile', 'DocumentsRequired'].includes(status)) {
+      cn = st._orange;
     }
+    if (['Approved', 'Active', 'Paid'].includes(status)) {
+      cn = st._green;
+    }
+    if (['Denied', 'Canceled'].includes(status)) {
+      cn = st._red;
+    }
+    // switch (status) {
+    //   case 'DocumentsRequired':
+    //     // text = t('status.pending');
+    //     cn = st._orange;
+    //     break;
+    //   case 'Approving':
+    //     // text = t('status.processing');
+    //     cn = st._green;
+    //     break;
+    //   case 3:
+    //     // text = t('status.error');
+    //     cn = st._red;
+    //     break;
+
+    //   default:
+    //     break;
+    // }
 
     return {
       text,
@@ -60,7 +95,7 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
   }, [id, isShopCard]);
 
   return (
-    <Link to={linkUrl} className={cns(st.card, className)}>
+    <a href={linkUrl} onClick={handleCardClick} className={cns(st.card, className)}>
       <div className={st.cardLeft}>
         <div className={st.cardRadial}>
           <CircularProgressbar
@@ -87,7 +122,7 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
           <div className={st.cardMetaSecondary}>из {formatPrice(sum)} ₽</div>
         </div>
       )}
-    </Link>
+    </a>
   );
 };
 

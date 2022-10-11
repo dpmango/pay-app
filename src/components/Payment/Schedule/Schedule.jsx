@@ -5,8 +5,8 @@ import cns from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon, Button, Image, Spinner } from '@ui';
+import { UiStoreContext, PayoutStoreContext } from '@store';
 
 import ScheduleCard from './ScheduleCard';
 import st from './Schedule.module.scss';
@@ -20,7 +20,16 @@ const radialStyle = buildStyles({
 
 const Schedule = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
+  const { payout } = useContext(PayoutStoreContext);
   const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
+
+  if (!Object.keys(payout).length) {
+    return <Spinner />;
+  }
+
+  if (!['Active', 'Paid'].includes(payout.status)) {
+    return 'График платежей не показывается Не Active или Paid';
+  }
 
   return (
     <section className={cns(st.container, className)}>

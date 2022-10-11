@@ -42,9 +42,7 @@ const Installment = observer(({ className }) => {
     }
   }, [payout.availablePlans]);
 
-  console.log(sessionContext.accessToken);
   const handleAcceptClick = useCallback(async () => {
-    console.log(sessionContext.accessToken);
     if (sessionContext.accessToken) {
       // if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
 

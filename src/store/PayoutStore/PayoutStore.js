@@ -29,6 +29,12 @@ export default class PayoutStore {
     });
   }
 
+  updateDocument(payload) {
+    runInAction(() => {
+      this.documents = [...this.documents.map((x) => (x.id === payload.id ? { ...payload } : x))];
+    });
+  }
+
   // api actions
   async getPayouts(req) {
     const [err, data] = await api.payouts(req);
@@ -87,16 +93,19 @@ export default class PayoutStore {
     const [err, data] = await api.attachedDocumentById(req);
 
     if (err) throw err;
-    this.setDocuments(data);
+    this.updateDocument(data);
 
     return data;
   }
 
   async uploadDocument(req) {
-    console.log({ req });
-    const [err, data] = await api.uploadDocument(req);
+    const [err, data, status] = await api.uploadDocument(req);
 
     if (err) throw err;
+
+    if (status === 204) {
+      await this.getAttachedDocuments(req.id);
+    }
 
     return data;
   }
