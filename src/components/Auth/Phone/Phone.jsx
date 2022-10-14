@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { useTranslation } from 'react-i18next';
 import 'react-phone-number-input/style.css';
 
 import { Button, Input } from '@ui';
@@ -15,16 +16,18 @@ const formInitial = {
 };
 
 const Phone = observer(({ tab, className }) => {
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation('auth', { keyPrefix: 'phone' });
 
   const sessionContext = useContext(SessionStoreContext);
 
   const handleValidation = (values) => {
     const errors = {};
     if (!values.phone) {
-      errors.phone = 'Введите номер телефона';
+      errors.phone = t('validation.empty');
     } else if (!isValidPhoneNumber(values.phone)) {
-      errors.phone = 'Неверный формат';
+      errors.phone = t('validation.mask');
     }
 
     return errors;
@@ -35,10 +38,17 @@ const Phone = observer(({ tab, className }) => {
       if (loading) {
         return;
       }
-      sessionContext.setPhone(values.phone);
-      // setLoading(true);
 
-      let data = {};
+      setLoading(true);
+      await sessionContext
+        .createSession({
+          method: 'PhoneOTP',
+          phone: values.phone.replace('+', ''),
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+      setLoading(false);
     },
     [loading]
   );
@@ -53,7 +63,7 @@ const Phone = observer(({ tab, className }) => {
         {({ isValid, touched, isSubmitting, setFieldError }) => (
           <Form className={st.form}>
             <div className={cns(st.formBody)}>
-              <div className={st.title}>Ваш номер телефона</div>
+              <div className={st.title}>{t('title')}</div>
               <Field type="text" name="phone">
                 {({ field, form: { setFieldValue }, meta }) => (
                   <PhoneInput
@@ -82,8 +92,8 @@ const Phone = observer(({ tab, className }) => {
             </div>
 
             <div className={st.cta}>
-              <Button type="submit" disabled={touched && !isValid} block>
-                Подтвердить
+              <Button loading={loading} type="submit" disabled={touched && !isValid} block>
+                {t('submit')}
               </Button>
             </div>
           </Form>

@@ -1,6 +1,7 @@
 import React, { useContext, useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
@@ -14,17 +15,20 @@ const formInitial = {
 };
 
 const Code = observer(({ tab, className }) => {
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation('auth', { keyPrefix: 'code' });
 
   const sessionContext = useContext(SessionStoreContext);
   const navigate = useNavigate();
 
   const handleValidation = (values) => {
     const errors = {};
+
     if (!values.code) {
-      errors.code = 'Введите код';
+      errors.code = t('validation.empty');
     } else if (values.code.length !== 4) {
-      errors.code = 'Введите 4 цифры';
+      errors.code = t('validation.mask');
     }
     return errors;
   };
@@ -35,11 +39,18 @@ const Code = observer(({ tab, className }) => {
         return;
       }
 
-      await sessionContext.setSession({ token: '12345' });
-      navigate('/', { replace: true });
-      // setLoading(true);
-
-      let data = {};
+      setLoading(true);
+      await sessionContext
+        .confirmSession({
+          code: values.code,
+        })
+        .then(() => {
+          navigate('/', { replace: true });
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+      setLoading(false);
     },
     [loading]
   );
@@ -54,10 +65,10 @@ const Code = observer(({ tab, className }) => {
         {({ isValid, touched, isSubmitting, setFieldError }) => (
           <Form className={st.form}>
             <div className={cns(st.formBody)}>
-              <div className={st.title}>Пожалуйста введите код из СМС</div>
+              <div className={st.title}>{t('title')}</div>
               <div className={st.desc}>
-                На ваш номер телефона <span className="c-primary">{sessionContext.phone}</span>{' '}
-                отправлена смс с кодом
+                {t('description.number')} <span className="c-primary">{sessionContext.phone}</span>{' '}
+                {t('description.action')}
               </div>
               <Field type="text" name="code">
                 {({ field, form: { setFieldValue }, meta }) => (
@@ -75,8 +86,8 @@ const Code = observer(({ tab, className }) => {
             </div>
 
             <div className={st.cta}>
-              <Button type="submit" disabled={Object.keys(touched).length === 0 || !isValid} block>
-                Отправить
+              <Button loading={loading} type="submit" disabled={!isValid} block>
+                {t('submit')}
               </Button>
             </div>
           </Form>

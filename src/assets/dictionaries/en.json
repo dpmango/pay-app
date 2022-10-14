@@ -1,0 +1,183 @@
+{
+  "header": {
+    "menu": {
+      "home": "Purchases",
+      "shops": "shops",
+      "pay": "Purchases",
+      "profile": "Profile",
+      "contacts": "contacts",
+      "back": "back"
+    }
+  },
+  "auth": {
+    "phone": {
+      "title": "Your phone number",
+      "validation": {
+        "empty": "Enter phone number",
+        "mask": "Invalid format"
+      },
+      "submit": "Confirm"
+    },
+    "code": {
+      "title": "Your phone number",
+      "description": {
+        "number": "To your phone number",
+        "action": "sent SMS with code"
+      },
+      "validation": {
+        "empty": "Enter code",
+        "mask": "Enter 4 digits"
+      },
+      "submit": "Submit"
+    }
+  },
+  "shop": {
+    "tabs": {
+      "active": "Active",
+      "history": "History"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "In progress",
+      "error": "Error"
+    },
+    "nav": {
+      "shops": "Shops",
+      "purchases": "Purchases"
+    }
+  },
+  "pay": {
+    "scope": {
+      "order": "Order-order",
+      "total": "Total amount",
+      "rest": "Remaining",
+      "next": "next payment",
+      "action": "Pay now"
+    },
+    "schedule": {
+      "title": "Payment Schedule",
+      "rest": "It remains to pay",
+      "status": {
+        "willcharge": "will charge",
+        "error": "Payment error",
+        "paid": "Paid"
+      },
+      "action": "Pay"
+    },
+    "order": {
+      "table": {
+        "name": "Name",
+        "amount": "Amount",
+        "price": "Price",
+        "sum": "Sum"
+      },
+      "total": "Total amount",
+      "download": "Download PDF"
+    },
+    "installment": {
+      "title": "pay in installments",
+      "firstPayment": "First payment",
+      "inMount": "per month",
+      "month": "month",
+      "action": "Start clearance",
+      "terms": "Installment Service Terms"
+    }
+  },
+  "modalAddCard": {
+    "title": "Add a New Card",
+    "card": {
+      "label": "Card number",
+      "placeholder": "",
+      "validation": "Enter card number"
+    },
+    "name": {
+      "label": "Owner Name",
+      "placeholder": "Jhon Smith",
+      "validation": "Enter a name on the card"
+    },
+    "date": {
+      "label": "Date",
+      "validation": "Enter end date"
+    },
+    "cvc": {
+      "label": "Last 3 digits on the <br />back of the card",
+      "validation": "Enter CVC code"
+    },
+    "action": "Add map"
+  },
+  "modalError": {
+    "title": "Payment Failed",
+    "description": "Your card has insufficient funds",
+    "action": "Try again"
+  },
+  "modalPay": {
+    "title": "Pay by installments",
+    "method": "Payment method",
+    "closest": "Nearest payment",
+    "payAll": "Pay in full",
+    "payPartial": "Pay"
+  },
+  "modalSelectPayment": {
+    "title": "Payment method",
+    "newCard": "New card",
+    "action": "Pay"
+  },
+  "profile": {
+    "info": {
+      "title": "Hello",
+      "phone": "Mobile phone",
+      "paymentMethod": "Payment method"
+    },
+    "actions": {
+      "faq": "Frequently Asked Questions",
+      "logout": "Log out of the application",
+      "appname": "Contacts"
+    },
+    "validate": {
+      "title": "Please upload your documents photos",
+      "description": "The photo must be:<br />bright and clear, good quality, all corners of the documents have to be visible.",
+      "passportMain": "Passport Main",
+      "passportResidency": "Residence Passport",
+      "passportSelfie": "Take a selfie with your passport",
+      "info": "Passport photo, full name and other data must be clearly visible",
+      "action": "Submit",
+      "terms": "Installment Service Terms"
+    }
+  },
+  "chat": {
+    "admin": {
+      "title": "Operator",
+      "online": "Online",
+      "offline": "Offline",
+      "meta": "Support Operator"
+    },
+    "submit": {
+      "placeholder": "Message text"
+    }
+  },
+  "contacts": {
+    "title": "Contact Us",
+    "phone": "Phone",
+    "email": "Email",
+    "telegram": "Message whatsapp",
+    "whatsapp": "Message to Telegram"
+  },
+  "await": {
+    "payment": {
+      "title": "Your payment is being processed",
+      "description": "Payment has been sent and is being processed. Processing may take up to 24 hours",
+      "done": {
+        "title": "Congratulations!",
+        "description": "Your installment has been approved"
+      },
+      "error": {
+        "title": "Card Error!",
+        "description": "Invalid data entered or card expired"
+      },
+      "actions": {
+        "continue": "Continue",
+        "connect": "Add card"
+      }
+    }
+  }
+}

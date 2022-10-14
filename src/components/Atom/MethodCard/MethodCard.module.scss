@@ -1,0 +1,59 @@
+.payment {
+  display: flex;
+  align-items: center;
+  padding: 22px 20px;
+  background: #eaf1f6;
+  border-radius: 11px;
+  margin-bottom: 9px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+
+  &Image {
+    flex: 0 0 65px;
+  }
+
+  &Title {
+    padding-left: 15px;
+    padding-right: 25px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: calc(23 / 18);
+  }
+
+  &Checkbox {
+    position: relative;
+    margin-left: auto;
+    min-width: 49px;
+    min-height: 49px;
+    flex: 0 0 auto;
+    // background: #eaf1f6;
+    border-radius: 50%;
+    color: $colorPrimary;
+    font-size: 13px;
+    transition: background 0.25s $ease;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.25s $ease;
+    }
+  }
+
+  &._active,
+  &:hover {
+    .paymentCheckbox {
+      // background: $colorPrimary;
+
+      svg {
+        opacity: 1;
+      }
+    }
+  }
+}

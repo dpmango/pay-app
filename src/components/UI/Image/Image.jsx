@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, memo } from 'react';
 import cns from 'classnames';
 
-import { checkImageExists } from '@helpers';
+import { checkImageExists } from '@utils';
 
 const Image = ({ src, have2x = false, shouldGet2x = true, className, ...props }) => {
   const [source2x, setSource2x] = useState();

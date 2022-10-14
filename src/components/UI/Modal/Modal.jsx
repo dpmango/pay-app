@@ -38,21 +38,34 @@ const mainStyles = {
   },
 };
 
+const centerStyles = {
+  content: {
+    width: '100%',
+    maxWidth: 'calc(100% - 40px)',
+    top: '50%',
+    left: '20px',
+    right: '20px',
+    bottom: 'auto',
+    margin: '0px auto',
+    transform: 'translateY(-50%)',
+  },
+};
+
 Modal.setAppElement('#root');
 
 const Variants = {
   MAIN: 'main',
-  // NARROW: 'narrow',
+  CENTER: 'center',
 };
 
 const VariantStyles = {
   [Variants.MAIN]: mainStyles,
-  // [Variants.NARROW]: narrowStyles,
+  [Variants.CENTER]: centerStyles,
 };
 
 const VariantClasses = {
   [Variants.MAIN]: '',
-  // [Variants.NARROW]: st._narrow,
+  [Variants.CENTER]: st._center,
 };
 
 const Modifiers = {
@@ -105,10 +118,11 @@ const ModalComponent = observer(({ variant, modifier, name, className, mobTitle,
           modifier && ModifierClasses[modifier],
           className
         )}>
-        <div className={cns('close', st.close)} onClick={closeModal}>
-          {/* <SvgIcon name="close" /> */}
-          <div className={st.closeLine}></div>
-        </div>
+        {variant === Variants.MAIN && (
+          <div className={cns('close', st.close)} onClick={closeModal}>
+            <div className={st.closeLine}></div>
+          </div>
+        )}
 
         <div className={cns(st.content, modifier && ModifierClasses[modifier])}>{children}</div>
       </div>

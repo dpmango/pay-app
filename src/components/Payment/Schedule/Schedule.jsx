@@ -1,55 +1,63 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { useTranslation } from 'react-i18next';
+import { buildStyles } from 'react-circular-progressbar';
 
-import { SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext } from '@store';
+import { Image, Spinner } from '@ui';
+import { UiStoreContext, PayoutStoreContext } from '@store';
+import { formatPrice } from '@utils';
 
 import ScheduleCard from './ScheduleCard';
 import st from './Schedule.module.scss';
-import { payments } from './mockData';
-
-const radialStyle = buildStyles({
-  pathTransitionDuration: 0.5,
-  pathColor: '#34A8FF',
-  trailColor: '#EBEAEA',
-});
 
 const Schedule = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
+  const { payout } = payoutContext;
+  const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
+
+  if (!Object.keys(payout).length) {
+    return <Spinner />;
+  }
+
+  if (!['Approved', 'Active', 'Paid'].includes(payout.status)) {
+    return 'График платежей не показывается Не Active или Paid (dev - Approved)';
+  }
+
+  if (!payout.redemptions && payout.redemptions.length === 0) return null;
 
   return (
-    <>
-      <section className={cns(st.container, className)}>
-        <div className="container">
-          <div className={st.box}>
-            <div className={st.head}>График платежей</div>
+    <section className={cns(st.container, className)}>
+      <div className="container">
+        <div className={st.box}>
+          <div className={st.head}>{t('title')}</div>
 
-            <div className={st.list}>
-              {payments &&
-                payments.map((payment) => (
-                  <ScheduleCard {...payment} className={st.listCard} key={payment.id} />
-                ))}
+          <div className={st.list}>
+            {payout.redemptions.map((payment, idx) => (
+              <ScheduleCard
+                {...payment}
+                orderNum={idx + 1}
+                className={st.listCard}
+                key={payment.id}
+              />
+            ))}
+          </div>
+
+          <div className={st.tiles}>
+            <div className={st.tile}>
+              <div className={st.tileLabel}>{t('rest')}</div>
+              <div className={st.tileValue}>{formatPrice(payoutContext.payoutSumLeft)} ₽</div>
             </div>
-
-            <div className={st.tiles}>
-              <div className={st.tile}>
-                <div className={st.tileLabel}>Осталось оплатить</div>
-                <div className={st.tileValue}>4200 ₽</div>
-              </div>
-              <div className={st.tile}>
-                <div className={st.tileLabel}>Карта Visa *8644</div>
-                <div className={st.tileValue}>
-                  <Image src="/img/payment/visa.png" have2x={true} />
-                </div>
+            <div className={st.tile}>
+              <div className={st.tileLabel}>Карта Visa *8644</div>
+              <div className={st.tileValue}>
+                <Image src="/img/payment/visa.png" have2x={true} />
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 });
 

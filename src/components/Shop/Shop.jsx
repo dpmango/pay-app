@@ -1,19 +1,32 @@
-import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
+import { Spinner } from '@ui';
+import { Empty } from '@c/Atom';
+import { PayoutStoreContext } from '@store';
 
 import ShopCard from '@c/Shop/ShopCard';
 import st from './Shop.module.scss';
-import { purchases, shops } from './mockData';
 
 const Shop = observer(({ tab, className }) => {
   const [pTab, setPTab] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const { t } = useTranslation('shop');
 
-  const uiContext = useContext(UiStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
+  const { payouts } = payoutContext;
+
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      await payoutContext.getPayouts({ completed: pTab === 2 });
+      setLoading(false);
+    };
+
+    getData();
+  }, [pTab]);
 
   return (
     <section className={cns(st.container, className)}>
@@ -24,46 +37,54 @@ const Shop = observer(({ tab, className }) => {
               <div
                 className={cns(st.tabsLink, pTab === 1 && st._active)}
                 onClick={() => setPTab(1)}>
-                Активные
+                {t('tabs.active')}
               </div>
               <div
                 className={cns(st.tabsLink, pTab === 2 && st._active)}
                 onClick={() => setPTab(2)}>
-                История
+                {t('tabs.history')}
               </div>
             </div>
 
-            <div className={st.grid}>
-              {purchases &&
-                purchases.map((card) => (
-                  <ShopCard className={st.gridCard} {...card} key={card.id} />
-                ))}
-            </div>
+            {loading ? (
+              <Spinner theme="primary" />
+            ) : (
+              <div className={st.grid}>
+                {payouts && payouts.length > 0 ? (
+                  payouts.map((card) => (
+                    <ShopCard className={st.gridCard} {...card} key={card.id} />
+                  ))
+                ) : (
+                  <Empty title={t('empty')} />
+                )}
+              </div>
+            )}
           </>
         )}
 
-        {tab === 'shops' && (
+        {/* MVP Removed shops */}
+        {/* {tab === 'shops' && (
           <div className={st.grid}>
             {shops &&
               [...shops, ...shops].map((card) => (
                 <ShopCard className={st.gridCard} isShopCard={true} {...card} key={card.id} />
               ))}
           </div>
-        )}
+        )} */}
 
-        <div className={st.fixedNav}>
+        {/* <div className={st.fixedNav}>
           <div className={st.nav}>
             <NavLink to="/shops" className={st.navLink}>
               <SvgIcon name="shopping-cart" />
-              <span>Магазины</span>
+              <span>{t('nav.shops')}</span>
             </NavLink>
 
             <NavLink to="/" className={st.navLink}>
               <SvgIcon name="list" />
-              <span>Покупки</span>
+              <span>{t('nav.purchases')}</span>
             </NavLink>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

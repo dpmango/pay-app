@@ -30,20 +30,18 @@ const Stories = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
 
   return (
-    <>
-      <section className={cns(st.container, className)}>
-        <div className="container">
-          <Swiper spaceBetween={14} slidesPerView={'auto'}>
-            {stories &&
-              stories.map((story) => (
-                <SwiperSlide key={story.id}>
-                  <Story {...story} />
-                </SwiperSlide>
-              ))}
-          </Swiper>
-        </div>
-      </section>
-    </>
+    <section className={cns(st.container, className)}>
+      <div className="container">
+        <Swiper spaceBetween={14} slidesPerView={'auto'}>
+          {stories &&
+            stories.map((story) => (
+              <SwiperSlide key={story.id}>
+                <Story {...story} />
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
+    </section>
   );
 });
 

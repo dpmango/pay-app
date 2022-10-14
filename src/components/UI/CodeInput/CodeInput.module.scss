@@ -33,11 +33,6 @@
 
     &._withError {
       border-color: $colorRed;
-      color: $colorRed;
-
-      &::placeholder {
-        color: rgba($colorRed, 0.5);
-      }
     }
   }
 

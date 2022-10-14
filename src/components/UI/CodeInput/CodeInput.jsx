@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useState, memo } from 'react';
+import React, { useCallback, useMemo, useState, memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cns from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 
 import { SvgIcon, Image } from '@ui';
 import st from './CodeInput.module.scss';
-import { useEffect } from 'react';
 
 const CodeInput = ({ className, label, length, value, onChange, error, showError, ...props }) => {
   const [fields, setFields] = useState([...new Array(length)]);

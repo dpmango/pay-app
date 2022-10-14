@@ -1,0 +1,6 @@
+variables:
+  CONTAINER_NAME: customer-web-frontend
+
+include:
+  - project: devops/ci-jobs
+    file: frontend-simple.yml

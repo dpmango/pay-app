@@ -9,6 +9,8 @@ import st from './Button.module.scss';
 const Themes = {
   PRIMARY: 'primary',
   ACCENT: 'accent',
+  GREEN: 'green',
+  BLUE: 'blue',
   BLACK: 'black',
 };
 
@@ -21,6 +23,8 @@ const Variants = {
 const ThemeClasses = {
   [Themes.PRIMARY]: st._primary,
   [Themes.ACCENT]: st._accent,
+  [Themes.GREEN]: st._green,
+  [Themes.BLUE]: st._blue,
   [Themes.BLACK]: st._black,
 };
 

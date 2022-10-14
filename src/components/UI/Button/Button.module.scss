@@ -1,4 +1,5 @@
 .btn {
+  appearance: none;
   display: inline-flex;
   justify-content: center;
   font-weight: 600;
@@ -7,7 +8,13 @@
   line-height: calc(26 / 20);
   padding: 23px 30px;
   border-radius: 11px;
+  border: 0;
+  cursor: pointer;
   transition: background 0.25s $ease, color 0.25s $ease, box-shadow 0.25s $ease;
+
+  &:focus {
+    outline: none;
+  }
 
   &._primary {
     background: $colorPrimary;
@@ -61,6 +68,46 @@
     }
   }
 
+  &._green {
+    background: #a7c97c;
+    color: white;
+
+    &:hover {
+      background: rgba(#a7c97c, 0.8);
+    }
+
+    &._outline {
+      background: transparent;
+      border: 1px solid #a7c97c;
+      color: $fontColor;
+
+      &:hover {
+        color: white;
+        background: #a7c97c;
+      }
+    }
+  }
+
+  &._blue {
+    background: #305774;
+    color: white;
+
+    &:hover {
+      background: rgba(#305774, 0.8);
+    }
+
+    &._outline {
+      background: transparent;
+      border: 1px solid #305774;
+      color: $fontColor;
+
+      &:hover {
+        color: white;
+        background: #305774;
+      }
+    }
+  }
+
   &._black {
     background: $fontColor;
     color: white;
@@ -94,7 +141,7 @@
   }
 
   &._block {
-    display: block;
+    display: flex;
     width: 100%;
   }
   // icons

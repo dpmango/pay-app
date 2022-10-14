@@ -49,3 +49,11 @@
     flex-direction: column;
   }
 }
+
+.container._center {
+  border-radius: 11px;
+
+  .content {
+    padding: 42px 30px 24px;
+  }
+}

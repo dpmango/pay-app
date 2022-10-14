@@ -1,21 +1,28 @@
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { formatPrice } from '@helpers';
+import { ApiImage } from '@ui';
+import { formatPrice } from '@utils';
 
+import VerboseStatus from '../VerboseStatus';
 import st from './ShopCard.module.scss';
+
 const radialStyle = buildStyles({
   pathTransitionDuration: 0.5,
   pathColor: '#34A8FF',
   trailColor: '#EBEAEA',
 });
 
-const ShopCard = ({ id, company, description, status, payments, isShopCard, className }) => {
-  const progress = useMemo(() => {
-    const percent = payments.current / payments.total;
+const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, className }) => {
+  const { t } = useTranslation('shop');
 
+  const navigate = useNavigate();
+
+  const progress = useMemo(() => {
+    const percent = sumPaid / sum;
     const round = percent.toLocaleString('en', {
       useGrouping: false,
       minimumFractionDigits: 1,
@@ -23,41 +30,26 @@ const ShopCard = ({ id, company, description, status, payments, isShopCard, clas
     });
 
     return +round;
-  }, [payments]);
+  }, [sum, sumPaid]);
 
-  const statusData = useMemo(() => {
-    let text = '';
-    let cn = '';
-    switch (status) {
-      case 1:
-        text = 'На рассмотрении';
-        cn = st._orange;
-        break;
-      case 2:
-        text = 'В процессе';
-        cn = st._green;
-        break;
-      case 3:
-        text = 'Ошибка';
-        cn = st._red;
-        break;
-
-      default:
-        break;
-    }
-
-    return {
-      text,
-      cn,
-    };
-  }, [status]);
+  const handleCardClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(status)) {
+        navigate(`/r/${id}`);
+      } else {
+        navigate(`/pay/${id}`);
+      }
+    },
+    [status, id]
+  );
 
   const linkUrl = useMemo(() => {
     return `${isShopCard ? '/shop' : '/pay'}/${id}`;
   }, [id, isShopCard]);
 
   return (
-    <Link to={linkUrl} className={cns(st.card, className)}>
+    <a href={linkUrl} onClick={handleCardClick} className={cns(st.card, className)}>
       <div className={st.cardLeft}>
         <div className={st.cardRadial}>
           <CircularProgressbar
@@ -67,24 +59,24 @@ const ShopCard = ({ id, company, description, status, payments, isShopCard, clas
             styles={radialStyle}
           />
           <div className={st.cardLogo}>
-            {company.logo && <img src={company.logo} alt={company.name} />}
+            {partner.logoSlug && <ApiImage slug={partner.logoSlug} width={80} />}
           </div>
         </div>
       </div>
 
       <div className={st.cardContent}>
-        <div className={st.cardTitle}>{company.title}</div>
+        <div className={st.cardTitle}>{partner.name}</div>
         {description && <div className={st.cardDescription}>{description}</div>}
-        {status && <div className={cns(st.cardStatus, statusData.cn)}>{statusData.text}</div>}
+        {status && <VerboseStatus className={st.cardStatus} status={status} />}
       </div>
 
-      {payments && !isShopCard && (
+      {!isShopCard && (
         <div className={st.cardMeta}>
-          <div className={st.cardMetaPrimary}>{formatPrice(payments.current)} ₽</div>
-          <div className={st.cardMetaSecondary}>из {formatPrice(payments.total)} ₽</div>
+          <div className={st.cardMetaPrimary}>{formatPrice(sumPaid)} ₽</div>
+          <div className={st.cardMetaSecondary}>из {formatPrice(sum)} ₽</div>
         </div>
       )}
-    </Link>
+    </a>
   );
 };
 
