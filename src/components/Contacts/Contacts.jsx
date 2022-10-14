@@ -1,16 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
 import { Tile } from '@c/Atom';
-import { UiStoreContext } from '@store';
 
 import st from './Contacts.module.scss';
 
-const Contacts = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
+const Contacts = ({ className }) => {
   const { t } = useTranslation('contacts');
 
   return (
@@ -58,6 +54,6 @@ const Contacts = observer(({ className }) => {
       </div>
     </section>
   );
-});
+};
 
 export default Contacts;

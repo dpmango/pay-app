@@ -1,21 +1,22 @@
 import React, { useContext, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { UiStoreContext } from '@store';
+import { UiStoreContext, PayoutStoreContext } from '@store';
 import { SvgIcon } from '@ui';
-import { formatPrice } from '@utils';
+import { formatPrice, formatDate } from '@utils';
 
 import st from './ScheduleCard.module.scss';
 
-const ScheduleCard = ({ id, number, status, price, total, deadline, className }) => {
+// redemptions type
+const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, className }) => {
   const uiContext = useContext(UiStoreContext);
+  const payoutContext = useContext(PayoutStoreContext);
   const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
 
   const progress = useMemo(() => {
-    const percent = price / 12000;
+    const percent = sum / payoutContext.sum;
 
     const round = percent.toLocaleString('en', {
       useGrouping: false,
@@ -24,27 +25,28 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
     });
 
     return +round;
-  }, [price]);
+  }, [sum, payoutContext.sum]);
 
-  const isCurrentPayment = status === 5;
-  const isFailedPayment = status === 9;
+  const isCurrentPayment = ['InProcess'].includes(status);
+  const isFailedPayment = ['Failed'].includes(status);
 
-  const deadlinyByStatus = useMemo(() => {
+  const deadline = useMemo(() => {
+    return formatDate(createdAt);
+  }, [createdAt]);
+
+  const descriptionText = useMemo(() => {
     let topic = '';
     let showDate = true;
 
     switch (status) {
-      case 1:
+      case 'InProcess':
         topic = t('status.willcharge');
         break;
-      case 5:
-        topic = t('status.willcharge');
-        break;
-      case 9:
+      case 'Failed':
         topic = t('status.error');
         showDate = false;
         break;
-      case 10:
+      case 'Succeeded':
         topic = t('status.payed');
         break;
       default:
@@ -57,18 +59,16 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
   const radialStyle = useMemo(() => {
     let color = '';
     let colorTrail = '#EBEAEA';
+
     switch (status) {
-      case 1:
-        color = '#EBEAEA';
-        break;
-      case 5:
+      case 'InProcess':
         color = '#34A8FF';
         break;
-      case 9:
+      case 'Failed':
         color = '#E77676';
         colorTrail = '#E77676';
         break;
-      case 10:
+      case 'Succeeded':
         color = '#A7C97C';
         break;
       default:
@@ -98,13 +98,13 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
             maxValue={1}
             styles={radialStyle}
           />
-          <div className={st.cardNumber}>{number}</div>
+          <div className={st.cardNumber}>{formatPrice(orderNum)}</div>
         </div>
       </div>
 
       <div className={st.cardContent}>
-        <div className={st.cardTitle}>{formatPrice(price)} ₽</div>
-        <div className={st.cardDescription}>{deadlinyByStatus}</div>
+        <div className={st.cardTitle}>{formatPrice(sum)} ₽</div>
+        <div className={st.cardDescription}>{descriptionText}</div>
       </div>
 
       <div
@@ -113,7 +113,9 @@ const ScheduleCard = ({ id, number, status, price, total, deadline, className })
         <div className={st.cardActionIcon}>
           <SvgIcon name="card" />
         </div>
-        <div className={st.cardActionName}>Оплатить</div>
+        <div className={st.cardActionName} onClick={() => uiContext.setModal('pay')}>
+          Оплатить
+        </div>
       </div>
     </div>
   );

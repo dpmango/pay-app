@@ -150,10 +150,10 @@ export default class PayoutStore {
   }
 
   async initPayment(req) {
-    const [err, data] = await api.initPayment(req);
+    const [err, data, status] = await api.initPayment(req);
 
     if (err) throw err;
 
-    return data;
+    return { data, status };
   }
 }

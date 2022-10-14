@@ -2,16 +2,16 @@ import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PayoutStoreContext } from '@/store';
+import { PayoutStoreContext, UiStoreContext } from '@/store';
 
 import Layout from '@c/Layout';
 import { PaymentOrder, PaymentInstallment } from '@c/Payment';
-import { ModalPay, ModalMethodSelect, ModalAddCard, ModalError } from '@c/Modal';
+import { ModalError } from '@c/Modal';
 
-import st from './Suggestion.module.scss';
+import st from './Welcome.module.scss';
 
-const PaymentSuggestionPage = observer(() => {
-  // const uiContext = useContext(UiStoreContext);
+const PaymentWelcomePage = observer(() => {
+  const uiContext = useContext(UiStoreContext);
   const payoutContext = useContext(PayoutStoreContext);
 
   let { id } = useParams();
@@ -21,7 +21,7 @@ const PaymentSuggestionPage = observer(() => {
     const fetchData = async () => {
       await payoutContext.getPayout(id).catch(({ status }) => {
         if (status === 404) {
-          alert('Не найдно');
+          uiContext.setModal('error', { text: 'Такой рассрочки не найдено' });
           navigate('/');
         }
       });
@@ -41,12 +41,9 @@ const PaymentSuggestionPage = observer(() => {
       <PaymentOrder defaultOpen={true} className={st.order} />
       <PaymentInstallment className={st.installment} />
 
-      <ModalPay />
-      <ModalMethodSelect />
-      <ModalAddCard />
       <ModalError />
     </Layout>
   );
 });
 
-export default PaymentSuggestionPage;
+export default PaymentWelcomePage;

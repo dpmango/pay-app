@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { observer } from 'mobx-react-lite';
@@ -12,10 +12,9 @@ import {
   Chat,
   Payment,
   PaymentValidation,
-  PaymentSuggestion,
+  PaymentWelcome,
   PaymentProcessing,
 } from '@/pages';
-import { SessionStoreContext } from '@/store';
 
 import { AUTH_TOKEN_COOKIE } from '@core/enum/cookie';
 
@@ -33,14 +32,14 @@ const Router = () => (
   <BrowserRouter>
     <Routes>
       <Route path="auth" element={<Auth />} />
-      <Route path="r/:id" element={<PaymentSuggestion />} />
+      <Route path="r/:id" element={<PaymentWelcome />} />
 
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home tab="purchases" />} />
         {/* <Route path="shops" element={<Home tab="shops" />} /> */}
         <Route path="pay/:id" element={<Payment />} />
         <Route path="pay/:id/validation" element={<PaymentValidation />} />
-        <Route path="pay/processing" element={<PaymentProcessing />} />
+        <Route path="pay/:id/processing" element={<PaymentProcessing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/settings" element={<ProfileSettings />} />
         <Route path="contacts" element={<Contacts />} />

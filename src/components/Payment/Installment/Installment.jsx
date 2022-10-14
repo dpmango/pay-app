@@ -53,7 +53,7 @@ const Installment = observer(({ className }) => {
         })
         .catch(({ status }) => {
           if (status === 409) {
-            navigate(`/pay/${payout.id}/validation`);
+            navigate(`/pay/${payout.id}`);
           }
         });
 

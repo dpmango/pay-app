@@ -46,7 +46,7 @@ const ModalPay = observer(({ className }) => {
     async (e, methodID) => {
       setLoading(true);
 
-      await payoutContext
+      const { data, status } = await payoutContext
         .initPayment({
           id: payout.id,
           sum: 18175.0,
@@ -61,8 +61,18 @@ const ModalPay = observer(({ className }) => {
         });
 
       setLoading(false);
+      if (!data) return;
+
+      if (data.status === 'Failed') {
+        uiContext.setModal('error', { text: data.errorDescription });
+      } else if (status === 202 && data.redirectUrls) {
+        window.location.href(data.redirectUrls.defaultUrl);
+      } else {
+        payoutContext.getPayout(id);
+        uiContext.resetModal();
+      }
     },
-    [paymentAmount, payout, methodContext.defaultMethodId, payoutContext.selectedPlanId]
+    [id, paymentAmount, payout, methodContext.defaultMethodId, payoutContext.selectedPlanId]
   );
 
   useEffect(() => {

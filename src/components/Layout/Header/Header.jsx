@@ -15,7 +15,6 @@ const Header = observer(({ className }) => {
 
   const sessionContext = useContext(SessionStoreContext);
   const { pathname } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation('header');
 

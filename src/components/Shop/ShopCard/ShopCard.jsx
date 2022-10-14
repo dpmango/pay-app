@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
@@ -7,8 +7,9 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { ApiImage } from '@ui';
 import { formatPrice } from '@utils';
 
+import VerboseStatus from '../VerboseStatus';
 import st from './ShopCard.module.scss';
-import { useCallback } from 'react';
+
 const radialStyle = buildStyles({
   pathTransitionDuration: 0.5,
   pathColor: '#34A8FF',
@@ -31,16 +32,6 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
     return +round;
   }, [sum, sumPaid]);
 
-  // Offerred – предложена, но не оформлена.
-  // Approving – на рассмотрении.
-  // IncompleteProfile - требуется дозаполнение профиля.
-  // DocumentsRequired - требуется догрузить документы.
-  // Approved – одобрена, но не оформлена.
-  // Active – действующая (выплачиваемая).
-  // Paid – полностью выплачена.
-  // Denied – отказано.
-  // Canceled – отменена.
-
   const handleCardClick = useCallback(
     (e) => {
       e.preventDefault();
@@ -52,43 +43,6 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
     },
     [status, id]
   );
-
-  const statusData = useMemo(() => {
-    let text = status;
-    let cn = '';
-
-    if (['Offerred', 'Approving', 'IncompleteProfile', 'DocumentsRequired'].includes(status)) {
-      cn = st._orange;
-    }
-    if (['Approved', 'Active', 'Paid'].includes(status)) {
-      cn = st._green;
-    }
-    if (['Denied', 'Canceled'].includes(status)) {
-      cn = st._red;
-    }
-    // switch (status) {
-    //   case 'DocumentsRequired':
-    //     // text = t('status.pending');
-    //     cn = st._orange;
-    //     break;
-    //   case 'Approving':
-    //     // text = t('status.processing');
-    //     cn = st._green;
-    //     break;
-    //   case 3:
-    //     // text = t('status.error');
-    //     cn = st._red;
-    //     break;
-
-    //   default:
-    //     break;
-    // }
-
-    return {
-      text,
-      cn,
-    };
-  }, [status]);
 
   const linkUrl = useMemo(() => {
     return `${isShopCard ? '/shop' : '/pay'}/${id}`;
@@ -113,7 +67,7 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
       <div className={st.cardContent}>
         <div className={st.cardTitle}>{partner.name}</div>
         {description && <div className={st.cardDescription}>{description}</div>}
-        {status && <div className={cns(st.cardStatus, statusData.cn)}>{statusData.text}</div>}
+        {status && <VerboseStatus className={st.cardStatus} status={status} />}
       </div>
 
       {!isShopCard && (

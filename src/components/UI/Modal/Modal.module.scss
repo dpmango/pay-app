@@ -5,10 +5,6 @@
   background: #fff;
   box-shadow: 0 4px 17px rgb(0 0 0 / 12%);
   border-radius: 25px 25px 0 0;
-
-  &._center {
-    border-radius: 11px;
-  }
 }
 
 .close {
@@ -55,6 +51,8 @@
 }
 
 .container._center {
+  border-radius: 11px;
+
   .content {
     padding: 42px 30px 24px;
   }

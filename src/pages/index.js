@@ -4,7 +4,7 @@ export { default as Profile, ProfileSettings } from './Profile';
 export { default as Contacts } from './Contacts';
 export {
   default as Payment,
-  PaymentSuggestion,
+  PaymentWelcome,
   PaymentValidation,
   PaymentProcessing,
 } from './Payment';

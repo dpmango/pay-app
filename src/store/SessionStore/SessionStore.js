@@ -79,16 +79,16 @@ export default class SessionStore {
     const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
     const refreshToken = Cookies.get(AUTH_REFRESH_COOKIE);
 
-    if (accessToken && refreshToken) {
-      await this.renewSession({ refreshToken }).catch(console.warn);
-      await this.getProfile();
-    }
-
     // TODO - tmp while renew not working
     runInAction(() => {
       this.accessToken = accessToken;
       this.refreshToken = refreshToken;
     });
+
+    if (accessToken && refreshToken) {
+      await this.renewSession({ refreshToken }).catch(console.warn);
+      await this.getProfile();
+    }
   }
 
   async createSession(req) {
@@ -116,6 +116,7 @@ export default class SessionStore {
 
     this.setSession(data);
     await this.getProfile();
+
     return data;
   }
 
