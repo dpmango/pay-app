@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar, Tile } from '@ui';
+import { Tile } from '@c/Atom';
 import { UiStoreContext } from '@store';
 
 import st from './Contacts.module.scss';

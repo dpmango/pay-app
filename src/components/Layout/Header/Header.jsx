@@ -4,7 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar } from '@ui';
+import { SvgIcon } from '@ui';
+import { Avatar } from '@c/Atom';
 import { SessionStoreContext } from '@store';
 
 import st from './Header.module.scss';

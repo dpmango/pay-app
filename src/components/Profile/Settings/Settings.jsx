@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import cns from 'classnames';
 
-import { Button, Avatar, Input } from '@ui';
+import { Button, Input } from '@ui';
+import { Avatar } from '@c/Atom';
 import { SessionStoreContext } from '@store';
 
 import st from './Settings.module.scss';

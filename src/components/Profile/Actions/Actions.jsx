@@ -16,7 +16,8 @@ const Actions = observer(({ className }) => {
   const { t } = useTranslation('profile', { keyPrefix: 'actions' });
   const navigate = useNavigate();
 
-  const handleLogout = useCallback(async () => {
+  const handleLogout = useCallback(async (e) => {
+    e.preventDefault();
     await sessionContext.logout();
     navigate('/auth');
   }, []);

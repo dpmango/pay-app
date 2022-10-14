@@ -1,0 +1,13 @@
+.image {
+  text-align: center;
+  font-size: 0;
+  color: $colorPrimary;
+
+  img {
+    max-width: 100%;
+  }
+
+  svg {
+    font-size: 32px;
+  }
+}

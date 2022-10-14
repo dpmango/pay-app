@@ -33,9 +33,10 @@ api.interceptors.request.use((x) => {
 });
 
 api.interceptors.response.use((x) => {
-  if (!x.config.url.includes('images')) {
+  if (!x.config.url.includes('images') && !x.config.url.includes('pdf')) {
     console.log(`${x.status} | ${x.config.url}`, x.data);
   }
+
   return x;
 });
 

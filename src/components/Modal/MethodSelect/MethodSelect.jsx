@@ -1,43 +1,59 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import cns from 'classnames';
-import { Link } from 'react-router-dom';
 
-import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext, MethodStoreContext } from '@store';
 import { formatPrice } from '@utils';
+import { Modal, Button } from '@ui';
+import { MethodCard } from '@c/Atom';
+
 import st from './MethodSelect.module.scss';
 import { useEffect } from 'react';
 
+// Компонент как для выбора метода оплаты (если передать sum в modalParams)
+// так и для управления текущими вариантами если (если передать connectOnly пропс)
 const ModalMethodSelect = observer(({ className, connectOnly }) => {
-  const [paymentMode, setPaymentMode] = useState(1);
+  const [activeMethod, setActiveMethod] = useState(null);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation('modalSelectPayment');
 
   const uiContext = useContext(UiStoreContext);
   const methodContext = useContext(MethodStoreContext);
 
+  const paymentSum = useMemo(() => {
+    if (uiContext.modalParams) {
+      return uiContext.modalParams.sum;
+    }
+    return null;
+  }, [uiContext.modalParams]);
+
   const handleSubmit = useCallback(async () => {
-    uiContext.resetModal();
+    let continuePayWithParams;
 
-    const data = await methodContext.connectMethod({
-      paymentMethodId: paymentMode,
-      returnUrl: window.location.href,
-    });
+    // connect or continue pay
+    if (methodContext.isAttachedMethod(activeMethod)) {
+      continuePayWithParams = { paymentMethodId: activeMethod };
+    } else {
+      const { data, status } = await methodContext.connectMethod({
+        paymentMethodId: activeMethod,
+        returnUrl: `${window.location.href}?attachedCallback`,
+      });
 
-    console.log({ data });
+      if (status === 202 && data.redirectUrls) {
+        window.location.href(data.redirectUrls.defaultUrl);
+      }
+    }
 
-    // redirect to="/pay/processing"
-
-    // if (paymentMode === 'new') {
-    //   uiContext.setModal('addCard');
-    // }
-  }, [paymentMode]);
+    if (!connectOnly) {
+      uiContext.setModal('pay', continuePayWithParams || {});
+    } else {
+      uiContext.resetModal();
+    }
+  }, [activeMethod]);
 
   useEffect(() => {
     if (methodContext.defaultMethodId) {
-      setPaymentMode(methodContext.defaultMethodId);
+      setActiveMethod(methodContext.defaultMethodId);
     }
   }, [methodContext.defaultMethodId]);
 
@@ -46,32 +62,37 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
       <div className={st.title}>{t('title')}</div>
 
       <div className={st.payments}>
-        {methodContext.methods.map((method) => (
-          <div
-            className={cns(st.payment, paymentMode === method.id && st._active)}
-            key={method.id}
-            onClick={() => setPaymentMode(method.id)}>
-            <div className={st.paymentImage}>
-              {method.iconSlug === 'NewCard' && <SvgIcon name="add-card" />}
-              {method.iconSlug === 'SBP' && <Image src="/img/payment/spb.png" />}
-              {/* <Image src="/img/payment/mastercard.svg" /> */}
-              {/* <Image src="/img/payment/visa.png" have2x={true} /> */}
-            </div>
-            <div className={st.paymentTitle}>
-              {method.title} {method.status}
-            </div>
-            <div className={st.paymentCheckbox}>
-              <SvgIcon name="checkmark" />
-            </div>
-          </div>
-        ))}
+        <div className={st.paymentsGroup}>
+          {methodContext.availableMethods.map((method) => (
+            <MethodCard
+              key={method.id}
+              id={method.id}
+              title={method.title}
+              status={method.status}
+              iconSlug={method.iconSlug}
+              isActive={method.id === activeMethod}
+              onSelect={(id) => setActiveMethod(id)}
+            />
+          ))}
+        </div>
+
+        <div className={st.paymentsGroup}>
+          {methodContext.attachedMethods.map((method) => (
+            <MethodCard
+              key={method.id}
+              {...method}
+              isActive={method.id === activeMethod}
+              onSelect={(id) => setActiveMethod(id)}
+            />
+          ))}
+        </div>
       </div>
 
       <div className={st.cta}>
         <Button type="link" block onClick={handleSubmit}>
-          {!connectOnly ? (
+          {!connectOnly && paymentSum ? (
             <>
-              {t('action')} {formatPrice(2100)} ₽
+              {t('action')} {formatPrice(paymentSum)} ₽
             </>
           ) : (
             <>Привязать</>

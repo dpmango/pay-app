@@ -27,7 +27,6 @@ const PaymentPage = observer(() => {
       });
 
       await payoutContext.getPayoutDocument(id);
-      await payoutContext.getPayoutPdf(id);
     };
 
     fetchData();

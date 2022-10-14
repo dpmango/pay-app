@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar, Spinner } from '@ui';
+import { Spinner } from '@ui';
+import { Empty } from '@c/Atom';
 import { PayoutStoreContext } from '@store';
 
 import ShopCard from '@c/Shop/ShopCard';
@@ -16,7 +16,7 @@ const Shop = observer(({ tab, className }) => {
   const { t } = useTranslation('shop');
 
   const payoutContext = useContext(PayoutStoreContext);
-  const { payouts } = useContext(PayoutStoreContext);
+  const { payouts } = payoutContext;
 
   useEffect(() => {
     const getData = async () => {
@@ -27,10 +27,6 @@ const Shop = observer(({ tab, className }) => {
 
     getData();
   }, [pTab]);
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <section className={cns(st.container, className)}>
@@ -50,10 +46,19 @@ const Shop = observer(({ tab, className }) => {
               </div>
             </div>
 
-            <div className={st.grid}>
-              {payouts.length &&
-                payouts.map((card) => <ShopCard className={st.gridCard} {...card} key={card.id} />)}
-            </div>
+            {loading ? (
+              <Spinner theme="primary" />
+            ) : (
+              <div className={st.grid}>
+                {payouts && payouts.length > 0 ? (
+                  payouts.map((card) => (
+                    <ShopCard className={st.gridCard} {...card} key={card.id} />
+                  ))
+                ) : (
+                  <Empty title={t('empty')} />
+                )}
+              </div>
+            )}
           </>
         )}
 

@@ -79,6 +79,11 @@ const Upload = ({ icon, title, id, initialStatus, mediaTypesSupported, horizonta
         });
       }, 1000);
     }
+
+    if (initialStatus === 'Failed') {
+      setStatus(2);
+      setProgress(100);
+    }
   }, [initialStatus]);
 
   return (

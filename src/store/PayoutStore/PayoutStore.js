@@ -10,6 +10,37 @@ export default class PayoutStore {
     makeAutoObservable(this);
   }
 
+  // getters
+  get selectedPlan() {
+    try {
+      return this.payout.availablePlans.find((x) => x.isDefault);
+    } catch {
+      return null;
+    }
+  }
+
+  get selectedPlanId() {
+    try {
+      return this.selectedPlan.id;
+    } catch {
+      return null;
+    }
+  }
+
+  get closestPaymentSum() {
+    try {
+      let planKey = this.payout.sumPaid > 0 ? 'periodicalSum' : 'firstSum';
+
+      return this.selectedPlan[planKey];
+    } catch {
+      return null;
+    }
+  }
+
+  get payoutSumLeft() {
+    return this.payout.sum - this.payout.sumPaid;
+  }
+
   // inner actions
   setPayouts(payload) {
     runInAction(() => {
@@ -112,6 +143,14 @@ export default class PayoutStore {
 
   async deleteDocument(req) {
     const [err, data] = await api.deleteDocument(req);
+
+    if (err) throw err;
+
+    return data;
+  }
+
+  async initPayment(req) {
+    const [err, data] = await api.initPayment(req);
 
     if (err) throw err;
 

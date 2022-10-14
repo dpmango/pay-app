@@ -1,16 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar, Tile } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon } from '@ui';
+import { Avatar } from '@c/Atom';
 
 import st from './Chat.module.scss';
 
 const Chat = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
   const { t } = useTranslation('chat');
 
   return (

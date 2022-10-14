@@ -41,10 +41,15 @@ const Scope = observer(({ className }) => {
     <section className={cns(st.container, className)}>
       <div className="container">
         <div className={st.radial}>
-          <CircularProgressbar strokeWidth={6} value={0.5} maxValue={1} styles={radialStyle} />
+          <CircularProgressbar
+            strokeWidth={6}
+            value={payout.sumPaid / payout.sum}
+            maxValue={1}
+            styles={radialStyle}
+          />
           <div className={st.radialContent}>
             <div className={st.image}>
-              <ApiImage slug={payout.partner.logoSlug} width={80} />
+              <ApiImage slug={payout.partner.logoSlug} width={140} />
             </div>
             <div className={st.date}>{formatDate(payout.createdAt)}</div>
             <div className={st.title}>{payout.description}</div>

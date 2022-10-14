@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar } from '@ui';
 import { SessionStoreContext } from '@store';
 
 import { AuthPhone, AuthCode } from '@c/Auth';

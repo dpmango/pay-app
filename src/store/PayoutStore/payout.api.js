@@ -20,7 +20,11 @@ export default {
     return ApiService(api.get(`payouts/${id}/document/content`));
   },
   payoutDocumentPdf: async (id) => {
-    return ApiService(api.get(`payouts/${id}/document/pdf`));
+    return ApiService(
+      api.get(`payouts/${id}/document/content/pdf`, {
+        responseType: 'blob',
+      })
+    );
   },
   /**
     @selectedPlanId string,
@@ -55,5 +59,14 @@ export default {
   },
   deleteDocument: async ({ id, docId }) => {
     return ApiService(api.delete(`payouts/${id}/attachedDocuments/${docId}/content`));
+  },
+  /**
+    @sum Number,
+    @paymentMethodId String
+    @selectedPlanId String
+    @returnUrl String
+  */
+  initPayment: async ({ id, ...req }) => {
+    return ApiService(api.post(`payouts/${id}/redemptions`, req));
   },
 };

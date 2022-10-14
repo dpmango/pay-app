@@ -1,7 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import { computedFn } from 'mobx-utils';
 import Cookies from 'js-cookie';
 
-import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
+import { AUTH_TOKEN_COOKIE } from '@core/enum/cookie';
 import api from './method.api';
 
 export default class MethodStore {
@@ -13,13 +14,45 @@ export default class MethodStore {
     this.init();
   }
 
-  get defaultMethodId() {
+  get defaultMethod() {
     try {
-      this.methods.find((x) => x.default).id;
+      return this.methods.find((x) => x.isDefault);
     } catch {
       return null;
     }
   }
+
+  get defaultMethodId() {
+    try {
+      return this.defaultMethod.id;
+    } catch {
+      return null;
+    }
+  }
+
+  get availableMethods() {
+    try {
+      return this.methods.filter((x) => x.status === 'Available');
+    } catch {
+      return [];
+    }
+  }
+
+  get attachedMethods() {
+    try {
+      return this.methods.filter((x) => x.status === 'Attached');
+    } catch {
+      return [];
+    }
+  }
+
+  isAttachedMethod = computedFn((id) => {
+    try {
+      return this.methods.find((x) => x.id === id).status === 'Attached';
+    } catch {
+      return false;
+    }
+  });
 
   // inner actions
   setMethods(payload) {
@@ -45,10 +78,11 @@ export default class MethodStore {
   }
 
   async connectMethod(req) {
-    const [err, data] = await api.connectMethod(req);
+    const [err, data, status] = await api.connectMethod(req);
 
     if (err) throw err;
+    await this.getMethods();
 
-    return data;
+    return { data, status };
   }
 }

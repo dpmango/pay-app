@@ -2,9 +2,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  &.primary {
+
+  &._primary {
     margin: 24px 0;
   }
+
   &._button {
     margin: 0;
     position: absolute;

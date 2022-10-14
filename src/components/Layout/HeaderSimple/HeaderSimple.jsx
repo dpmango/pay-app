@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
+import { SvgIcon } from '@ui';
 
 import st from './HeaderSimple.module.scss';
 
