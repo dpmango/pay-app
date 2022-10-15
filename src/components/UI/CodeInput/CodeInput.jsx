@@ -1,53 +1,97 @@
-import React, { useCallback, useMemo, useState, memo, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cns from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 
-import { SvgIcon, Image } from '@ui';
 import st from './CodeInput.module.scss';
 
-const CodeInput = ({ className, label, length, value, onChange, error, showError, ...props }) => {
-  const [fields, setFields] = useState([...new Array(length)]);
+const enLettersRegex = /^[a-zA-Z]+$/;
+
+const CodeInput = ({
+  className,
+  label,
+  length,
+  value,
+  allowLetters,
+  onChange,
+  error,
+  showError,
+  ...props
+}) => {
+  const [digits, setDigits] = useState(Array.from({ length }).fill(''));
+  const inputRefs = useRef(Array.from({ length }));
 
   const id = useMemo(() => {
     return uniqueId();
   }, []);
 
-  const onKeyUp = useCallback(
-    (e) => {
-      const isValidNumber = (n) => Number.isFinite(Number(n));
-      let newFields = fields;
-      const curFields = fields.filter((x) => x).length;
+  useEffect(() => {
+    const valSplit = value.split('');
+    setDigits(Array.from({ length }).map((_, idx) => valSplit[idx] || ''));
+  }, [value, length]);
 
-      if (e.keyCode === 8) {
-        if (curFields === 0) return;
-        newFields[curFields - 1] = undefined;
-        setFields([...newFields]);
+  const updateDigits = (index, value) => {
+    if (!allowLetters && +value < 0 && +value > 9) {
+      return;
+    } else if (allowLetters && +value < 0 && +value > 9 && !enLettersRegex.test(value)) {
+      return;
+    }
+
+    const newDigits = [...digits];
+    newDigits[index] = allowLetters ? value.toUpperCase() : value.replace(/[^\d]$/, '');
+
+    if (onChange) {
+      onChange(newDigits.join(''));
+    }
+
+    setDigits(newDigits);
+  };
+
+  const handleChangeDigits = useCallback(
+    (event) => {
+      const selectIndexDigit = event.target.dataset.index;
+      const { value } = event.target;
+
+      if (!selectIndexDigit) {
+        return;
       }
 
-      if (isValidNumber(e.key)) {
-        if (curFields >= length) return;
+      if (!allowLetters && isNaN(+value)) {
+        return;
+      } else if (allowLetters && isNaN(+value) && !enLettersRegex.test(value)) {
+        return;
+      }
 
-        newFields[curFields] = +e.key;
-        setFields([...newFields]);
+      updateDigits(+selectIndexDigit, value);
+      const inputs = inputRefs.current;
+
+      if (+selectIndexDigit < inputs.length - 1) {
+        inputs[+selectIndexDigit + 1].focus({ cursor: 'all' });
+      } else if (+selectIndexDigit !== inputs.length - 1) {
+        inputs[+selectIndexDigit].blur();
       }
     },
-    [fields, length]
+    [digits, inputRefs]
   );
 
-  useEffect(() => {
-    const stringCode = fields.filter((x) => x).join('');
-    onChange(stringCode);
-  }, [fields]);
+  const handleKeyBackspace = useCallback(
+    (event) => {
+      const selectIndexDigit = +(event.currentTarget.dataset.index ?? 0);
+      const keyPressed = event.nativeEvent.key;
 
-  const inputProps = {
-    id,
-    className: cns(st.input_input, error && st._withError),
-    value,
-    onChange: () => {},
-    onKeyUp: onKeyUp,
-    ...props,
-  };
+      if (keyPressed !== 'Backspace') {
+        return;
+      }
+
+      if (digits[selectIndexDigit]) {
+        updateDigits(+selectIndexDigit, '');
+      } else if (selectIndexDigit > 0) {
+        updateDigits(+selectIndexDigit - 1, '');
+        inputRefs.current[selectIndexDigit - 1].focus();
+      }
+    },
+    [digits, inputRefs]
+  );
 
   return (
     <div style={props.style} className={cns(st.input, className)}>
@@ -56,20 +100,25 @@ const CodeInput = ({ className, label, length, value, onChange, error, showError
           {label}
         </label>
       )}
-
-      <div className={st.input_wrapper}>
-        <input {...inputProps} />
-        <div className={st.input_mask}>
-          {fields.map((f, idx) => (
-            <div className={st.input_maskCol} key={idx}>
-              {f && <span className={st.input_maskValue}>{f}</span>}
-              {!f && <span className={st.input_maskPlaceholder}>0</span>}
-            </div>
-          ))}
-        </div>
-
-        {error && showError && <div className={st.error}>{error}</div>}
+      <div className={cns(st.input_wrapper, error && st._withError)}>
+        {digits.map((digit, index) => (
+          <input
+            key={index}
+            type="text"
+            value={digit}
+            placeholder="0"
+            ref={(ref) => {
+              inputRefs.current[index] = ref;
+            }}
+            onKeyDown={handleKeyBackspace}
+            onChange={handleChangeDigits}
+            data-index={index}
+            maxLength={1}
+            className={cns(st.input_input)}
+          />
+        ))}
       </div>
+      {error && showError && <div className={st.error}>{error}</div>}
     </div>
   );
 };
@@ -78,8 +127,8 @@ CodeInput.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
   length: PropTypes.number,
-  allowClear: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.string,
+  allowLetters: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   showError: PropTypes.bool,
   onChange: PropTypes.func,

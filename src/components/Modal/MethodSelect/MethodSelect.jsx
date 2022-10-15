@@ -40,7 +40,7 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
       });
 
       if (status === 202 && data.redirectUrls) {
-        window.location.href(data.redirectUrls.defaultUrl);
+        window.location.href = data.redirectUrls.defaultUrl;
       }
     }
 

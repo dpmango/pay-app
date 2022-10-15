@@ -66,7 +66,7 @@ const ModalPay = observer(({ className }) => {
       if (data.status === 'Failed') {
         uiContext.setModal('error', { text: data.errorDescription });
       } else if (status === 202 && data.redirectUrls) {
-        window.location.href(data.redirectUrls.defaultUrl);
+        window.location.href = data.redirectUrls.defaultUrl;
       } else {
         payoutContext.getPayout(id);
         uiContext.resetModal();

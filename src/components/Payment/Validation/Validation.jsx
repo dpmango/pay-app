@@ -1,10 +1,10 @@
 import React, { useContext, useCallback, useMemo } from 'react';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Trans, useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Button, Spinner, ApiImage } from '@ui';
+import { Button, Spinner } from '@ui';
 import { PayoutStoreContext } from '@store';
 
 import PaymentUpload from './Upload';

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { SvgIcon, Button, Image, Spinner, ApiImage } from '@ui';
+import { Button, Spinner, ApiImage } from '@ui';
 import { UiStoreContext, PayoutStoreContext } from '@store';
 import { formatPrice, formatDate } from '@utils';
 

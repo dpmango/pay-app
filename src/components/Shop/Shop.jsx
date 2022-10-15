@@ -21,7 +21,7 @@ const Shop = observer(({ tab, className }) => {
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      await payoutContext.getPayouts({ completed: pTab === 2 });
+      await payoutContext.getPayouts({ completed: pTab === 2 }).catch(console.warn);
       setLoading(false);
     };
 

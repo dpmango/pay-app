@@ -3,6 +3,7 @@ import { computedFn } from 'mobx-utils';
 import Cookies from 'js-cookie';
 
 import { AUTH_TOKEN_COOKIE } from '@core/enum/cookie';
+
 import api from './method.api';
 
 export default class MethodStore {
@@ -10,8 +11,6 @@ export default class MethodStore {
 
   constructor() {
     makeAutoObservable(this);
-
-    this.init();
   }
 
   get defaultMethod() {
@@ -64,7 +63,7 @@ export default class MethodStore {
   async init() {
     const accessToken = Cookies.get(AUTH_TOKEN_COOKIE);
     if (accessToken) {
-      this.getMethods();
+      await this.getMethods();
     }
   }
 

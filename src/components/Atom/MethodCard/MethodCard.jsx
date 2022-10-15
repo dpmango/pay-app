@@ -1,7 +1,7 @@
 import React from 'react';
 import cns from 'classnames';
 
-import { SvgIcon, Image, ApiImage } from '@ui';
+import { SvgIcon } from '@ui';
 import { MethodImage } from '@c/Atom';
 import st from './MethodCard.module.scss';
 

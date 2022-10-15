@@ -1,10 +1,9 @@
 import React, { useMemo, useState, useCallback, useEffect, useContext } from 'react';
 import cns from 'classnames';
-import uniqueId from 'lodash/uniqueId';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { useParams } from 'react-router-dom';
 
-import { SvgIcon, Button } from '@ui';
+import { SvgIcon } from '@ui';
 import { PayoutStoreContext } from '@store';
 
 import st from './Upload.module.scss';

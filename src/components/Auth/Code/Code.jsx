@@ -48,7 +48,8 @@ const Code = observer(({ tab, className }) => {
           navigate('/', { replace: true });
         })
         .catch((err) => {
-          setError(err.message);
+          setError('Wrong code');
+          resetForm();
         });
       setLoading(false);
     },
@@ -67,7 +68,7 @@ const Code = observer(({ tab, className }) => {
             <div className={cns(st.formBody)}>
               <div className={st.title}>{t('title')}</div>
               <div className={st.desc}>
-                {t('description.number')} <span className="c-primary">{sessionContext.phone}</span>{' '}
+                {t('description.number')} <span className="c-primary">+{sessionContext.phone}</span>{' '}
                 {t('description.action')}
               </div>
               <Field type="text" name="code">
@@ -75,10 +76,11 @@ const Code = observer(({ tab, className }) => {
                   <CodeInput
                     length={4}
                     value={field.value}
-                    error={meta.touched && meta.error}
+                    error={error || (meta.touched && meta.error)}
                     onChange={(v) => {
                       setFieldValue(field.name, v);
                       setFieldError(field.name);
+                      setError(false);
                     }}
                   />
                 )}
