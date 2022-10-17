@@ -51,9 +51,9 @@ const Installment = observer(({ className }) => {
           id: payout.id,
           selectedPlanId: selectedPlan.id,
         })
-        .catch(({ status }) => {
+        .catch(({ message, status }) => {
           if (status === 409) {
-            navigate(`/pay/${payout.id}`);
+            navigate(`/pay/${payout.id}/validation`);
           }
         });
 

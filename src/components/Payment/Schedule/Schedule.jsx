@@ -23,7 +23,7 @@ const Schedule = observer(({ className }) => {
   //   return 'График платежей не показывается Не Active или Paid (dev - Approved)';
   // }
 
-  if (payout.redemptions && payout.redemptions.length === 0) return null;
+  if (!payout.redemptions || (payout.redemptions && payout.redemptions.length === 0)) return null;
 
   return (
     <section className={cns(st.container, className)}>
