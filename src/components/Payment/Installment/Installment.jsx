@@ -37,7 +37,7 @@ const Installment = observer(({ className }) => {
         const defaultId = payout.availablePlans.find((x) => x.isDefault).id;
         setSelectedPeriod(defaultId);
       } catch {
-        console.info('no default period');
+        // console.info('no default period');
       }
     }
   }, [payout.availablePlans]);
