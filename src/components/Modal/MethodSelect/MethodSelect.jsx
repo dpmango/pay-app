@@ -30,19 +30,24 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
   const handleSubmit = useCallback(async () => {
     let continuePayWithParams;
 
-    // connect or continue pay
-    if (methodContext.isAttachedMethod(activeMethod)) {
-      continuePayWithParams = { paymentMethodId: activeMethod };
-    } else {
-      const { data, status } = await methodContext.connectMethod({
-        paymentMethodId: activeMethod,
-        returnUrl: `${window.location.href}?attachedCallback`,
-      });
+    continuePayWithParams = { paymentMethodId: activeMethod };
 
-      if (status === 202 && data.redirectUrls) {
-        window.location.href = data.redirectUrls.defaultUrl;
-      }
-    }
+    // "Новую карту", но вместо того, чтобы сразу выполнить платеж с использованием этого метода оплаты началась его привязка.
+    // так быть не должно - нужно сразу оплачивать нужную сумму методом "Новая карта". привязка при этом выполняется автоматически
+
+    // connect or continue pay
+    // if (methodContext.isAttachedMethod(activeMethod)) {
+    //   continuePayWithParams = { paymentMethodId: activeMethod };
+    // } else {
+    // const { data, status } = await methodContext.connectMethod({
+    //   paymentMethodId: activeMethod,
+    //   returnUrl: `${window.location.href}?attachedCallback`,
+    // });
+
+    // if (status === 202 && data.redirectUrls) {
+    //   window.location.href = data.redirectUrls.defaultUrl;
+    // }
+    // }
 
     if (!connectOnly) {
       uiContext.setModal('pay', continuePayWithParams || {});

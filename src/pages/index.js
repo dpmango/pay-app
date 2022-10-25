@@ -7,6 +7,7 @@ export {
   PaymentWelcome,
   PaymentValidation,
   PaymentProcessing,
+  PaymentSBP,
 } from './Payment';
 export { default as Chat } from './_Chat';
 export { default } from './Routes';

@@ -24,7 +24,7 @@ const Image = ({ slug, showSpinner = true, width, height, ...props }) => {
   }, [slug]);
 
   if (!display) {
-    if (showSpinner) return <Spinner />;
+    if (showSpinner) return <Spinner theme="inline" />;
     return null;
   }
 

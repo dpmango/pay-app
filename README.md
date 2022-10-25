@@ -1,3 +1,12 @@
+## Тестирование
+4432 7300 0000 0168
+10/23
+Q W
+463
+3DS код 1234
+
+Q W - это имя владельца
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

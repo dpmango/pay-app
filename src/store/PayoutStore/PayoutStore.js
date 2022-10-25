@@ -5,6 +5,7 @@ export default class PayoutStore {
   payouts = [];
   payout = {};
   documents = [];
+  sbpList = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -29,9 +30,13 @@ export default class PayoutStore {
 
   get closestPaymentSum() {
     try {
-      let planKey = this.payout.sumPaid > 0 ? 'periodicalSum' : 'firstSum';
+      if (this.payout.status === 'Active') {
+        return this.payout.plannedRedemptions[0].sum;
+      } else {
+        let planKey = this.payout.sumPaid > 0 ? 'periodicalSum' : 'firstSum';
 
-      return this.selectedPlan[planKey];
+        return this.selectedPlan[planKey];
+      }
     } catch {
       return null;
     }
@@ -63,6 +68,13 @@ export default class PayoutStore {
   updateDocument(payload) {
     runInAction(() => {
       this.documents = [...this.documents.map((x) => (x.id === payload.id ? { ...payload } : x))];
+    });
+  }
+
+  setSBPList(payload) {
+    console.log(payload);
+    runInAction(() => {
+      this.sbpList = [...payload];
     });
   }
 
