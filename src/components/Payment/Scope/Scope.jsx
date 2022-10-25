@@ -68,7 +68,6 @@ const Scope = observer(({ className }) => {
         </div>
 
         <div className={st.cta}>
-          {payout.status}
           <Button block onClick={handleCtaClick}>
             {t('action')}
           </Button>

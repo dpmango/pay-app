@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 
 import { UiStoreContext, MethodStoreContext } from '@store';
-import { formatPrice } from '@utils';
+import { formatPrice, openExternalLink } from '@utils';
 import { Modal, Button } from '@ui';
 import { MethodCard } from '@c/Atom';
 
@@ -28,30 +28,28 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
   }, [uiContext.modalParams]);
 
   const handleSubmit = useCallback(async () => {
-    let continuePayWithParams;
-
-    continuePayWithParams = { paymentMethodId: activeMethod };
-
     // "Новую карту", но вместо того, чтобы сразу выполнить платеж с использованием этого метода оплаты началась его привязка.
     // так быть не должно - нужно сразу оплачивать нужную сумму методом "Новая карта". привязка при этом выполняется автоматически
 
-    // connect or continue pay
-    // if (methodContext.isAttachedMethod(activeMethod)) {
-    //   continuePayWithParams = { paymentMethodId: activeMethod };
-    // } else {
-    // const { data, status } = await methodContext.connectMethod({
-    //   paymentMethodId: activeMethod,
-    //   returnUrl: `${window.location.href}?attachedCallback`,
-    // });
-
-    // if (status === 202 && data.redirectUrls) {
-    //   window.location.href = data.redirectUrls.defaultUrl;
-    // }
-    // }
-
     if (!connectOnly) {
+      let continuePayWithParams;
+      // if (methodContext.isAttachedMethod(activeMethod))
+      continuePayWithParams = { paymentMethodId: activeMethod };
+
       uiContext.setModal('pay', continuePayWithParams || {});
     } else {
+      const { data, status } = await methodContext.connectMethod({
+        paymentMethodId: activeMethod,
+        returnUrl: `${window.location.href}?attachedCallback`,
+      });
+      if (status === 202 && data.redirectUrls) {
+        if (data.redirectUrls.type === 'BankSelection') {
+          payoutContext.setSBPList(data.redirectUrls.bankSelection);
+          navigate(`/pay/${id}/sbp`);
+        } else if (data.redirectUrls.type === 'Unconditional') {
+          openExternalLink(data.redirectUrls.defaultUrl);
+        }
+      }
       uiContext.resetModal();
     }
   }, [activeMethod]);

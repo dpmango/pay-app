@@ -6,7 +6,7 @@ import cns from 'classnames';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext, PayoutStoreContext, MethodStoreContext } from '@store';
-import { formatPrice } from '@utils';
+import { formatPrice, openExternalLink } from '@utils';
 
 import { MethodImage } from '@c/Atom';
 import st from './Pay.module.scss';
@@ -71,7 +71,7 @@ const ModalPay = observer(({ className }) => {
           payoutContext.setSBPList(data.redirectUrls.bankSelection);
           navigate(`/pay/${id}/sbp`);
         } else if (data.redirectUrls.type === 'Unconditional') {
-          window.location.href = data.redirectUrls.defaultUrl;
+          openExternalLink(data.redirectUrls.defaultUrl);
         }
       } else {
         payoutContext.getPayout(id);

@@ -43,9 +43,16 @@ const Installment = observer(({ className }) => {
     }
   }, [payout.availablePlans]);
 
-  const handleAcceptClick = useCallback(async () => {
+  const methodSelectAvailable = useMemo(() => {
+    return ['Approved'].includes(payout.status);
+  }, [payout.status]);
+
+  const handleCtaClick = useCallback(async () => {
     if (sessionContext.accessToken) {
-      // if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
+      if (methodSelectAvailable) {
+        uiContext.setModal('methodSelect', { sum: selectedPlan.firstSum });
+        return;
+      }
 
       const res = await payoutContext
         .acceptPayout({
@@ -112,8 +119,8 @@ const Installment = observer(({ className }) => {
         </div>
 
         <div className={st.cta}>
-          <Button block onClick={handleAcceptClick}>
-            {t('action')}
+          <Button block onClick={handleCtaClick}>
+            {!methodSelectAvailable ? t('action1') : t('action2')}
           </Button>
         </div>
 

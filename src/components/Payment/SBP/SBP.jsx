@@ -7,7 +7,7 @@ import QRCode from 'react-qr-code';
 
 import { Button, Input, Spinner, Image, ApiImage } from '@ui';
 import { PayoutStoreContext } from '@store';
-import { isMobile } from '@utils';
+import { isMobile, openExternalLink } from '@utils';
 
 import st from './SBP.module.scss';
 
@@ -23,11 +23,7 @@ const SBP = observer(({ className }) => {
   const handleBankSelect = useCallback(
     async (bank) => {
       if (isMobile()) {
-        if (window.opener == null) {
-          window.location.href = bank.url;
-        } else {
-          window.open(bank.url);
-        }
+        openExternalLink(bank.url);
       } else {
         setSelectedBank({ ...bank });
       }
