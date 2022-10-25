@@ -33,6 +33,10 @@ export default class UiStore {
     this.modalParams = null;
   }
 
+  resetModalParams() {
+    this.modalParams = null;
+  }
+
   async getImage(req) {
     const [err, data] = await api.getImage(req);
 

@@ -45,6 +45,7 @@ const ModalPay = observer(({ className }) => {
 
   const handleSubmit = useCallback(
     async (e, methodID) => {
+      uiContext.resetModalParams();
       setLoading(true);
 
       const { data, status } = await payoutContext

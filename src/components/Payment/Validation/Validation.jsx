@@ -39,7 +39,8 @@ const Validation = observer(({ className }) => {
       });
 
     if (res) {
-      navigate(`/pay/${payout.id}`);
+      navigate(`/r/${payout.id}`);
+      uiContext.setModal('methodSelect', { sum: selectedPlan.firstSum });
     }
   }, [payout.id, payout.availablePlans]);
 
