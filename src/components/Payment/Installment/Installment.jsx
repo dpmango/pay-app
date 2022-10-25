@@ -59,7 +59,9 @@ const Installment = observer(({ className }) => {
         });
 
       if (res && res.status) {
-        if (res.status === 'DocumentsRequired') {
+        if (res.status === 'IncompleteProfile') {
+          navigate('/profile/settings', { state: { from: location } });
+        } else if (res.status === 'DocumentsRequired') {
           navigate(`/pay/${payout.id}/validation`);
         }
       }

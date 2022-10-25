@@ -46,7 +46,7 @@ const Code = observer(({ tab, className }) => {
           code: values.code,
         })
         .then(() => {
-          let from = location.state.from.pathname || '/';
+          let from = location.state?.from?.pathname || '/';
 
           navigate(from, { replace: true });
         })
