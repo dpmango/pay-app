@@ -20,6 +20,7 @@ const VariantClasses = {
 const Input = ({
   className,
   label,
+  icon,
   inputRef,
   variant,
   modifier,
@@ -79,7 +80,12 @@ const Input = ({
   const inputProps = {
     id,
     ref: inputRef,
-    className: cns(st.input_input, allowClear && st._withClear, error && st._withError),
+    className: cns(
+      st.input_input,
+      icon && st._iconed,
+      allowClear && st._withClear,
+      error && st._withError
+    ),
     value,
     onChange: onInputChange,
     ...props,
@@ -100,8 +106,14 @@ const Input = ({
         </label>
       )}
 
-      <div className={st.input_wrapper}>
+      <div className={cns(st.input_wrapper)}>
         {children}
+
+        {icon && (
+          <div className={st.icon}>
+            <SvgIcon name={icon} />
+          </div>
+        )}
 
         {props.type === 'textarea' ? (
           <textarea {...inputProps} />

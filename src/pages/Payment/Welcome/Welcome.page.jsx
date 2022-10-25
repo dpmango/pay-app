@@ -6,7 +6,7 @@ import { PayoutStoreContext, UiStoreContext } from '@/store';
 
 import Layout from '@c/Layout';
 import { PaymentOrder, PaymentInstallment } from '@c/Payment';
-import { ModalError } from '@c/Modal';
+import { ModalError, ModalPay, ModalMethodSelect } from '@c/Modal';
 
 import st from './Welcome.module.scss';
 
@@ -42,6 +42,8 @@ const PaymentWelcomePage = observer(() => {
       <PaymentInstallment className={st.installment} />
 
       <ModalError />
+      <ModalPay />
+      <ModalMethodSelect />
     </Layout>
   );
 });

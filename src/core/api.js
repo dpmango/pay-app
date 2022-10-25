@@ -24,6 +24,15 @@ api.interceptors.request.use((x) => {
     };
   }
 
+  const i18nextLng = localStorage.getItem('i18nextLng');
+
+  if (i18nextLng) {
+    x.headers = {
+      ...x.headers,
+      ['Accept-Language']: i18nextLng,
+    };
+  }
+
   x.params = {
     ...x.params,
     apiVersion: 1,

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import cns from 'classnames';
 
 import { SvgIcon, Button, Spinner } from '@ui';
@@ -22,6 +22,7 @@ const Installment = observer(({ className }) => {
   const { t } = useTranslation('pay', { keyPrefix: 'installment' });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const selectedPlan = useMemo(() => {
     try {
@@ -37,33 +38,42 @@ const Installment = observer(({ className }) => {
         const defaultId = payout.availablePlans.find((x) => x.isDefault).id;
         setSelectedPeriod(defaultId);
       } catch {
-        console.info('no default period');
+        // console.info('no default period');
       }
     }
   }, [payout.availablePlans]);
 
-  const handleAcceptClick = useCallback(async () => {
+  const methodSelectAvailable = useMemo(() => {
+    return ['Approved'].includes(payout.status);
+  }, [payout.status]);
+
+  const handleCtaClick = useCallback(async () => {
     if (sessionContext.accessToken) {
-      // if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
+      if (methodSelectAvailable) {
+        uiContext.setModal('methodSelect', { sum: selectedPlan.firstSum });
+        return;
+      }
 
       const res = await payoutContext
         .acceptPayout({
           id: payout.id,
           selectedPlanId: selectedPlan.id,
         })
-        .catch(({ status }) => {
+        .catch(({ message, status }) => {
           if (status === 409) {
-            navigate(`/pay/${payout.id}`);
+            navigate(`/pay/${payout.id}/validation`);
           }
         });
 
       if (res && res.status) {
-        if (res.status === 'DocumentsRequired') {
+        if (res.status === 'IncompleteProfile') {
+          navigate('/profile/settings', { state: { from: location } });
+        } else if (res.status === 'DocumentsRequired') {
           navigate(`/pay/${payout.id}/validation`);
         }
       }
     } else {
-      navigate('/auth');
+      navigate('/auth', { state: { from: location } });
     }
   }, [payout.id, selectedPlan, sessionContext.accessToken]);
 
@@ -109,8 +119,8 @@ const Installment = observer(({ className }) => {
         </div>
 
         <div className={st.cta}>
-          <Button block onClick={handleAcceptClick}>
-            {t('action')}
+          <Button block onClick={handleCtaClick}>
+            {!methodSelectAvailable ? t('action1') : t('action2')}
           </Button>
         </div>
 

@@ -1,11 +1,10 @@
 import React, { useContext, useMemo, useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-import { SvgIcon, Button, Image } from '@ui';
+import { SvgIcon, Button } from '@ui';
 import { UiStoreContext } from '@store';
 
 import st from './Payment.module.scss';

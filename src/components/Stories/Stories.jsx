@@ -1,10 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
-
-import { SvgIcon, Avatar } from '@ui';
-import { UiStoreContext } from '@store';
 
 import { Story } from '@c/Stories';
 import st from './Stories.module.scss';
@@ -26,9 +22,7 @@ const stories = [
     imgPosition: 'center right',
   },
 ];
-const Stories = observer(({ className }) => {
-  const uiContext = useContext(UiStoreContext);
-
+const Stories = ({ className }) => {
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
@@ -43,6 +37,6 @@ const Stories = observer(({ className }) => {
       </div>
     </section>
   );
-});
+};
 
 export default Stories;

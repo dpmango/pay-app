@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
@@ -14,6 +13,8 @@ const Info = observer(({ className }) => {
   const sessionContext = useContext(SessionStoreContext);
   const uiContext = useContext(UiStoreContext);
 
+  const { profile } = sessionContext;
+
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
@@ -27,14 +28,14 @@ const Info = observer(({ className }) => {
 
         <div className={st.grid}>
           <Tile
-            title={sessionContext.profile.phone}
+            title={profile.phone}
             description={t('phone')}
             icon="phone"
             className={st.gridCard}
           />
-          {sessionContext.profile.defaultPaymentMethod ? (
+          {profile.defaultPaymentMethod ? (
             <Tile
-              title={defaultPaymentMethod.title}
+              title={profile.defaultPaymentMethod.title}
               description={t('paymentMethod')}
               image="/img/payment/visa.png"
               className={st.gridCard}

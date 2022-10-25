@@ -7,11 +7,13 @@ import st from './Spinner.module.scss';
 
 const Themes = {
   PRIMARY: 'primary',
+  INLINE: 'inline',
   BUTTON: 'button',
 };
 
 const ThemeClasses = {
   [Themes.PRIMARY]: st._primary,
+  [Themes.INLINE]: st._inline,
   [Themes.BUTTON]: st._button,
 };
 

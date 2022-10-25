@@ -1,11 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { buildStyles } from 'react-circular-progressbar';
 
 import { Image, Spinner } from '@ui';
-import { UiStoreContext, PayoutStoreContext } from '@store';
+import { PayoutStoreContext } from '@store';
 import { formatPrice } from '@utils';
 
 import ScheduleCard from './ScheduleCard';
@@ -20,11 +19,11 @@ const Schedule = observer(({ className }) => {
     return <Spinner />;
   }
 
-  if (!['Approved', 'Active', 'Paid'].includes(payout.status)) {
-    return 'График платежей не показывается Не Active или Paid (dev - Approved)';
-  }
+  // if (!['Approved', 'Active', 'Paid'].includes(payout.status)) {
+  //   return 'График платежей не показывается Не Active или Paid (dev - Approved)';
+  // }
 
-  if (!payout.redemptions && payout.redemptions.length === 0) return null;
+  if (!payout.redemptions || (payout.redemptions && payout.redemptions.length === 0)) return null;
 
   return (
     <section className={cns(st.container, className)}>

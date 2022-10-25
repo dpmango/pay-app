@@ -1,12 +1,12 @@
 import React, { useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import cns from 'classnames';
 
 import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext, PayoutStoreContext, MethodStoreContext } from '@store';
-import { formatPrice } from '@utils';
+import { formatPrice, openExternalLink } from '@utils';
 
 import { MethodImage } from '@c/Atom';
 import st from './Pay.module.scss';
@@ -22,6 +22,7 @@ const ModalPay = observer(({ className }) => {
   const { payout } = payoutContext;
 
   let { id } = useParams();
+  const navigate = useNavigate();
 
   const paymentOptions = useMemo(() => {
     return [
@@ -44,15 +45,16 @@ const ModalPay = observer(({ className }) => {
 
   const handleSubmit = useCallback(
     async (e, methodID) => {
+      uiContext.resetModalParams();
       setLoading(true);
 
       const { data, status } = await payoutContext
         .initPayment({
           id: payout.id,
-          sum: 18175.0,
+          sum: paymentAmount,
           paymentMethodId: methodID || methodContext.defaultMethodId,
-          selectedPlanId: payoutContext.selectedPlanId,
-          returnUrl: `/pay/${id}`,
+          selectedPlanId: payout.status === 'Active' ? undefined : payoutContext.selectedPlanId,
+          returnUrl: `${window.location.origin}/pay/${id}`,
         })
         .catch(({ status }) => {
           if (status === 400) {
@@ -66,7 +68,12 @@ const ModalPay = observer(({ className }) => {
       if (data.status === 'Failed') {
         uiContext.setModal('error', { text: data.errorDescription });
       } else if (status === 202 && data.redirectUrls) {
-        window.location.href(data.redirectUrls.defaultUrl);
+        if (data.redirectUrls.type === 'BankSelection') {
+          payoutContext.setSBPList(data.redirectUrls.bankSelection);
+          navigate(`/pay/${id}/sbp`);
+        } else if (data.redirectUrls.type === 'Unconditional') {
+          openExternalLink(data.redirectUrls.defaultUrl);
+        }
       } else {
         payoutContext.getPayout(id);
         uiContext.resetModal();

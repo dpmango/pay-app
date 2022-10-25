@@ -35,6 +35,10 @@
       border-color: $colorPrimary;
     }
 
+    &._iconed {
+      padding-left: 80px;
+    }
+
     &._withClear,
     &._withIcon {
       padding-right: 40px;
@@ -94,8 +98,22 @@
     .input_input {
       font-size: 14px;
       padding: 16px 24px 15px;
+
+      &._iconed {
+        padding-left: 55px;
+      }
     }
   }
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 20px;
+  color: #797979;
 }
 
 .label {

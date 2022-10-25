@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -21,6 +21,7 @@ const Code = observer(({ tab, className }) => {
 
   const sessionContext = useContext(SessionStoreContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleValidation = (values) => {
     const errors = {};
@@ -45,10 +46,13 @@ const Code = observer(({ tab, className }) => {
           code: values.code,
         })
         .then(() => {
-          navigate('/', { replace: true });
+          let from = location.state?.from?.pathname || '/';
+
+          navigate(from, { replace: true });
         })
         .catch((err) => {
-          setError(err.message);
+          setError('Wrong code');
+          resetForm();
         });
       setLoading(false);
     },
@@ -67,7 +71,7 @@ const Code = observer(({ tab, className }) => {
             <div className={cns(st.formBody)}>
               <div className={st.title}>{t('title')}</div>
               <div className={st.desc}>
-                {t('description.number')} <span className="c-primary">{sessionContext.phone}</span>{' '}
+                {t('description.number')} <span className="c-primary">+{sessionContext.phone}</span>{' '}
                 {t('description.action')}
               </div>
               <Field type="text" name="code">
@@ -75,10 +79,11 @@ const Code = observer(({ tab, className }) => {
                   <CodeInput
                     length={4}
                     value={field.value}
-                    error={meta.touched && meta.error}
+                    error={error || (meta.touched && meta.error)}
                     onChange={(v) => {
                       setFieldValue(field.name, v);
                       setFieldError(field.name);
+                      setError(false);
                     }}
                   />
                 )}

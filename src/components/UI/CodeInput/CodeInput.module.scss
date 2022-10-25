@@ -3,7 +3,13 @@
 
   &_wrapper {
     position: relative;
+    display: flex;
     z-index: 1;
+
+    &._withError {
+      border-radius: 11px;
+      outline: 1px solid $colorRed;
+    }
   }
 
   &_input {
@@ -15,24 +21,33 @@
     font-weight: 500;
     font-size: 23px;
     line-height: calc(29 / 23);
-    color: transparent;
-    border: 1px solid $borderColor;
-    border-radius: 11px;
+    border: 0;
     padding: 20px 24px;
+    text-align: center;
     box-shadow: 0 4px 24px rgb(32 94 129 / 4%);
     backface-visibility: hidden;
     transition: border 0.25s $ease, color 0.25s $ease, background 0.25s $ease;
 
+    &:first-child {
+      border-top-left-radius: 11px;
+      border-bottom-left-radius: 11px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 11px;
+      border-bottom-right-radius: 11px;
+    }
+
     &::placeholder {
-      color: transparent;
+      color: #6a6a6a;
     }
 
     &:focus {
       border-color: $colorPrimary;
-    }
 
-    &._withError {
-      border-color: $colorRed;
+      &::placeholder {
+        color: transparent;
+      }
     }
   }
 

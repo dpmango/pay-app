@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 
-import { SvgIcon, Avatar } from '@ui';
+import { SvgIcon } from '@ui';
 import { SessionStoreContext } from '@store';
 
 import st from './Actions.module.scss';

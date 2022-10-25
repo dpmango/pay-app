@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 
 import { AUTH_TOKEN_COOKIE, AUTH_REFRESH_COOKIE } from '@core/enum/cookie';
 import api from './session.api';
+import { method } from '@store';
+
 // import uiApi from '@store/UiStore/ui.api';
 
 export default class SessionStore {
@@ -18,8 +20,6 @@ export default class SessionStore {
 
   constructor() {
     makeAutoObservable(this);
-
-    this.init();
   }
 
   get displayName() {
@@ -116,6 +116,7 @@ export default class SessionStore {
 
     this.setSession(data);
     await this.getProfile();
+    await method.init();
 
     return data;
   }
@@ -154,7 +155,7 @@ export default class SessionStore {
 
   async logout() {
     const [err, _success] = await api.logout();
-    if (err) throw err;
+    // if (err) throw err;
 
     this.accessToken = null;
     this.refreshToken = null;
