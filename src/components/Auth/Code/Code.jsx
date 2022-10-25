@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -21,6 +21,7 @@ const Code = observer(({ tab, className }) => {
 
   const sessionContext = useContext(SessionStoreContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleValidation = (values) => {
     const errors = {};
@@ -45,7 +46,9 @@ const Code = observer(({ tab, className }) => {
           code: values.code,
         })
         .then(() => {
-          navigate('/', { replace: true });
+          let from = location.state.from.pathname || '/';
+
+          navigate(from, { replace: true });
         })
         .catch((err) => {
           setError('Wrong code');

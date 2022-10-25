@@ -1,7 +1,7 @@
 import React, { useContext, useState, useMemo, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import cns from 'classnames';
 
 import { SvgIcon, Button, Spinner } from '@ui';
@@ -22,6 +22,7 @@ const Installment = observer(({ className }) => {
   const { t } = useTranslation('pay', { keyPrefix: 'installment' });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const selectedPlan = useMemo(() => {
     try {
@@ -63,7 +64,7 @@ const Installment = observer(({ className }) => {
         }
       }
     } else {
-      navigate('/auth');
+      navigate('/auth', { state: { from: location } });
     }
   }, [payout.id, selectedPlan, sessionContext.accessToken]);
 
