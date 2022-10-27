@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { toast } from 'react-toastify';
 import cns from 'classnames';
 
 import { Button, Input } from '@ui';
@@ -17,7 +18,7 @@ const Settings = observer(({ className }) => {
 
   const sessionContext = useContext(SessionStoreContext);
 
-  const { t } = useTranslation('profile', { keyPrefix: 'info' });
+  const { t } = useTranslation('profile', { keyPrefix: 'settings' });
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,7 +48,8 @@ const Settings = observer(({ className }) => {
       setLoading(false);
 
       if (res) {
-        let from = location.state?.from?.pathname || '/profile';
+        toast.success(t('toast'));
+        let from = location.state?.from?.pathname || '/';
         navigate(from, { replace: true });
       }
     },
@@ -58,7 +60,7 @@ const Settings = observer(({ className }) => {
     <section className={cns(st.container, className)}>
       <div className="container">
         <div className={st.head}>
-          <Avatar variant="big" />
+          <Avatar variant="large" />
         </div>
 
         <Formik
@@ -72,7 +74,7 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="firstName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label="Имя"
+                      label={t('name')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -88,7 +90,7 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="lastName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label="Фамилия"
+                      label={t('surname')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -104,7 +106,7 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="middleName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label="Отчество"
+                      label={t('patronymic')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -120,7 +122,7 @@ const Settings = observer(({ className }) => {
 
               <div className={st.cta}>
                 <Button loading={loading} type="submit" disabled={touched && !isValid} block>
-                  Сохранить
+                  {t('save')}
                 </Button>
               </div>
             </Form>

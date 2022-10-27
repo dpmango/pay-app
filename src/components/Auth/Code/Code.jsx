@@ -51,7 +51,7 @@ const Code = observer(({ tab, className }) => {
           navigate(from, { replace: true });
         })
         .catch((err) => {
-          setError('Wrong code');
+          setError(t('validation.wrong'));
           resetForm();
         });
       setLoading(false);

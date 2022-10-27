@@ -67,7 +67,8 @@ const Phone = observer(({ tab, className }) => {
               <Field type="text" name="phone">
                 {({ field, form: { setFieldValue }, meta }) => (
                   <PhoneInput
-                    international
+                    initialValueFormat="national"
+                    countryCallingCodeEditable={false}
                     defaultCountry="RU"
                     value={field.value}
                     onChange={(v) => {

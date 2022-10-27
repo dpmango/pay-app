@@ -105,6 +105,7 @@ const CodeInput = ({
           <input
             key={index}
             type="text"
+            inputMode={!allowLetters && 'numeric'}
             value={digit}
             placeholder="0"
             ref={(ref) => {

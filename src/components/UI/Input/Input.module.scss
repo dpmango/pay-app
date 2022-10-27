@@ -96,8 +96,14 @@
 
   &._small {
     .input_input {
-      font-size: 14px;
-      padding: 16px 24px 15px;
+      font-size: 22px;
+      padding: 10px 20px;
+      background: #eaf1f6;
+      border-color: transparent;
+
+      &:focus {
+        border-color: $colorPrimary;
+      }
 
       &._iconed {
         padding-left: 55px;

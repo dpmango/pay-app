@@ -29,6 +29,16 @@
     }
   }
 
+  &._large {
+    width: 134px;
+    height: 134px;
+
+    .name,
+    .icon {
+      font-size: 64px;
+    }
+  }
+
   &._empty {
     background: $colorPrimary;
   }
