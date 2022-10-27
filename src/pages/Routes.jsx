@@ -15,6 +15,7 @@ import {
   PaymentWelcome,
   PaymentProcessing,
   PaymentSBP,
+  PaymentProfileValidation,
 } from '@/pages';
 
 import { AUTH_TOKEN_COOKIE } from '@core/enum/cookie';
@@ -42,6 +43,7 @@ const Router = () => (
         <Route path="pay/:id/validation" element={<PaymentValidation />} />
         <Route path="pay/:id/sbp" element={<PaymentSBP />} />
         <Route path="pay/:id/processing" element={<PaymentProcessing />} />
+        <Route path="pay/:id/profile" element={<PaymentProfileValidation />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/settings" element={<ProfileSettings />} />
         <Route path="contacts" element={<Contacts />} />

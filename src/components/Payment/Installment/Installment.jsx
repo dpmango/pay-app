@@ -67,7 +67,7 @@ const Installment = observer(({ className }) => {
 
       if (res && res.status) {
         if (res.status === 'IncompleteProfile') {
-          navigate('/profile/settings', { state: { from: location } });
+          navigate(`/pay/${payout.id}/profile`, { state: { from: location } });
         } else if (res.status === 'DocumentsRequired') {
           navigate(`/pay/${payout.id}/validation`);
         }

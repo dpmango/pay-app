@@ -12,7 +12,7 @@ import { SessionStoreContext } from '@store';
 
 import st from './Settings.module.scss';
 
-const Settings = observer(({ className }) => {
+const Settings = observer(({ asContinue, className }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -59,9 +59,15 @@ const Settings = observer(({ className }) => {
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
-        <div className={st.head}>
-          <Avatar variant="large" />
-        </div>
+        {!asContinue ? (
+          <div className={st.head}>
+            <Avatar variant="large" />
+          </div>
+        ) : (
+          <div className={st.intro}>
+            <p>Введите ваше ФИО</p>
+          </div>
+        )}
 
         <Formik
           initialValues={formInitial}
@@ -74,7 +80,8 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="firstName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label={t('name')}
+                      label={!asContinue && t('name')}
+                      placeholder={asContinue && t('name')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -90,7 +97,8 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="lastName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label={t('surname')}
+                      label={!asContinue && t('surname')}
+                      placeholder={asContinue && t('surname')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -106,7 +114,8 @@ const Settings = observer(({ className }) => {
                 <Field type="text" name="middleName">
                   {({ field, form: { setFieldValue }, meta }) => (
                     <Input
-                      label={t('patronymic')}
+                      label={!asContinue && t('patronymic')}
+                      placeholder={asContinue && t('patronymic')}
                       variant="small"
                       className={st.formInput}
                       value={field.value}
@@ -122,8 +131,13 @@ const Settings = observer(({ className }) => {
 
               <div className={st.cta}>
                 <Button loading={loading} type="submit" disabled={touched && !isValid} block>
-                  {t('save')}
+                  {asContinue ? t('continue') : t('save')}
                 </Button>
+                {asContinue && (
+                  <div className={st.link}>
+                    <a href="">{t('terms')}</a>
+                  </div>
+                )}
               </div>
             </Form>
           )}
