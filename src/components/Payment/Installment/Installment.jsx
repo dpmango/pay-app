@@ -11,7 +11,7 @@ import { formatPrice } from '@utils';
 import st from './Installment.module.scss';
 import { useEffect } from 'react';
 
-const Installment = observer(({ className }) => {
+const Installment = observer(({ className, isUpgrade }) => {
   const [selectedPeriod, setSelectedPeriod] = useState(null);
 
   const uiContext = useContext(UiStoreContext);
@@ -30,7 +30,7 @@ const Installment = observer(({ className }) => {
     } catch {
       return null;
     }
-  }, [selectedPeriod]);
+  }, [selectedPeriod, payout.availablePlans]);
 
   useEffect(() => {
     if (payout.availablePlans && payout.availablePlans.length) {
@@ -46,6 +46,12 @@ const Installment = observer(({ className }) => {
   const methodSelectAvailable = useMemo(() => {
     return ['Approved'].includes(payout.status);
   }, [payout.status]);
+
+  const newPrice = useMemo(() => {
+    if (!selectedPlan) return 0;
+
+    return payout.sumPaid - selectedPlan.firstSum;
+  }, [selectedPlan, payout.sumPaid]);
 
   const handleCtaClick = useCallback(async () => {
     if (sessionContext.accessToken) {
@@ -77,6 +83,16 @@ const Installment = observer(({ className }) => {
     }
   }, [payout.id, selectedPlan, sessionContext.accessToken]);
 
+  const handleRejectClick = useCallback(async () => {
+    const res = await payoutContext.rejectPayout({
+      id: payout.id,
+    });
+
+    if (res) {
+      navigate('/');
+    }
+  }, [payout.id]);
+
   if (!Object.keys(payout).length) {
     return <Spinner />;
   }
@@ -84,24 +100,30 @@ const Installment = observer(({ className }) => {
   return (
     <section className={cns(st.container, className)}>
       <div className="container">
-        <div className={st.head}>
-          <SvgIcon name="logo" />
-          <span>{t('title')}</span>
-        </div>
+        {!isUpgrade ? (
+          <>
+            <div className={st.head}>
+              <SvgIcon name="logo" />
+              <span>{t('title')}</span>
+            </div>
 
-        {selectedPlan && (
-          <div className={st.payments}>
-            <div className={st.payment}>
-              <div className={st.paymentTitle}>{formatPrice(selectedPlan.firstSum)} ₽</div>
-              <div className={st.paymentDesc}>{t('firstPayment')}</div>
-            </div>
-            <div className={st.payment}>
-              <div className={st.paymentTitle}>{formatPrice(selectedPlan.periodicalSum)} ₽</div>
-              <div className={st.paymentDesc}>
-                {selectedPlan.period === 'Month' && t('inMount')}
+            {selectedPlan && (
+              <div className={st.payments}>
+                <div className={st.payment}>
+                  <div className={st.paymentTitle}>{formatPrice(selectedPlan.firstSum)} ₽</div>
+                  <div className={st.paymentDesc}>{t('firstPayment')}</div>
+                </div>
+                <div className={st.payment}>
+                  <div className={st.paymentTitle}>{formatPrice(selectedPlan.periodicalSum)} ₽</div>
+                  <div className={st.paymentDesc}>
+                    {selectedPlan.period === 'Month' && t('inMount')}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )}
+          </>
+        ) : (
+          <div className={st.title}>{t('titleNew')}</div>
         )}
 
         <div className={st.monts}>
@@ -118,14 +140,27 @@ const Installment = observer(({ className }) => {
             ))}
         </div>
 
-        <div className={st.cta}>
+        <div className={cns(st.cta, isUpgrade && st._boxed)}>
+          <div className={st.new}>
+            <div className={st.newTitle}>{t('newDescription')}</div>
+            <div className={st.newValue}>{formatPrice(newPrice)} ₽</div>
+          </div>
+
           <Button block onClick={handleCtaClick}>
             {!methodSelectAvailable ? t('action1') : t('action2')}
           </Button>
+
+          {payout.canBeRejected && (
+            <div className={cns(st.link, st._deny)}>
+              <a href="#" onClick={handleRejectClick}>
+                {t('deny')}
+              </a>{' '}
+            </div>
+          )}
         </div>
 
         <div className={st.link}>
-          <a href="">{t('terms')}</a>
+          <a href="#">{t('terms')}</a>
         </div>
       </div>
     </section>

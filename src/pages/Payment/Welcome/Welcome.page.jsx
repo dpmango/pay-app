@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PayoutStoreContext, UiStoreContext } from '@/store';
 
 import Layout from '@c/Layout';
-import { PaymentOrder, PaymentInstallment } from '@c/Payment';
+import { PaymentOrder, PaymentUpgrade, PaymentInstallment } from '@c/Payment';
 import { ModalError, ModalPay, ModalMethodSelect } from '@c/Modal';
 
 import st from './Welcome.module.scss';
@@ -13,6 +13,7 @@ import st from './Welcome.module.scss';
 const PaymentWelcomePage = observer(() => {
   const uiContext = useContext(UiStoreContext);
   const payoutContext = useContext(PayoutStoreContext);
+  const { payout } = payoutContext;
 
   let { id } = useParams();
   const navigate = useNavigate();
@@ -32,14 +33,19 @@ const PaymentWelcomePage = observer(() => {
     fetchData();
   }, [id]);
 
+  const isUpgrade = useMemo(() => {
+    return payout.sumPaid > 0;
+  }, [payout]);
+
   return (
     <Layout variant="clear">
       <Helmet>
         <title>Payment welcome</title>
       </Helmet>
 
-      <PaymentOrder defaultOpen={true} className={st.order} />
-      <PaymentInstallment className={st.installment} />
+      <PaymentOrder defaultOpen={true} isUpgrade={isUpgrade} className={st.order} />
+      {isUpgrade && <PaymentUpgrade className={st.upgrade} />}
+      <PaymentInstallment isUpgrade={isUpgrade} className={st.installment} />
 
       <ModalError />
       <ModalPay />

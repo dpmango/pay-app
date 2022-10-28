@@ -123,6 +123,14 @@ export default class PayoutStore {
     return data;
   }
 
+  async rejectPayout(req) {
+    const [err, data] = await api.rejectPayout(req);
+
+    if (err) throw err;
+
+    return data;
+  }
+
   async getAttachedDocuments(id) {
     const [err, data] = await api.attachedDocuments(id);
 
