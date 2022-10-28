@@ -41,11 +41,13 @@ const Upgrade = observer(({ className, defaultOpen, isUpgrade }) => {
               </div>
             )}
           </div>
-          <div className={st.new}>
-            <div className={st.label}>{t('description')}</div>
-            <div className={st.newValue}>34 400 ₽</div>
-            <div className={st.newDeadline}>{t('redemptionat')}</div>
-          </div>
+          {selectedPlan && (
+            <div className={st.new}>
+              <div className={st.label}>{t('description')}</div>
+              <div className={st.newValue}>{formatPrice(selectedPlan.firstSum)} ₽</div>
+              {/* <div className={st.newDeadline}>{t('redemptionat')}</div> */}
+            </div>
+          )}
         </div>
       </div>
     </section>
