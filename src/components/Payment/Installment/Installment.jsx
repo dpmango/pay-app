@@ -50,7 +50,7 @@ const Installment = observer(({ className, isUpgrade }) => {
   const newPrice = useMemo(() => {
     if (!selectedPlan) return 0;
 
-    return payout.sumPaid - selectedPlan.firstSum;
+    return selectedPlan.firstSum - payout.sumPaid;
   }, [selectedPlan, payout.sumPaid]);
 
   const handleCtaClick = useCallback(async () => {
