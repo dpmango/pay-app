@@ -34,6 +34,7 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
     methodId: activeMethod,
   });
 
+  console.log(activeMethod);
   const handleSubmit = useCallback(async () => {
     if (!connectOnly) {
       // привязка выполняется автоматически если сразу инициировать оплату
@@ -82,7 +83,7 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
       </div>
 
       <div className={st.cta}>
-        <Button block loading={loading} onClick={handleSubmit}>
+        <Button block loading={loading} disabled={!activeMethod} onClick={handleSubmit}>
           {!connectOnly && paymentSum ? (
             <>
               {t('action')} {formatPrice(paymentSum)} ₽

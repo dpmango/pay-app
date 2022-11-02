@@ -74,6 +74,7 @@ export const usePayout = ({ id, paymentMode, paymentSum, methodId }) => {
     payout.status,
     paymentAmount,
     paymentSum,
+    methodId,
     methodContext.defaultMethodId,
     payoutContext.selectedPlanId,
   ]);
