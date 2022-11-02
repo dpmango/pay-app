@@ -79,7 +79,7 @@
     &._outline {
       background: transparent;
       border: 1px solid #a7c97c;
-      color: $fontColor;
+      color: $colorFont;
 
       &:hover {
         color: white;
@@ -99,7 +99,7 @@
     &._outline {
       background: transparent;
       border: 1px solid #305774;
-      color: $fontColor;
+      color: $colorFont;
 
       &:hover {
         color: white;
@@ -109,21 +109,21 @@
   }
 
   &._black {
-    background: $fontColor;
+    background: $colorFont;
     color: white;
 
     &:hover {
-      background: rgba($fontColor, 0.8);
+      background: rgba($colorFont, 0.8);
     }
 
     &._outline {
       background: transparent;
-      border: 1px solid $fontColor;
-      color: $fontColor;
+      border: 1px solid $colorFont;
+      color: $colorFont;
 
       &:hover {
         color: white;
-        background: $fontColor;
+        background: $colorFont;
       }
     }
   }
@@ -177,7 +177,7 @@
 
   &[disabled] {
     background: $colorBg;
-    color: $fontColor;
+    color: $colorFont;
     cursor: not-allowed;
     pointer-events: none;
 

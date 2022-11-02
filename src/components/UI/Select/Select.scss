@@ -3,7 +3,7 @@
     &__control {
       font-weight: 500;
       font-size: 20px;
-      color: $fontColor;
+      color: $colorFont;
       border: 1px solid transparent;
       min-height: 48px;
       background: #eaf1f6;
@@ -65,7 +65,7 @@
 
       &--is-selected {
         background: rgb(0 0 0 / 4%);
-        color: $fontColor;
+        color: $colorFont;
       }
 
       &--is-focused {

@@ -22,6 +22,7 @@ const PaymentWelcomePage = observer(() => {
     const fetchData = async () => {
       await payoutContext.getPayout(id).catch(({ status }) => {
         if (status === 404) {
+          console.log('404 с welcome');
           uiContext.setModal('error', { text: 'Такой рассрочки не найдено' });
           navigate('/');
         }

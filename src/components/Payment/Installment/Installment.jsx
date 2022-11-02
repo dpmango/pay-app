@@ -43,7 +43,7 @@ const Installment = observer(({ className, isUpgrade }) => {
     }
   }, [payout.availablePlans]);
 
-  const methodSelectAvailable = useMemo(() => {
+  const methodSelectA4vailable = useMemo(() => {
     return ['Approved'].includes(payout.status);
   }, [payout.status]);
 

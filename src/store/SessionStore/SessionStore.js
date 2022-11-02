@@ -14,7 +14,8 @@ export default class SessionStore {
   phone = null;
   confirmation = {
     confirmationToken: null,
-    confirmationTimeout: null,
+    confirmationTimeout: 0,
+    retryTimeout: 0,
   };
   profile = {};
 
@@ -99,7 +100,7 @@ export default class SessionStore {
 
     const { confirmationToken, confirmationTimeout, retryTimeout } = data;
 
-    this.setConfirmationSession({ confirmationToken, confirmationTimeout });
+    this.setConfirmationSession({ confirmationToken, confirmationTimeout, retryTimeout });
     this.setPhone(req.phone);
 
     return data;
@@ -163,7 +164,8 @@ export default class SessionStore {
     this.phone = null;
     this.confirmation = {
       confirmationToken: null,
-      confirmationTimeout: null,
+      confirmationTimeout: 0,
+      retryTimeout: 0,
     };
     this.profile = {};
 

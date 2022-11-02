@@ -127,7 +127,7 @@
     font-size: 22px;
     line-height: 28px;
     padding: 20px 60px 20px 22px;
-    color: $fontColor;
+    color: $colorFont;
 
     &:placeholder {
       color: $colorGray;
@@ -154,7 +154,7 @@
     }
 
     &:hover {
-      color: $fontColor;
+      color: $colorFont;
     }
   }
 }
