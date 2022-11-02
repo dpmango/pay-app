@@ -1,1 +1,1 @@
-export {default} from './Approving'
+export { default } from './Approving';
