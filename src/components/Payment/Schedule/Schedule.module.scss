@@ -39,6 +39,11 @@
 
   &Value {
     margin-left: auto;
+  }
+
+  &Image {
+    text-align: center;
+    max-width: 50px;
 
     img {
       max-width: 100%;

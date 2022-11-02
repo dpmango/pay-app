@@ -10,11 +10,13 @@ import st from './Layout.module.scss';
 const Variants = {
   MAIN: 'main',
   CLEAR: 'clear',
+  EMPTY: 'empty',
 };
 
 const VariantClasses = {
   [Variants.MAIN]: '',
   [Variants.CLEAR]: st._clear,
+  [Variants.EMPTY]: st._empty,
 };
 
 const Layout = ({ variant, children }) => {

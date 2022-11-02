@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
@@ -51,10 +51,12 @@ const Header = observer(({ className }) => {
             <span>{pageName}</span>
           </div>
 
-          <Link to="/profile" className={st.user}>
-            <Avatar name={sessionContext.shortName} />
-            <span className={st.userName}>{sessionContext.displayName}</span>
-          </Link>
+          {sessionContext.displayName && (
+            <Link to="/profile" className={st.user}>
+              <Avatar name={sessionContext.shortName} />
+              <span className={st.userName}>{sessionContext.displayName}</span>
+            </Link>
+          )}
 
           {/* MVP No chat */}
           <Link to="/contacts" className={st.chat}>

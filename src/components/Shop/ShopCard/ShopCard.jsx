@@ -35,12 +35,14 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
   const handleCardClick = useCallback(
     (e) => {
       e.preventDefault();
-      if (
-        ['Offerred', 'Approving', 'IncompleteProfile', 'DocumentsRequired', 'Approved'].includes(
-          status
-        )
-      ) {
+      if (status === 'Offerred') {
         navigate(`/r/${id}`);
+      } else if (status === 'IncompleteProfile') {
+        navigate(`/pay/${id}/profile`);
+      } else if (status === 'DocumentsRequired') {
+        navigate(`/pay/${id}/validation`);
+      } else if (status === 'Approving') {
+        navigate(`/pay/${id}/approving`);
       } else {
         navigate(`/pay/${id}`);
       }

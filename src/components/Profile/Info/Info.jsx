@@ -36,13 +36,14 @@ const Info = observer(({ className }) => {
           {profile.defaultPaymentMethod ? (
             <Tile
               title={profile.defaultPaymentMethod.title}
-              description={t('paymentMethod')}
+              description={t('paymentMethod.selected')}
               image="/img/payment/visa.png"
               className={st.gridCard}
+              onClick={() => uiContext.setModal('methodSelect')}
             />
           ) : (
             <Tile
-              title="Метод не выбран"
+              title={t('paymentMethod.empty')}
               description={t('paymentMethod')}
               className={st.gridCard}
               onClick={() => uiContext.setModal('methodSelect')}

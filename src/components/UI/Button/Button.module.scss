@@ -59,31 +59,11 @@
     &._outline {
       background: transparent;
       border: 1px solid $colorAccent;
-      color: $colorAccent;
-
-      &:hover {
-        color: white;
-        background: $colorAccent;
-      }
-    }
-  }
-
-  &._green {
-    background: #a7c97c;
-    color: white;
-
-    &:hover {
-      background: rgba(#a7c97c, 0.8);
-    }
-
-    &._outline {
-      background: transparent;
-      border: 1px solid #a7c97c;
       color: $colorFont;
 
       &:hover {
         color: white;
-        background: #a7c97c;
+        background: $colorAccent;
       }
     }
   }
@@ -167,6 +147,7 @@
     position: relative;
     // font-size: 0;
     color: transparent;
+    pointer-events: none;
 
     .spinner {
       position: absolute;

@@ -25,10 +25,12 @@
 .cta {
   position: fixed;
   z-index: 5;
-  left: 20px;
-  right: 20px;
   bottom: 0;
-  padding: 16px 0 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  padding: 16px 20px 20px;
   background: #f5f8fa;
 }
 

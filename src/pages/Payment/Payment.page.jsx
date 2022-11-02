@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-import { PayoutStoreContext } from '@store';
+import { PayoutStoreContext, UiStoreContext } from '@store';
 
 import Layout from '@c/Layout';
 import { PaymentScope, PaymentSchedule, PaymentOrder, PaymentInstallment } from '@c/Payment';
@@ -13,16 +13,17 @@ import st from './Payment.module.scss';
 
 const PaymentPage = observer(() => {
   const payoutContext = useContext(PayoutStoreContext);
+  const uiContext = useContext(UiStoreContext);
 
   let { id } = useParams();
+  let [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       await payoutContext.getPayout(id).catch(({ status }) => {
         if (status === 404) {
-          alert('Не найдно');
-          navigate('/');
+          navigate(`/r/${id}/notfound`);
         }
       });
 
@@ -30,6 +31,10 @@ const PaymentPage = observer(() => {
     };
 
     fetchData();
+
+    if (searchParams.get('attachedCallback') !== null) {
+      uiContext.setModal('pay');
+    }
   }, [id]);
 
   return (

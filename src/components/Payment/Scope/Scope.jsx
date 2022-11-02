@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import { Button, Spinner, ApiImage } from '@ui';
 import { UiStoreContext, PayoutStoreContext } from '@store';
-import { formatPrice, formatDate } from '@utils';
+import { formatPrice, formatDate, dateToDDMMMM } from '@utils';
 
 import st from './Scope.module.scss';
 import { useCallback } from 'react';
@@ -20,18 +20,23 @@ const radialStyle = buildStyles({
 
 const Scope = observer(({ className }) => {
   const uiContext = useContext(UiStoreContext);
-  const { payout } = useContext(PayoutStoreContext);
+  const { payout, payoutSumLeft } = useContext(PayoutStoreContext);
   const navigate = useNavigate();
 
   const { t } = useTranslation('pay', { keyPrefix: 'scope' });
 
   const handleCtaClick = useCallback(() => {
-    if (['Offerred', 'IncompleteProfile', 'DocumentsRequired'].includes(payout.status)) {
-      navigate(`/r/${payout.id}`);
-    } else {
-      uiContext.setModal('pay');
-    }
+    uiContext.setModal('pay');
   }, [payout.status]);
+
+  const verboseNextPayment = useMemo(() => {
+    try {
+      const date = dateToDDMMMM(payout.plannedRedemptions[0].date);
+      return `${t('next')} ${date}`;
+    } catch {
+      return null;
+    }
+  }, [payout]);
 
   if (!Object.keys(payout).length) {
     return <Spinner />;
@@ -58,20 +63,24 @@ const Scope = observer(({ className }) => {
                 <div className={st.paymentsValue}>{formatPrice(payout.sum)} ₽</div>
                 <div className={st.paymentsDescription}>{t('total')}</div>
               </div>
-              <div className={st.paymentsCol}>
-                <div className={st.paymentsValue}>{formatPrice(payout.sumPaid)} ₽</div>
-                <div className={st.paymentsDescription}>{t('rest')}</div>
-              </div>
+              {payoutSumLeft !== payout.sum && (
+                <div className={st.paymentsCol}>
+                  <div className={st.paymentsValue}>{formatPrice(payoutSumLeft)} ₽</div>
+                  <div className={st.paymentsDescription}>{t('rest')}</div>
+                </div>
+              )}
             </div>
-            <div className={st.deadline}>{t('next')} 11 июля</div>
+            <div className={st.deadline}>{verboseNextPayment}</div>
           </div>
         </div>
 
-        <div className={st.cta}>
-          <Button block onClick={handleCtaClick}>
-            {t('action')}
-          </Button>
-        </div>
+        {!['Paid', 'Canceled', 'Denied'].includes(payout.status) && (
+          <div className={st.cta}>
+            <Button block onClick={handleCtaClick}>
+              {t('action')}
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

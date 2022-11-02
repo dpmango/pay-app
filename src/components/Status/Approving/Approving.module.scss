@@ -1,0 +1,73 @@
+// .container {
+// }
+
+.wrapper {
+  padding: 16px 0;
+  min-height: calc(100vh - 84px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.radial {
+  position: relative;
+  max-width: 180px;
+  margin-left: auto;
+  margin-right: auto;
+
+  > svg {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &Content {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    padding: 10px 32px;
+    color: $colorGray2;
+
+    p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 21px;
+      color: $colorGray2;
+    }
+  }
+}
+
+.info {
+  margin: 52px auto 0;
+  max-width: 320px;
+  text-align: center;
+
+  &Title {
+    margin-top: 22px;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    color: $colorGray2;
+  }
+
+  &Description {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 21px;
+    color: $colorGray2;
+  }
+}
+
+.logo {
+  font-size: 58px;
+}

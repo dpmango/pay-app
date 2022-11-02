@@ -1,20 +1,20 @@
-import React, { useContext, useState, useCallback, useMemo } from 'react';
+import React, { useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
-import { UiStoreContext, MethodStoreContext } from '@store';
+import { UiStoreContext, MethodStoreContext, PayoutStoreContext } from '@store';
 import { formatPrice, openExternalLink } from '@utils';
+import { usePayout } from '@/core';
 import { Modal, Button } from '@ui';
 import { MethodCard } from '@c/Atom';
 
 import st from './MethodSelect.module.scss';
-import { useEffect } from 'react';
 
 // Компонент как для выбора метода оплаты (если передать sum в modalParams)
 // так и для управления текущими вариантами если (если передать connectOnly пропс)
 const ModalMethodSelect = observer(({ className, connectOnly }) => {
   const [activeMethod, setActiveMethod] = useState(null);
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation('modalSelectPayment');
 
   const uiContext = useContext(UiStoreContext);
@@ -27,32 +27,22 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
     return null;
   }, [uiContext.modalParams]);
 
+  let { id } = useParams();
+  const { loading, initPayment, initConnect } = usePayout({
+    id,
+    paymentSum,
+    methodId: activeMethod,
+  });
+
   const handleSubmit = useCallback(async () => {
-    // "Новую карту", но вместо того, чтобы сразу выполнить платеж с использованием этого метода оплаты началась его привязка.
-    // так быть не должно - нужно сразу оплачивать нужную сумму методом "Новая карта". привязка при этом выполняется автоматически
-
     if (!connectOnly) {
-      let continuePayWithParams;
-      // if (methodContext.isAttachedMethod(activeMethod))
-      continuePayWithParams = { paymentMethodId: activeMethod };
-
-      uiContext.setModal('pay', continuePayWithParams || {});
+      // привязка выполняется автоматически если сразу инициировать оплату
+      await initPayment();
     } else {
-      const { data, status } = await methodContext.connectMethod({
-        paymentMethodId: activeMethod,
-        returnUrl: `${window.location.href}?attachedCallback`,
-      });
-      if (status === 202 && data.redirectUrls) {
-        if (data.redirectUrls.type === 'BankSelection') {
-          payoutContext.setSBPList(data.redirectUrls.bankSelection);
-          navigate(`/pay/${id}/sbp`);
-        } else if (data.redirectUrls.type === 'Unconditional') {
-          openExternalLink(data.redirectUrls.defaultUrl);
-        }
-      }
-      uiContext.resetModal();
+      // флоу отдельно для привязки
+      await initConnect();
     }
-  }, [activeMethod]);
+  }, [initPayment, initConnect]);
 
   useEffect(() => {
     if (methodContext.defaultMethodId) {
@@ -92,13 +82,13 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
       </div>
 
       <div className={st.cta}>
-        <Button type="link" block onClick={handleSubmit}>
+        <Button block loading={loading} onClick={handleSubmit}>
           {!connectOnly && paymentSum ? (
             <>
               {t('action')} {formatPrice(paymentSum)} ₽
             </>
           ) : (
-            <>Привязать</>
+            <> {t('action2')}</>
           )}
         </Button>
       </div>

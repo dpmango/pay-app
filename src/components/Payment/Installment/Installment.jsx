@@ -43,7 +43,7 @@ const Installment = observer(({ className, isUpgrade }) => {
     }
   }, [payout.availablePlans]);
 
-  const methodSelectA4vailable = useMemo(() => {
+  const methodSelectAvailable = useMemo(() => {
     return ['Approved'].includes(payout.status);
   }, [payout.status]);
 
@@ -83,15 +83,17 @@ const Installment = observer(({ className, isUpgrade }) => {
     }
   }, [payout.id, selectedPlan, sessionContext.accessToken]);
 
-  const handleRejectClick = useCallback(async () => {
-    const res = await payoutContext.rejectPayout({
-      id: payout.id,
-    });
+  const handleRejectClick = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const res = await payoutContext.rejectPayout(payout.id);
 
-    if (res) {
-      navigate('/');
-    }
-  }, [payout.id]);
+      if (res) {
+        navigate('/');
+      }
+    },
+    [payout.id]
+  );
 
   if (!Object.keys(payout).length) {
     return <Spinner />;
@@ -131,7 +133,7 @@ const Installment = observer(({ className, isUpgrade }) => {
             payout.availablePlans.map((plan, idx) => (
               <div className={st.month} key={idx}>
                 <Button
-                  theme={selectedPeriod === plan.id ? 'blue' : 'green'}
+                  theme={selectedPeriod === plan.id ? 'blue' : 'accent'}
                   block
                   onClick={() => setSelectedPeriod(plan.id)}>
                   {plan.duration} {plan.period === 'Month' && t('month')}
@@ -141,10 +143,12 @@ const Installment = observer(({ className, isUpgrade }) => {
         </div>
 
         <div className={cns(st.cta, isUpgrade && st._boxed)}>
-          <div className={st.new}>
-            <div className={st.newTitle}>{t('newDescription')}</div>
-            <div className={st.newValue}>{formatPrice(newPrice)} ₽</div>
-          </div>
+          {isUpgrade && (
+            <div className={st.new}>
+              <div className={st.newTitle}>{t('newDescription')}</div>
+              <div className={st.newValue}>{formatPrice(newPrice)} ₽</div>
+            </div>
+          )}
 
           <Button block onClick={handleCtaClick}>
             {!methodSelectAvailable ? t('action1') : t('action2')}
@@ -154,7 +158,7 @@ const Installment = observer(({ className, isUpgrade }) => {
             <div className={cns(st.link, st._deny)}>
               <a href="#" onClick={handleRejectClick}>
                 {t('deny')}
-              </a>{' '}
+              </a>
             </div>
           )}
         </div>

@@ -11,8 +11,10 @@ import {
   Contacts,
   Chat,
   Payment,
-  PaymentValidation,
   PaymentWelcome,
+  PaymentNotFound,
+  PaymentValidation,
+  PaymentApproving,
   PaymentProcessing,
   PaymentSBP,
   PaymentProfileValidation,
@@ -35,15 +37,17 @@ const Router = () => (
     <Routes>
       <Route path="auth" element={<Auth />} />
       <Route path="r/:id" element={<PaymentWelcome />} />
+      <Route path="r/:id/notfound" element={<PaymentNotFound />} />
 
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home tab="purchases" />} />
         {/* <Route path="shops" element={<Home tab="shops" />} /> */}
         <Route path="pay/:id" element={<Payment />} />
         <Route path="pay/:id/validation" element={<PaymentValidation />} />
-        <Route path="pay/:id/sbp" element={<PaymentSBP />} />
         <Route path="pay/:id/processing" element={<PaymentProcessing />} />
         <Route path="pay/:id/profile" element={<PaymentProfileValidation />} />
+        <Route path="pay/:id/approving" element={<PaymentApproving />} />
+        <Route path="pay/:id/sbp" element={<PaymentSBP />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/settings" element={<ProfileSettings />} />
         <Route path="contacts" element={<Contacts />} />

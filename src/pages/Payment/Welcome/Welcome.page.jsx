@@ -20,15 +20,15 @@ const PaymentWelcomePage = observer(() => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await payoutContext.getPayout(id).catch(({ status }) => {
+      const res = await payoutContext.getPayout(id).catch(({ status }) => {
         if (status === 404) {
-          console.log('404 с welcome');
-          uiContext.setModal('error', { text: 'Такой рассрочки не найдено' });
-          navigate('/');
+          navigate(`/r/${id}/notfound`);
         }
       });
 
-      await payoutContext.getPayoutDocument(id);
+      if (res) {
+        await payoutContext.getPayoutDocument(id);
+      }
     };
 
     fetchData();
