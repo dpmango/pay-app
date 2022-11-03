@@ -34,7 +34,6 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
     methodId: activeMethod,
   });
 
-
   const handleSubmit = useCallback(async () => {
     if (!connectOnly) {
       // привязка выполняется автоматически если сразу инициировать оплату
