@@ -44,7 +44,7 @@ const Info = observer(({ className }) => {
           ) : (
             <Tile
               title={t('paymentMethod.empty')}
-              description={t('paymentMethod')}
+              description={t('paymentMethod.selected')}
               className={st.gridCard}
               onClick={() => uiContext.setModal('methodSelect')}
             />

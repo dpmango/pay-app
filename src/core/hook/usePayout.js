@@ -56,7 +56,7 @@ export const usePayout = ({ id, paymentMode, paymentSum, methodId }) => {
       .catch(({ message, status }) => {
         toast.error(message);
         if (status === 400) {
-          uiContext.setModal('methodSelect');
+          uiContext.resetModal();
         }
       });
 
@@ -110,7 +110,7 @@ export const usePayout = ({ id, paymentMode, paymentSum, methodId }) => {
         openExternalLink(data.redirectUrls.defaultUrl);
       }
     } else {
-      payoutContext.getPayout(id);
+      if (id) payoutContext.getPayout(id);
       uiContext.resetModal();
     }
   }, []);

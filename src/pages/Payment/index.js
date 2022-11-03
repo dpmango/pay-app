@@ -5,4 +5,5 @@ export { default as PaymentWelcome } from './Welcome';
 export { default as PaymentValidation } from './Validation';
 export { default as PaymentProfileValidation } from './ProfileValidation';
 export { default as PaymentApproving } from './Approving';
+export { default as PaymentApproved } from './Approved';
 export { default as PaymentSBP } from './SBP';

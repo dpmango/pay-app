@@ -88,11 +88,11 @@ export default class PayoutStore {
     return data;
   }
 
-  async getPayout(id) {
+  async getPayout(id, setStore = true) {
     const [err, data] = await api.payoutById(id);
 
     if (err) throw err;
-    this.setPayout(data);
+    if (setStore) this.setPayout(data);
 
     return data;
   }

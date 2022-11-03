@@ -9,6 +9,7 @@ export {
   PaymentValidation,
   PaymentProfileValidation,
   PaymentApproving,
+  PaymentApproved,
   PaymentProcessing,
   PaymentSBP,
 } from './Payment';

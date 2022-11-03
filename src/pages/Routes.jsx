@@ -15,6 +15,7 @@ import {
   PaymentNotFound,
   PaymentValidation,
   PaymentApproving,
+  PaymentApproved,
   PaymentProcessing,
   PaymentSBP,
   PaymentProfileValidation,
@@ -44,9 +45,10 @@ const Router = () => (
         {/* <Route path="shops" element={<Home tab="shops" />} /> */}
         <Route path="pay/:id" element={<Payment />} />
         <Route path="pay/:id/validation" element={<PaymentValidation />} />
-        <Route path="pay/:id/processing" element={<PaymentProcessing />} />
         <Route path="pay/:id/profile" element={<PaymentProfileValidation />} />
         <Route path="pay/:id/approving" element={<PaymentApproving />} />
+        <Route path="pay/:id/approved" element={<PaymentApproved />} />
+        <Route path="pay/:id/processing" element={<PaymentProcessing />} />
         <Route path="pay/:id/sbp" element={<PaymentSBP />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/settings" element={<ProfileSettings />} />

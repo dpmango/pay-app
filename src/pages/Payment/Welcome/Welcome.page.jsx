@@ -27,6 +27,14 @@ const PaymentWelcomePage = observer(() => {
       });
 
       if (res) {
+        if (res.status === 'IncompleteProfile') {
+          navigate(`/pay/${id}/profile`);
+        } else if (res.status === 'DocumentsRequired') {
+          navigate(`/pay/${id}/validation`);
+        } else if (res.status === 'Approving') {
+          navigate(`/pay/${id}/approving`);
+        }
+
         await payoutContext.getPayoutDocument(id);
       }
     };
