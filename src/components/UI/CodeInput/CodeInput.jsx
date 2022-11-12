@@ -104,7 +104,8 @@ const CodeInput = ({
         {digits.map((digit, index) => (
           <input
             key={index}
-            type="text"
+            type={allowLetters ? 'text' : 'tel'}
+            inputMode={!allowLetters && 'tel'}
             value={digit}
             placeholder="0"
             ref={(ref) => {

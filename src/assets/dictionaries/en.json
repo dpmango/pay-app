@@ -136,9 +136,6 @@
     "validate": {
       "title": "Please upload your documents photos",
       "description": "The photo must be:<br />bright and clear, good quality, all corners of the documents have to be visible.",
-      "passportMain": "Passport Main",
-      "passportResidency": "Residence Passport",
-      "passportSelfie": "Take a selfie with your passport",
       "info": "Passport photo, full name and other data must be clearly visible",
       "action": "Submit",
       "terms": "Installment Service Terms"

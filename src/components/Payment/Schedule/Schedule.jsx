@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import cns from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Image, Spinner } from '@ui';
+import { Image, Spinner, ApiImage } from '@ui';
 import { PayoutStoreContext } from '@store';
 import { formatPrice } from '@utils';
 
@@ -15,15 +15,33 @@ const Schedule = observer(({ className }) => {
   const { payout } = payoutContext;
   const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
 
+  const schedule = useMemo(() => {
+    try {
+      let returnable = null;
+      if (payout.redemptions && payout.redemptions.length) {
+        returnable = [...payout.redemptions];
+      }
+      if (payout.plannedRedemptions && payout.plannedRedemptions.length) {
+        returnable = [
+          ...returnable,
+          ...payout.plannedRedemptions.map((x, idx) => ({
+            ...x,
+            isNextPayment: idx === 0,
+          })),
+        ];
+      }
+
+      return returnable;
+    } catch (err) {
+      return null;
+    }
+  }, [payout.id, payout.redemptions, payout.plannedRedemptions]);
+
   if (!Object.keys(payout).length) {
     return <Spinner />;
   }
 
-  // if (!['Approved', 'Active', 'Paid'].includes(payout.status)) {
-  //   return 'График платежей не показывается Не Active или Paid (dev - Approved)';
-  // }
-
-  if (!payout.redemptions || (payout.redemptions && payout.redemptions.length === 0)) return null;
+  if (!schedule) return null;
 
   return (
     <section className={cns(st.container, className)}>
@@ -32,7 +50,7 @@ const Schedule = observer(({ className }) => {
           <div className={st.head}>{t('title')}</div>
 
           <div className={st.list}>
-            {payout.redemptions.map((payment, idx) => (
+            {schedule.map((payment, idx) => (
               <ScheduleCard
                 {...payment}
                 orderNum={idx + 1}
@@ -47,12 +65,16 @@ const Schedule = observer(({ className }) => {
               <div className={st.tileLabel}>{t('rest')}</div>
               <div className={st.tileValue}>{formatPrice(payoutContext.payoutSumLeft)} ₽</div>
             </div>
-            <div className={st.tile}>
-              <div className={st.tileLabel}>Карта Visa *8644</div>
-              <div className={st.tileValue}>
-                <Image src="/img/payment/visa.png" have2x={true} />
+            {payout.paymentMethod && (
+              <div className={st.tile}>
+                <div className={st.tileLabel}>{payout.paymentMethod.title}</div>
+                <div className={st.tileValue}>
+                  <div className={st.tileImage}>
+                    <ApiImage slug={payout.paymentMethod.iconSlug} width={100} />
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

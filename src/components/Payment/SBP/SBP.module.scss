@@ -42,6 +42,12 @@
   text-align: center;
   cursor: pointer;
 
+  &Image {
+    img {
+      max-width: 100%;
+    }
+  }
+
   &Title {
     margin-top: 4px;
     font-size: 14px;
@@ -82,10 +88,11 @@
 .cta {
   position: fixed;
   z-index: 5;
-  left: 0;
-  right: 0;
   bottom: 0;
-  padding: 16px 20px 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
   background: #f5f8fa;
 
   &Link {
@@ -100,7 +107,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $fontColor;
+      color: $colorFont;
     }
   }
 }

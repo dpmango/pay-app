@@ -5,7 +5,11 @@ export { default as Contacts } from './Contacts';
 export {
   default as Payment,
   PaymentWelcome,
+  PaymentNotFound,
   PaymentValidation,
+  PaymentProfileValidation,
+  PaymentApproving,
+  PaymentApproved,
   PaymentProcessing,
   PaymentSBP,
 } from './Payment';

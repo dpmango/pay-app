@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Trans, useTranslation } from 'react-i18next';
 import cns from 'classnames';
+import { toast } from 'react-toastify';
 
 import { Button, Spinner } from '@ui';
-import { PayoutStoreContext } from '@store';
+import { PayoutStoreContext, UiStoreContext } from '@store';
 
 import PaymentUpload from './Upload';
 import st from './Validation.module.scss';
 
 const Validation = observer(({ className }) => {
   const payoutContext = useContext(PayoutStoreContext);
+  const uiContext = useContext(UiStoreContext);
   const { payout, documents } = payoutContext;
 
   const { t } = useTranslation('profile', { keyPrefix: 'validate' });
@@ -34,8 +36,7 @@ const Validation = observer(({ className }) => {
         selectedPlanId: selectedPlan.id,
       })
       .catch(({ message, status }) => {
-        alert(message);
-        console.log({ message, status });
+        toast.error(message);
       });
 
     if (res) {

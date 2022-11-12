@@ -4,7 +4,7 @@
 
 body, html
   background: #F5F8FA
-  color: $fontColor
+  color: $colorFont
   font-family: $baseFont
   font-size: 20px
   line-height: 1
@@ -25,8 +25,10 @@ ul
   li
     display: inline-block
 
-p + p
-  margin-top: 1em
+p
+  margin: 0
+  + p
+    margin-top: 1em
 
 .svg-icon
   display: inline-block

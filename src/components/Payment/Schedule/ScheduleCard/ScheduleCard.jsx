@@ -10,7 +10,15 @@ import { formatPrice, formatDate } from '@utils';
 import st from './ScheduleCard.module.scss';
 
 // redemptions type
-const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, className }) => {
+const ScheduleCard = ({
+  orderNum,
+  sum,
+  status,
+  createdAt,
+  errorDescription,
+  isNextPayment,
+  className,
+}) => {
   const uiContext = useContext(UiStoreContext);
   const payoutContext = useContext(PayoutStoreContext);
   const { t } = useTranslation('pay', { keyPrefix: 'schedule' });
@@ -27,7 +35,8 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
     return +round;
   }, [sum, payoutContext.sum]);
 
-  const isCurrentPayment = ['InProcess'].includes(status);
+  // если нет статуса, значит обьект от plannedRedemptions
+  const isCurrentPayment = ['IProcess'].includes(status);
   const isFailedPayment = ['Failed'].includes(status);
 
   const deadline = useMemo(() => {
@@ -40,7 +49,7 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
 
     switch (status) {
       case 'InProcess':
-        topic = t('status.willcharge');
+        topic = t('status.pending');
         break;
       case 'Failed':
         topic = t('status.error');
@@ -50,6 +59,7 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
         topic = t('status.payed');
         break;
       default:
+        topic = t('status.willcharge');
         break;
     }
 
@@ -72,6 +82,7 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
         color = '#A7C97C';
         break;
       default:
+        color = '#34A8FF';
         break;
     }
 
@@ -87,6 +98,7 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
       className={cns(
         st.card,
         isCurrentPayment && st._current,
+        isNextPayment && st._next,
         isFailedPayment && st._failed,
         className
       )}>
@@ -108,13 +120,13 @@ const ScheduleCard = ({ id, orderNum, sum, status, createdAt, errorDescription, 
       </div>
 
       <div
-        className={cns(st.cardAction, (isCurrentPayment || isFailedPayment) && st._active)}
+        className={cns(st.cardAction, (isNextPayment || isFailedPayment) && st._active)}
         onClick={() => uiContext.setModal('pay')}>
         <div className={st.cardActionIcon}>
           <SvgIcon name="card" />
         </div>
         <div className={st.cardActionName} onClick={() => uiContext.setModal('pay')}>
-          Оплатить
+          {t('action')}
         </div>
       </div>
     </div>

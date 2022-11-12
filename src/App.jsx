@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { SessionStoreContext, MethodStoreContext } from '@store';
 import Routes from './pages';
@@ -21,7 +23,12 @@ const App = () => {
     initStore();
   }, []);
 
-  return <Routes />;
+  return (
+    <>
+      <Routes />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default App;

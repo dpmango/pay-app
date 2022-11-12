@@ -10,7 +10,7 @@ import { formatPrice } from '@utils';
 
 import st from './Order.module.scss';
 
-const Order = observer(({ className, defaultOpen }) => {
+const Order = observer(({ className, defaultOpen, isUpgrade }) => {
   const [opened, setOpened] = useState(defaultOpen || false);
   const [activeDropDown, setActiveDropDown] = useState(null);
 
@@ -56,7 +56,10 @@ const Order = observer(({ className, defaultOpen }) => {
       <div className="container">
         <div className={cns(st.box, opened && st._opened)}>
           <div className={st.boxHead} onClick={() => setOpened(!opened)}>
-            <div className={st.boxHeadTitle}>{payout.description}</div>
+            <div className={st.boxHeadTitle}>
+              {payout.description}&nbsp;
+              {isUpgrade && <span className="c-red">NEW</span>}
+            </div>
             <SvgIcon name="caret" />
           </div>
           {opened && (

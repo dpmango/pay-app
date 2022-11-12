@@ -32,7 +32,7 @@
     flex: 0 0 auto;
     // background: #eaf1f6;
     border-radius: 50%;
-    color: $colorPrimary;
+    color: $colorGray2;
     font-size: 13px;
     transition: background 0.25s $ease;
 
@@ -46,11 +46,15 @@
     }
   }
 
+  &._active {
+    .paymentCheckbox {
+      color: $colorPrimary;
+    }
+  }
+
   &._active,
   &:hover {
     .paymentCheckbox {
-      // background: $colorPrimary;
-
       svg {
         opacity: 1;
       }

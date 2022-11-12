@@ -1,4 +1,5 @@
 .input {
+  position: relative;
   display: block;
 
   &_wrapper {
@@ -72,7 +73,7 @@
     }
 
     &Value {
-      color: $fontColor;
+      color: $colorFont;
     }
 
     &Placeholder {

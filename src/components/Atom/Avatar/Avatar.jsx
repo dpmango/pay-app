@@ -8,12 +8,14 @@ const Variants = {
   DEFAULT: 'default',
   SMALL: 'small',
   BIG: 'big',
+  LARGE: 'large',
 };
 
 const VariantClasses = {
   [Variants.DEFAULT]: st._default,
   [Variants.SMALL]: st._small,
   [Variants.BIG]: st._big,
+  [Variants.LARGE]: st._large,
 };
 
 const Avatar = ({ className, img, name, variant = 'default', ...props }) => {

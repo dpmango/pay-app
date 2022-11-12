@@ -71,7 +71,10 @@ const SBP = observer(({ className }) => {
             <div className={st.grid}>
               {searchedList.map((x, idx) => (
                 <div className={st.bank} key={idx} onClick={() => handleBankSelect(x)}>
-                  <ApiImage slug={x.iconSlug} />
+                  <div className={st.bankImage}>
+                    <ApiImage slug={x.iconSlug} width={100} />
+                  </div>
+
                   <div className={st.bankTitle}>{x.title}</div>
                 </div>
               ))}

@@ -40,8 +40,8 @@ const mainStyles = {
 
 const centerStyles = {
   content: {
-    width: '100%',
-    maxWidth: 'calc(100% - 40px)',
+    width: 'calc(100% - 40px)',
+    maxWidth: '600px',
     top: '50%',
     left: '20px',
     right: '20px',

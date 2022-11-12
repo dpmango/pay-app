@@ -52,7 +52,7 @@
 
   &:hover {
     .title {
-      color: $fontColor;
+      color: $colorFont;
     }
   }
 }
@@ -101,10 +101,14 @@
     bottom: 0;
     text-align: center;
     padding: 10px;
-    color: $colorPrimary;
+    color: $colorAccent;
 
     :global .svg-icon {
       font-size: 17px;
+    }
+
+    &._success {
+      color: $colorPrimary;
     }
 
     &._error {

@@ -6,20 +6,47 @@
   text-align: center;
 }
 
+.intro {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: calc(28 / 22);
+  text-align: center;
+  color: $colorGray2;
+}
+
 .form {
-  margin-top: 36px;
+  margin-top: 16px;
 
   &Input {
-    margin-bottom: 6px;
+    margin-bottom: 17px;
   }
 }
 
 .cta {
   position: fixed;
   z-index: 5;
-  left: 20px;
-  right: 20px;
   bottom: 0;
-  padding: 16px 0 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  padding: 16px 20px 20px;
   background: #f5f8fa;
+}
+
+.link {
+  margin-top: 16px;
+  text-align: center;
+
+  a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: calc(21 / 16);
+    color: $colorGray;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }

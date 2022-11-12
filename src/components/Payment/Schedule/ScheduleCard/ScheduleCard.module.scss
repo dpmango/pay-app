@@ -126,6 +126,7 @@
   }
 
   &._current,
+  &._next,
   &._failed {
     .card {
       &Radial {

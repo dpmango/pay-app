@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useState } from 'react';
+import React, { useContext, useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,7 @@ import cns from 'classnames';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import { Button, CodeInput } from '@ui';
+import { secondsToStamp } from '@utils';
 import { SessionStoreContext } from '@store';
 
 import st from './Code.module.scss';
@@ -20,8 +21,22 @@ const Code = observer(({ tab, className }) => {
   const { t } = useTranslation('auth', { keyPrefix: 'code' });
 
   const sessionContext = useContext(SessionStoreContext);
+  const { confirmation, phone } = useContext(SessionStoreContext);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const timerConfirm = useRef(null);
+  const timerRetry = useRef(null);
+  const [countdownConfirm, setCountdownConfirm] = useState(confirmation.confirmationTimeout);
+  const [countdownRetry, setCountdownRetry] = useState(confirmation.retryTimeout);
+
+  const handlePhoneChange = useCallback(() => {
+    sessionContext.setPhone(null);
+  }, []);
+
+  const confirmDisabled = useMemo(() => {
+    return countdownConfirm === 0;
+  }, [countdownConfirm]);
 
   const handleValidation = (values) => {
     const errors = {};
@@ -33,6 +48,25 @@ const Code = observer(({ tab, className }) => {
     }
     return errors;
   };
+
+  const handleCodeResend = useCallback(async () => {
+    const data = await sessionContext
+      .createSession({
+        method: 'PhoneOTP',
+        phone: phone,
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+
+    if (data) {
+      const { confirmationTimeout, retryTimeout } = data;
+      clearTimeout(timerConfirm.current);
+      clearTimeout(timerRetry.current);
+      setCountdownConfirm(confirmationTimeout);
+      setCountdownRetry(retryTimeout);
+    }
+  }, [phone]);
 
   const handleSubmit = useCallback(
     async (values, { resetForm }) => {
@@ -51,13 +85,35 @@ const Code = observer(({ tab, className }) => {
           navigate(from, { replace: true });
         })
         .catch((err) => {
-          setError('Wrong code');
+          setError(t('validation.wrong'));
           resetForm();
         });
       setLoading(false);
     },
     [loading]
   );
+
+  useEffect(() => {
+    if (countdownConfirm >= 1) {
+      timerConfirm.current = setTimeout(() => {
+        setCountdownConfirm((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      clearTimeout(timerConfirm.current);
+    };
+  }, [countdownConfirm]);
+
+  useEffect(() => {
+    if (countdownRetry >= 1) {
+      timerRetry.current = setTimeout(() => {
+        setCountdownRetry((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      clearTimeout(timerRetry.current);
+    };
+  }, [countdownRetry]);
 
   return (
     <section className={cns(st.container, className)}>
@@ -71,8 +127,16 @@ const Code = observer(({ tab, className }) => {
             <div className={cns(st.formBody)}>
               <div className={st.title}>{t('title')}</div>
               <div className={st.desc}>
-                {t('description.number')} <span className="c-primary">+{sessionContext.phone}</span>{' '}
-                {t('description.action')}
+                <p>
+                  {t('description.number')}&nbsp;
+                  <span className="c-primary">+{sessionContext.phone}</span>{' '}
+                  {t('description.action')}
+                </p>
+                <p>
+                  <a href="#" onClick={handlePhoneChange}>
+                    {t('changePhone')}
+                  </a>
+                </p>
               </div>
               <Field type="text" name="code">
                 {({ field, form: { setFieldValue }, meta }) => (
@@ -88,10 +152,30 @@ const Code = observer(({ tab, className }) => {
                   />
                 )}
               </Field>
+              <p className={st.confirmTimeout}>
+                {countdownConfirm === 0 ? (
+                  <span>{t('confirmation.expired')}</span>
+                ) : (
+                  <span>
+                    {t('confirmation.info')} {secondsToStamp(countdownConfirm)}
+                  </span>
+                )}
+              </p>
             </div>
 
             <div className={st.cta}>
-              <Button loading={loading} type="submit" disabled={!isValid} block>
+              <p className={st.confirmResend}>
+                {countdownRetry === 0 ? (
+                  <a href="#" onClick={handleCodeResend}>
+                    {t('resend.action')}
+                  </a>
+                ) : (
+                  <span>
+                    {t('resend.info')} {secondsToStamp(countdownRetry)}
+                  </span>
+                )}
+              </p>
+              <Button loading={loading} type="submit" disabled={!isValid || confirmDisabled} block>
                 {t('submit')}
               </Button>
             </div>

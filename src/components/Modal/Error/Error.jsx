@@ -6,14 +6,18 @@ import { Modal, SvgIcon, Button, Image } from '@ui';
 import { UiStoreContext } from '@store';
 import st from './Error.module.scss';
 
-const ErrorPay = observer(({ className }) => {
+const ErrorPay = observer(({ retryModal = 'pay', className }) => {
   const uiContext = useContext(UiStoreContext);
   const { modalParams } = uiContext;
 
   const { t } = useTranslation('modalError');
 
   const handleRetry = useCallback(() => {
-    uiContext.setModal('pay');
+    if (retryModal) {
+      uiContext.setModal(retryModal);
+    } else {
+      uiContext.resetModal();
+    }
   }, [modalParams]);
 
   return (

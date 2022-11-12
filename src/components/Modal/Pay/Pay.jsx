@@ -1,92 +1,42 @@
 import React, { useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import cns from 'classnames';
 
+import { usePayout } from '@/core';
 import { Modal, SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext, PayoutStoreContext, MethodStoreContext } from '@store';
-import { formatPrice, openExternalLink } from '@utils';
+import { UiStoreContext, MethodStoreContext, PayoutStoreContext } from '@store';
+import { formatPrice } from '@utils';
 
 import { MethodImage } from '@c/Atom';
 import st from './Pay.module.scss';
 
 const ModalPay = observer(({ className }) => {
   const [paymentMode, setPaymentMode] = useState(1);
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation('modalPay');
 
   const uiContext = useContext(UiStoreContext);
-  const payoutContext = useContext(PayoutStoreContext);
   const methodContext = useContext(MethodStoreContext);
-  const { payout } = payoutContext;
+  const { payout } = useContext(PayoutStoreContext);
 
   let { id } = useParams();
-  const navigate = useNavigate();
-
-  const paymentOptions = useMemo(() => {
-    return [
-      {
-        id: 1,
-        value: payoutContext.closestPaymentSum,
-        transKey: 'closest',
-      },
-      {
-        id: 2,
-        value: payoutContext.payoutSumLeft,
-        transKey: 'payAll',
-      },
-    ];
-  }, [payoutContext.closestPaymentSum, payout.sum]);
-
-  const paymentAmount = useMemo(() => {
-    return paymentOptions.find((x) => x.id === paymentMode).value;
-  }, [paymentOptions, paymentMode]);
+  const { loading, paymentOptions, paymentAmount, initPayment } = usePayout({ id, paymentMode });
 
   const handleSubmit = useCallback(
-    async (e, methodID) => {
-      uiContext.resetModalParams();
-      setLoading(true);
-
-      const { data, status } = await payoutContext
-        .initPayment({
-          id: payout.id,
-          sum: paymentAmount,
-          paymentMethodId: methodID || methodContext.defaultMethodId,
-          selectedPlanId: payout.status === 'Active' ? undefined : payoutContext.selectedPlanId,
-          returnUrl: `${window.location.origin}/pay/${id}`,
-        })
-        .catch(({ status }) => {
-          if (status === 400) {
-            uiContext.setModal('methodSelect');
-          }
-        });
-
-      setLoading(false);
-      if (!data) return;
-
-      if (data.status === 'Failed') {
-        uiContext.setModal('error', { text: data.errorDescription });
-      } else if (status === 202 && data.redirectUrls) {
-        if (data.redirectUrls.type === 'BankSelection') {
-          payoutContext.setSBPList(data.redirectUrls.bankSelection);
-          navigate(`/pay/${id}/sbp`);
-        } else if (data.redirectUrls.type === 'Unconditional') {
-          openExternalLink(data.redirectUrls.defaultUrl);
-        }
-      } else {
-        payoutContext.getPayout(id);
-        uiContext.resetModal();
-      }
+    async (e) => {
+      await initPayment();
     },
-    [id, paymentAmount, payout, methodContext.defaultMethodId, payoutContext.selectedPlanId]
+    [initPayment]
   );
 
-  useEffect(() => {
-    if (uiContext.modalParams && uiContext.modalParams.paymentMethodId) {
-      handleSubmit(null, uiContext.modalParams.paymentMethodId);
+  const defaultMethod = useMemo(() => {
+    if (payout && payout.paymentMethod) {
+      return payout.paymentMethod;
     }
-  }, [uiContext.modalParams]);
+
+    return methodContext.defaultMethod;
+  }, [payout.paymentMethod, methodContext.defaultMethod]);
 
   return (
     <Modal name="pay" className={className}>
@@ -94,17 +44,14 @@ const ModalPay = observer(({ className }) => {
 
       <div
         className={st.method}
-        onClick={() => uiContext.setModal('methodSelect', { sum: paymentAmount })}>
-        {methodContext.defaultMethod ? (
+        onClick={() => !loading && uiContext.setModal('methodSelect', { sum: paymentAmount })}>
+        {defaultMethod ? (
           <>
             <div className={st.methodContent}>
               <div className={st.methodlabel}>{t('method')}</div>
-              <div className={st.methodValue}>{methodContext.defaultMethod.title}</div>
+              <div className={st.methodValue}>{defaultMethod.title}</div>
             </div>
-            <MethodImage
-              className={st.methodImage}
-              iconSlug={methodContext.defaultMethod.iconSlug}
-            />
+            <MethodImage className={st.methodImage} iconSlug={defaultMethod.iconSlug} />
           </>
         ) : (
           <>
@@ -126,7 +73,7 @@ const ModalPay = observer(({ className }) => {
           <div
             className={cns(st.payment, paymentMode === opt.id && st._active)}
             key={opt.id}
-            onClick={() => setPaymentMode(opt.id)}>
+            onClick={() => !loading && setPaymentMode(opt.id)}>
             <div className={st.paymentContent}>
               <div className={st.paymentValue}>{formatPrice(opt.value)} ₽</div>
               <div className={st.paymentDescription}>{t(opt.transKey)}</div>

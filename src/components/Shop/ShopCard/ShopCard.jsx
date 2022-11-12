@@ -6,6 +6,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import { ApiImage } from '@ui';
 import { formatPrice } from '@utils';
+import { usePayoutNavigation } from '@core';
 
 import VerboseStatus from '../VerboseStatus';
 import st from './ShopCard.module.scss';
@@ -19,7 +20,7 @@ const radialStyle = buildStyles({
 const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, className }) => {
   const { t } = useTranslation('shop');
 
-  const navigate = useNavigate();
+  const { navigatePayoutByStatus } = usePayoutNavigation();
 
   const progress = useMemo(() => {
     const percent = sumPaid / sum;
@@ -35,15 +36,7 @@ const ShopCard = ({ id, partner, description, status, sum, sumPaid, isShopCard, 
   const handleCardClick = useCallback(
     (e) => {
       e.preventDefault();
-      if (
-        ['Offerred', 'Approving', 'IncompleteProfile', 'DocumentsRequired', 'Approved'].includes(
-          status
-        )
-      ) {
-        navigate(`/r/${id}`);
-      } else {
-        navigate(`/pay/${id}`);
-      }
+      navigatePayoutByStatus({ status, id });
     },
     [status, id]
   );
