@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { PayoutStoreContext, UiStoreContext } from '@store';
+import { usePayoutNavigation } from '@/core';
 
 import Layout from '@c/Layout';
 import { PaymentScope, PaymentSchedule, PaymentOrder, PaymentInstallment } from '@c/Payment';
@@ -18,16 +19,21 @@ const PaymentPage = observer(() => {
   let { id } = useParams();
   let [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { navigatePayoutByStatus } = usePayoutNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
-      await payoutContext.getPayout(id).catch(({ status }) => {
+      const payout = await payoutContext.getPayout(id).catch(({ status }) => {
         if (status === 404) {
           navigate(`/r/${id}/notfound`);
         }
       });
 
-      await payoutContext.getPayoutDocument(id);
+      if (payout) {
+        navigatePayoutByStatus({ status: payout.status, id });
+
+        await payoutContext.getPayoutDocument(id);
+      }
     };
 
     fetchData();

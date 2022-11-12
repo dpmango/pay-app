@@ -36,7 +36,7 @@ const Code = observer(({ tab, className }) => {
 
   const confirmDisabled = useMemo(() => {
     return countdownConfirm === 0;
-  }, []);
+  }, [countdownConfirm]);
 
   const handleValidation = (values) => {
     const errors = {};

@@ -53,9 +53,13 @@ export default class PayoutStore {
     });
   }
 
-  setPayout(payload) {
+  setPayout(payload, keep) {
     runInAction(() => {
-      this.payout = { ...this.payout, ...payload };
+      if (keep) {
+        this.payout = { ...this.payout, ...payload };
+      } else {
+        this.payout = { ...payload };
+      }
     });
   }
 
@@ -101,7 +105,7 @@ export default class PayoutStore {
     const [err, data] = await api.payoutDocument(id);
 
     if (err) throw err;
-    this.setPayout({ document: data });
+    this.setPayout({ document: data }, true);
 
     return data;
   }
@@ -110,7 +114,6 @@ export default class PayoutStore {
     const [err, data] = await api.payoutDocumentPdf(id);
 
     if (err) throw err;
-    // this.setPayout({ document: data });
 
     return data;
   }

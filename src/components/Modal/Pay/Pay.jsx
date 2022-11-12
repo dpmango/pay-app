@@ -6,7 +6,7 @@ import cns from 'classnames';
 
 import { usePayout } from '@/core';
 import { Modal, SvgIcon, Button, Image } from '@ui';
-import { UiStoreContext, MethodStoreContext } from '@store';
+import { UiStoreContext, MethodStoreContext, PayoutStoreContext } from '@store';
 import { formatPrice } from '@utils';
 
 import { MethodImage } from '@c/Atom';
@@ -18,6 +18,7 @@ const ModalPay = observer(({ className }) => {
 
   const uiContext = useContext(UiStoreContext);
   const methodContext = useContext(MethodStoreContext);
+  const { payout } = useContext(PayoutStoreContext);
 
   let { id } = useParams();
   const { loading, paymentOptions, paymentAmount, initPayment } = usePayout({ id, paymentMode });
@@ -29,6 +30,14 @@ const ModalPay = observer(({ className }) => {
     [initPayment]
   );
 
+  const defaultMethod = useMemo(() => {
+    if (payout && payout.paymentMethod) {
+      return payout.paymentMethod;
+    }
+
+    return methodContext.defaultMethod;
+  }, [payout.paymentMethod, methodContext.defaultMethod]);
+
   return (
     <Modal name="pay" className={className}>
       <div className={st.title}>{t('title')}</div>
@@ -36,16 +45,13 @@ const ModalPay = observer(({ className }) => {
       <div
         className={st.method}
         onClick={() => !loading && uiContext.setModal('methodSelect', { sum: paymentAmount })}>
-        {methodContext.defaultMethod ? (
+        {defaultMethod ? (
           <>
             <div className={st.methodContent}>
               <div className={st.methodlabel}>{t('method')}</div>
-              <div className={st.methodValue}>{methodContext.defaultMethod.title}</div>
+              <div className={st.methodValue}>{defaultMethod.title}</div>
             </div>
-            <MethodImage
-              className={st.methodImage}
-              iconSlug={methodContext.defaultMethod.iconSlug}
-            />
+            <MethodImage className={st.methodImage} iconSlug={defaultMethod.iconSlug} />
           </>
         ) : (
           <>

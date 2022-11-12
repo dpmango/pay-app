@@ -19,6 +19,7 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
 
   const uiContext = useContext(UiStoreContext);
   const methodContext = useContext(MethodStoreContext);
+  const { payout } = useContext(PayoutStoreContext);
 
   const paymentSum = useMemo(() => {
     if (uiContext.modalParams) {
@@ -45,10 +46,19 @@ const ModalMethodSelect = observer(({ className, connectOnly }) => {
   }, [initPayment, initConnect]);
 
   useEffect(() => {
-    if (methodContext.defaultMethodId) {
-      setActiveMethod(methodContext.defaultMethodId);
+    let targetMethod = null;
+    try {
+      if (payout && payout.paymentMethod) {
+        targetMethod = payout.paymentMethod.id;
+      } else if (methodContext.defaultMethodId) {
+        targetMethod = methodContext.defaultMethodId;
+      }
+    } catch {}
+
+    if (targetMethod) {
+      setActiveMethod(targetMethod);
     }
-  }, [methodContext.defaultMethodId]);
+  }, [payout.paymentMethod, methodContext.defaultMethodId]);
 
   return (
     <Modal name="methodSelect" className={className}>

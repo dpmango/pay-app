@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import { PayoutStoreContext, UiStoreContext } from '@/store';
+import { usePayoutNavigation } from '@/core';
 
 import Layout from '@c/Layout';
 import { PaymentOrder, PaymentUpgrade, PaymentInstallment } from '@c/Payment';
@@ -17,6 +19,7 @@ const PaymentWelcomePage = observer(() => {
 
   let { id } = useParams();
   const navigate = useNavigate();
+  const { navigatePayoutByStatus } = usePayoutNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,13 +30,7 @@ const PaymentWelcomePage = observer(() => {
       });
 
       if (res) {
-        if (res.status === 'IncompleteProfile') {
-          navigate(`/pay/${id}/profile`);
-        } else if (res.status === 'DocumentsRequired') {
-          navigate(`/pay/${id}/validation`);
-        } else if (res.status === 'Approving') {
-          navigate(`/pay/${id}/approving`);
-        }
+        navigatePayoutByStatus({ status: res.status, id });
 
         await payoutContext.getPayoutDocument(id);
       }
